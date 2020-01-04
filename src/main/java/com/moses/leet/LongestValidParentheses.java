@@ -51,4 +51,47 @@ public class LongestValidParentheses {
         System.out.println(new LongestValidParentheses().longestValidParentheses("("));
 
     }
+
+
+    public int longestValidParenthesesUsingStack(String s){
+        if(s.length() == 0) return 0;
+        int start = s.indexOf("(");
+        if(start == -1){
+            return 0;
+        }
+        int longest = 0;
+        while(start < s.length()){
+            String str = s.substring(start);
+            int lon = findLongest(str);
+            if(lon != 0){
+                longest = lon>longest?lon:longest;
+            }
+            start++;
+            str = s.substring(start);
+            if(str.indexOf("(") == -1){
+                break;
+            }
+            start += str.indexOf("(");
+        }
+        return longest;
+    }
+
+    public int findLongest(String s){
+        int max = 0;
+        int count = 0;
+        for(int i=0; i<s.length(); i++){
+            if(s.charAt(i) == '('){
+                count++;
+            } else if(s.charAt(i) == ')'){
+                count--;
+            }
+            if(count<0){
+                return max;
+            }
+            if(count == 0){
+                max = i+1;
+            }
+        }
+        return max;
+    }
 }
