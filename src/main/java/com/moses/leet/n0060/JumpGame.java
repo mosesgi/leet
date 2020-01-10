@@ -8,14 +8,13 @@ public class JumpGame {
         if(nums.length<=1){
             return true;
         }
+        char[] cache = new char[nums.length];
+        cache[nums.length-1] = 'G';     //add cache --> Top-Down dynamic programming
+        return jumpIterative(nums, 0, cache);
 
-
-        return jumpIterative(nums, 0);
-//        return jumpIter(nums, nums.length-1);
     }
 
-
-    private boolean jumpIterative(int[] nums, int pos) {
+    private boolean jumpIterative(int[] nums, int pos, char[] cache) {
         for(int i=nums[pos]; i>0; i--){
             int newPos = pos+i;
             if(newPos >=nums.length-1){
@@ -28,32 +27,25 @@ public class JumpGame {
             if(nums[newPos] + newPos <= nums[pos] + pos){
                 continue;
             }
-            boolean result = jumpIterative(nums, newPos);
+            if(cache[newPos] == 'G'){
+                return true;
+            } else if(cache[newPos] == 'B'){
+                return false;
+            }
+            boolean result = jumpIterative(nums, newPos, cache);
             if(result){
+                cache[pos] = 'G';        //Good
                 return true;
             }
         }
-        return false;
-    }
-
-    private boolean jumpIter(int[] nums, int pos){
-        if(pos==0){
-            return true;
-        }
-        for(int i=pos-1; i>=0; i--){
-            if(nums[i] >= pos-i){
-                boolean result = jumpIter( nums,  i);
-                if(result){
-                    return true;
-                }
-            }
-        }
+        cache[pos] = 'B';       //bad
         return false;
     }
 
 
 
     public static void main(String[] args) {
+        long start = System.currentTimeMillis();
         int[] nums = new int[]{2,3,1,1,4};
         System.out.println(new JumpGame().canJump(nums));
 
@@ -74,5 +66,7 @@ public class JumpGame {
         bigNums[25001] = 0;
         bigNums[25002] = 0;
         System.out.println(new JumpGame().canJump(bigNums));
+
+        System.out.println(System.currentTimeMillis()-start);
     }
 }
