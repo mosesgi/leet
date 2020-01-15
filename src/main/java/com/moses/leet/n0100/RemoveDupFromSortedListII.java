@@ -10,14 +10,14 @@ import com.moses.leet.utils.PrintUtil;
 public class RemoveDupFromSortedListII {
     public ListNode deleteDuplicates(ListNode head) {
         ListNode curr = head;
-        ListNode dup1 = head;
+        ListNode dup1 = null;
         ListNode prev = null;
         int prev2Cnt = -2;
         boolean inDup = false;
 
         boolean headValid = false;
         while(curr.next != null) {
-            ListNode next = head.next;
+            ListNode next = curr.next;
 
             if(head.val == next.val){
                 curr = curr.next;
@@ -28,16 +28,24 @@ public class RemoveDupFromSortedListII {
                 curr = curr.next;
                 continue;
             }
-            if(dup1.val == next.val){
-
+            if(next.next != null){
+                if(next.val == next.next.val){
+                    dup1 = next;
+                    curr = curr.next;
+                    continue;
+                }
+            }
+            if(dup1 != null && dup1.val == curr.val){
+                curr = curr.next;
+                continue;
             }
             if(!headValid){
                 head = curr;
                 headValid = true;
                 prev = head;
+            }else {
+                prev.next = curr;
             }
-
-
             curr = curr.next;
         }
 
