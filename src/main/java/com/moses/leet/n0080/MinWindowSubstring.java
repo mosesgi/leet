@@ -6,74 +6,92 @@ import java.util.Set;
 
 /**
  * https://leetcode.com/problems/minimum-window-substring/
+ * 找到match的字母,打开窗口,右指针右移. 找到全部字母后,左指针左移,直到不满足, 记录最小字符串. 然后再右指针右移, 以此循环
  */
 public class MinWindowSubstring {
 
     public String minWindow(String s, String t) {
         int sLen = s.length();
         int tLen = t.length();
+        char[] tChars = t.toCharArray();
         if(sLen < tLen){
             return "";
         } else if(sLen == tLen){
-            if(s.equals(t)){
+            Map<Character, Integer> map = new HashMap<>();
+            for(char c: tChars){
+                if(map.containsKey(c)){
+                    map.put(c, map.get(c) + 1);
+                } else {
+                    map.put(c, 1);
+                }
+            }
+            for(int i=0; i<sLen; i++){
+                char c = s.charAt(i);
+                if(map.containsKey(c)){
+                    map.put(c, map.get(c) - 1);
+                }
+            }
+            if(isMatching(map)){
                 return s;
-            } else {
-                return "";
             }
         }
-        boolean firstFound = false;
+
         String minStr = "";
 
-        char[] tChars = t.toCharArray();
         Map<Character, Integer> map = new HashMap<>();
         for(char c : tChars){
-            map.put(c, 0);
+            if(map.containsKey(c)){
+                map.put(c, map.get(c) + 1);
+            } else {
+                map.put(c, 1);
+            }
         }
 
         int left = 0;
-        int right = left+tLen;
-        boolean inMatching = false;
-        while(right-left >=tLen){
-            if(!inMatching){
-                char leftChar = s.charAt(left);
-                if(map.containsKey(leftChar)) {
-                    inMatching = true;
-                    map.put(leftChar, map.get(leftChar) + 1);
-                    right = left+tLen;
+        int right = left;
+        boolean matched = false;
+        while(right < sLen){
 
-                    for(int i=left; i<right; i++){
-                        char c = s.charAt(i);
-                        if(map.containsKey(c)){
-                            map.put(c, map.get(c) + 1);
-                        }
-                    }
+            //find matched string by moving right cursor to righter.
+            while(right < sLen){
+                char currChar = s.charAt(right);
+                if(map.containsKey(currChar)) {
+                    map.put(currChar, map.get(currChar) - 1);
+
                     if(isMatching(map)){
-                        return s.substring(left, right);
-                    } else {
-
-                    }
-
-                }
-            }
-
-
-
-
-
-
-            if(inMatching){
-                if(right-left >= tLen && isMatching(map) ){
-                    String str = s.substring(left, right+1);
-                    if(!firstFound){
-                        minStr = str;
-                    } else if(right-left < minStr.length()){
-                        minStr = str;
+                        matched = true;
+                        if(minStr.length()==0 || (right-left +1 ) < minStr.length()){
+                            minStr = s.substring(left, right+1);
+                        }
+                        break;
                     }
                 }
+                right++;
             }
+
+            //once found matched string, try to shorten the string by moving left pointer to right.
+            while(matched){
+                char removeChar = s.charAt(left);
+                if(map.containsKey(removeChar)){
+                    map.put(removeChar, map.get(removeChar) + 1);
+                    if(!isMatching(map)){
+                        matched = false;
+                        if(right-left+1 < minStr.length()){
+                            minStr = s.substring(left, right+1);
+                        }
+                        right++;
+                    }
+                } else {
+                    if(right-left+1 < minStr.length()){
+                        minStr = s.substring(left, right+1);
+                    }
+                }
+                left++;
+            }
+
         }
 
-        return "";
+        return minStr;
     }
 
     private boolean isMatching(Map<Character, Integer> map){
