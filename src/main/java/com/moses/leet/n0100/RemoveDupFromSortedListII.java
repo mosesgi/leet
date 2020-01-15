@@ -9,42 +9,42 @@ import com.moses.leet.utils.PrintUtil;
  */
 public class RemoveDupFromSortedListII {
     public ListNode deleteDuplicates(ListNode head) {
+        if(head == null){
+            return head;
+        }
         ListNode curr = head;
-        ListNode dup1 = null;
         ListNode prev = null;
-        int prev2Cnt = -2;
-        boolean inDup = false;
 
-        boolean headValid = false;
         while(curr.next != null) {
-            ListNode next = curr.next;
-
-            if(head.val == next.val){
+            boolean dupFound = false;
+            //skip all duplicates
+            while(curr.next != null && curr.val == curr.next.val){
                 curr = curr.next;
-                continue;
+                dupFound = true;
             }
-            if(curr.val == next.val){
-                dup1 = curr;
+            if(dupFound && curr.next != null){
                 curr = curr.next;
-                continue;
-            }
-            if(next.next != null){
-                if(next.val == next.next.val){
-                    dup1 = next;
-                    curr = curr.next;
-                    continue;
+                if(prev != null){       //head initialized validly
+                    prev.next = curr;   //temporarily set next to current node. It will be re-set if more duplicates found. Eventually set on line 45
+                } else {
+                    head = curr;        //head not initialized validly, but curr node might be last node.
                 }
-            }
-            if(dup1 != null && dup1.val == curr.val){
-                curr = curr.next;
+                continue;
+            } else if(dupFound && curr.next == null){
+                if(prev != null){
+                    prev.next = null;   //ending by duplicates, need to cut off prev.next
+                } else {
+                    head = null;        //All are duplicates since prev not set yet, return null.
+                }
                 continue;
             }
-            if(!headValid){
-                head = curr;
-                headValid = true;
-                prev = head;
-            }else {
+            //Current node doesn't have duplicates, perform initialization if not yet
+            if(prev == null){
+                head = curr;        //move head to first valid Node.
+                prev = head;        //initialize prev.
+            } else {
                 prev.next = curr;
+                prev = prev.next;
             }
             curr = curr.next;
         }
@@ -56,16 +56,25 @@ public class RemoveDupFromSortedListII {
         ListNode head = ListNodeUtil.fromIntegers(1,2,3,3,4,4,5);
         PrintUtil.traverseNodes(new RemoveDupFromSortedListII().deleteDuplicates(head));
 
-        head = ListNodeUtil.fromIntegers(1,1,1,2,3);
+        head = ListNodeUtil.fromIntegers(1,1);
         PrintUtil.traverseNodes(new RemoveDupFromSortedListII().deleteDuplicates(head));
 
-        head = ListNodeUtil.fromIntegers(1,1,1,2,2,3,3,4,5,6,6,6,7);
+        head = ListNodeUtil.fromIntegers(1,1,2,2,3,3);
+        PrintUtil.traverseNodes(new RemoveDupFromSortedListII().deleteDuplicates(head));
+
+        head = ListNodeUtil.fromIntegers(1,1,2);
         PrintUtil.traverseNodes(new RemoveDupFromSortedListII().deleteDuplicates(head));
 
         head = ListNodeUtil.fromIntegers(1,1,1,2,3,4,4,4,5,6,6,6,7,7,8,9,10,10,10,11,11,11,11,11);
         PrintUtil.traverseNodes(new RemoveDupFromSortedListII().deleteDuplicates(head));
 
         head = ListNodeUtil.fromIntegers(1,2,3,4,4,4,5,6,6,6,7,7,8,9,10,10,10,11,11,11,11,11,12,13,13,13,13,13,14,15,16,16,16,16);
+        PrintUtil.traverseNodes(new RemoveDupFromSortedListII().deleteDuplicates(head));
+
+        head = ListNodeUtil.fromIntegers(1,1,1,2,3);
+        PrintUtil.traverseNodes(new RemoveDupFromSortedListII().deleteDuplicates(head));
+
+        head = ListNodeUtil.fromIntegers(1,1,1,2,2,3,3,4,5,6,6,6,7);
         PrintUtil.traverseNodes(new RemoveDupFromSortedListII().deleteDuplicates(head));
     }
 }
