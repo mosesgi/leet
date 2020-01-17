@@ -1,9 +1,12 @@
 package com.moses.leet.utils;
 
 import com.moses.leet.pojo.ListNode;
+import com.moses.leet.pojo.TreeNode;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 public class PrintUtil {
     public static void traverseNodes(ListNode node){
@@ -26,5 +29,32 @@ public class PrintUtil {
             System.out.println(Arrays.toString(l.toArray()));
         }
         System.out.println();
+    }
+
+    public static void printTreeNodes(TreeNode root){
+        if(root == null){
+            return;
+        }
+        Queue<TreeNode> q = new LinkedList<>();
+        q.add(root);
+        while(!q.isEmpty()){
+            TreeNode tmp = q.poll();
+            System.out.print(tmp==null?"null,":tmp.val + ",");
+            if(tmp == null){
+                continue;
+            }
+            q.add(tmp.left);
+            q.add(tmp.right);
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        TreeNode root = new TreeNode(3);
+        TreeNode left = new TreeNode(2);
+        root.left = left;
+        TreeNode left1= new TreeNode(1);
+        left.left = left1;
+        printTreeNodes(root);
     }
 }
