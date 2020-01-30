@@ -6,71 +6,46 @@ import java.util.*;
  * https://leetcode.com/problems/word-ladder/
  */
 public class WordLadder {
-    Map<String, Integer> cache = new HashMap<>();
+
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
         if(wordList.isEmpty() || !wordList.contains(endWord)){
             return 0;
         }
-        Integer rst = recursive(beginWord, endWord, wordList);
-        return rst == -1?0:rst;
+        Map<String, Integer> steps = new HashMap<>();
+        Queue<String> q = new LinkedList<>();
+        q.offer(beginWord);
+        steps.put(beginWord, 1);
+        outer: while(!q.isEmpty()) {
+            String curr = q.poll();
+            List<String> list = findNextWords(curr, wordList, steps);
+            int step = steps.get(curr) + 1;
+            for (String s : list) {
+                steps.put(s, step);
+                if (s.equals(endWord)) {
+                    break outer;
+                }
+                q.offer(s);
+            }
+        }
+
+        if(steps.containsKey(endWord)){
+            return steps.get(endWord);
+        } else {
+            return 0;
+        }
+
     }
 
-    private Integer recursive(String beginWord, String endWord, List<String> wordList) {
-        if(adjacent(endWord, beginWord)){
-            return 1;
-        }
-        if(wordList.isEmpty()){
-            return null;
-        }
-        List<String> list = new ArrayList<>(wordList);
-        list.remove(endWord);
-        int minSteps = -1;
-        for(int i=0; i<list.size(); i++){
-            String curr = list.get(i);
-
-            if(adjacent(curr, endWord)){
-                List<String> l = new ArrayList<>(list);
-                l.remove(i);
-                Integer tmpSteps = recursive(beginWord, curr, l);
-                if(tmpSteps != null){
-                    if(minSteps == -1){
-                        minSteps = tmpSteps+1;
-                    } else {
-                        minSteps = tmpSteps+1<minSteps?tmpSteps+1:minSteps;
-                    }
+    private List<String> findNextWords(String s, List<String> wordList, Map<String, Integer> steps){
+        List<String> list = new ArrayList<>();
+        for(String str : wordList){
+            if(!steps.containsKey(str)){
+                if(adjacent(s, str)){
+                    list.add(str);
                 }
             }
         }
-        return minSteps;
-    }
-
-
-    //from begin to end, incorrect result, cache might be caching big value and stops updating smaller value.
-    private Integer recursiveWrong(String beginWord, String endWord, List<String> wordList) {
-        if(wordList.size() == 0){
-            return null;
-        }
-        if(beginWord.equals(endWord)){
-            return 1;
-        }
-        if(cache.containsKey(beginWord)){
-            return cache.get(beginWord) == null? null: cache.get(beginWord) +1;
-        }
-        Integer shortest = null;
-        for(int i=0; i<wordList.size(); i++){
-            String curr = wordList.get(i);
-            if(adjacent(beginWord, curr)){
-                List<String> l = new ArrayList<>(wordList);
-                l.remove(curr);
-                Integer tmp = recursiveWrong(curr, endWord, l);
-
-                if(tmp != null && (shortest == null || tmp<shortest)){
-                    shortest = tmp;
-                }
-            }
-        }
-        cache.put(beginWord, shortest);
-        return shortest==null?null:shortest+1;
+        return list;
     }
 
     private boolean adjacent(String a, String b) {
@@ -82,6 +57,37 @@ public class WordLadder {
         }
         return diff==1;
     }
+
+
+    //from begin to end, incorrect result, cache might be caching big value and stops updating smaller value.
+//    private Integer recursiveWrong(String beginWord, String endWord, List<String> wordList) {
+//        if(wordList.size() == 0){
+//            return null;
+//        }
+//        if(beginWord.equals(endWord)){
+//            return 1;
+//        }
+//        if(cache.containsKey(beginWord)){
+//            return cache.get(beginWord) == null? null: cache.get(beginWord) +1;
+//        }
+//        Integer shortest = null;
+//        for(int i=0; i<wordList.size(); i++){
+//            String curr = wordList.get(i);
+//            if(adjacent(beginWord, curr)){
+//                List<String> l = new ArrayList<>(wordList);
+//                l.remove(curr);
+//                Integer tmp = recursiveWrong(curr, endWord, l);
+//
+//                if(tmp != null && (shortest == null || tmp<shortest)){
+//                    shortest = tmp;
+//                }
+//            }
+//        }
+//        cache.put(beginWord, shortest);
+//        return shortest==null?null:shortest+1;
+//    }
+
+
 
 
     public static void main(String[] args) {

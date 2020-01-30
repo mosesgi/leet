@@ -24,6 +24,13 @@ public class PrintUtil {
         System.out.println();
     }
 
+    public static void printMatrixChar(char[][] matrix){
+        for(char[] i:matrix){
+            System.out.println(Arrays.toString(i));
+        }
+        System.out.println();
+    }
+
     public static <T> void printNestedList(List<List<T>> list) {
         for(List<T> l : list){
             System.out.println(Arrays.toString(l.toArray()));
