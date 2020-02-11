@@ -1,35 +1,45 @@
 package com.moses.leet.n0200;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class BestTimeToBuyAndSellStockIV {
+    Set<List<Integer>> rst = new HashSet<>();
 
-
+    //TLE
     public int maxProfit(int k, int[] prices) {
-        recursive(k, prices, 0);
-        return 0;
+        List<Integer> list = new ArrayList<>();
+        recursive(k, prices, 0, list);
+
+        int max = 0;
+        for(List<Integer> l : rst){
+            Collections.sort(l);
+//            System.out.println(Arrays.toString(l.toArray()));
+            int tmpMax = 0;
+            int tmpK = k;
+            for(int i = l.size()-1; i>=0 && tmpK >0; i--, tmpK--){
+                tmpMax += l.get(i);
+            }
+            if(tmpMax > max){
+                max = tmpMax;
+            }
+        }
+        return max;
     }
 
-    private List<Integer> recursive(int k, int[] prices, int pos) {
-        if(pos == prices.length){
-            return new ArrayList<>();
+    private void recursive(int k, int[] prices, int pos, List<Integer> list) {
+        if(pos >= prices.length-1){
+            rst.add(new ArrayList<>(list));
+            return;
         }
-        List<Integer> rst = new ArrayList<>();
         for(int i=pos; i<prices.length-1; i++){
-            for(int j=pos+1; j<prices.length; j++){
-                rst = recursive(k, prices, j+1);
+            for(int j=i+1; j<prices.length; j++){
                 if(prices[j]>prices[i]){
-                    rst.add(prices[j]-prices[i]);
-                    if(i==0){
-                        System.out.println(Arrays.toString(rst.toArray()));
-                    }
+                    list.add(prices[j]-prices[i]);
+                    recursive(k, prices, j+1, list);
+                    list.remove(list.size()-1);
                 }
             }
         }
-        return rst;
     }
 
     public static void main(String[] args) {
