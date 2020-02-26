@@ -4,6 +4,7 @@ import java.util.*;
 
 public class CountOfSmallerNumbersAfterSelf {
 
+    //https://leetcode.com/problems/count-of-smaller-numbers-after-self/discuss/76576/My-simple-AC-Java-Binary-Search-code
     public List<Integer> countSmaller(int[] nums) {
         List<Integer> l = new ArrayList<>();
         List<Integer> sort = new ArrayList<>();
