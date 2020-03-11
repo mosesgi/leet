@@ -3,7 +3,26 @@ package com.moses.leet.n0440;
 import java.util.*;
 
 public class LongestRepeatingCharacterReplacement {
-    public int characterReplacement(String s, int k) {
+    //sliding window
+    public int characterReplacement(String s, int k){
+        int left = 0;
+        int[] cnts = new int[26];
+        int maxCnt = 0, maxLen = 0;
+        for(int right = 0; right<s.length(); right++){
+            int expandLetterCnt = ++cnts[s.charAt(right)-'A'];
+            maxCnt = Math.max(maxCnt, expandLetterCnt);
+            if(right-left+1-maxCnt > k){
+                cnts[s.charAt(left)-'A']--;
+                left++;
+            }
+            maxLen = Math.max(maxLen, right-left+1);
+        }
+        return maxLen;
+    }
+
+
+    //My slow complex solution
+    public int characterReplacementMine(String s, int k) {
         if(s==null || s.length() == 0){
             return 0;
         }
@@ -35,7 +54,7 @@ public class LongestRepeatingCharacterReplacement {
                     max = s.length();
                 }
             } else {
-                max = recursive(list, k, s.length());
+                max = findMax(list, k, s.length());
             }
             maxSize[c-'A'] = Math.max(maxSize[c-'A'],max);
         }
@@ -46,7 +65,7 @@ public class LongestRepeatingCharacterReplacement {
         return max;
     }
 
-    private int recursive(List<Seg> list, int k, int strLen) {
+    private int findMax(List<Seg> list, int k, int strLen) {
         int max = 0;
 
         for(int i=0; i<list.size(); i++){
