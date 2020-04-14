@@ -34,7 +34,7 @@ public class NetworkDelayTime {
         return processed<N?-1:max;
     }
 
-    //Dijkstra 算法. using array
+    //Dijkstra 算法. using array. Fastest
     public int networkDelayTimeDijkstra(int[][] times, int N, int K) {
         long[] shortest = new long[N+1];
         Arrays.fill(shortest, -1);
