@@ -7,6 +7,41 @@ public class StringToInteger {
 
     public int myAtoi(String str){
         str = str.trim();
+        int res = 0;
+        int mult = 1;
+        boolean signRead = false;
+        for(int i=0; i<str.length(); i++){
+            if(str.charAt(i) == '-'){
+                if(signRead){
+                    break;
+                }else{
+                    mult = -1;
+                    signRead = true;
+                }
+            }else if(str.charAt(i) == '+'){
+                if(signRead){
+                    break;
+                }else{
+                    mult = 1;
+                    signRead = true;
+                }
+            }else if(Character.isDigit(str.charAt(i))){
+                signRead = true;
+                int dig =  (str.charAt(i) - '0');
+                int tmp = res;
+                res = res * 10 +dig;
+                if(res < 0||(res - dig)/10 != tmp){
+                    return mult==1?Integer.MAX_VALUE:Integer.MIN_VALUE;
+                }
+            }else{
+                break;
+            }
+        }
+        return res*mult;
+    }
+
+    public int myAtoiInitial(String str){
+        str = str.trim();
         if(str.length()==0){
             return 0;
         }
@@ -42,6 +77,7 @@ public class StringToInteger {
     }
 
     public static void main(String[] args) {
+        System.out.println(new StringToInteger().myAtoi("2147483648"));
         System.out.println(new StringToInteger().myAtoi("+-2"));
         System.out.println(new StringToInteger().myAtoi("    -42"));
         System.out.println(new StringToInteger().myAtoi("4193 with words"));

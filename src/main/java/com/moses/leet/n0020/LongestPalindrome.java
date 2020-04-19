@@ -4,7 +4,48 @@ package com.moses.leet.n0020;
  * 回文字符串, 中心对称
  */
 public class LongestPalindrome {
+
+    //expand from center.
     public String longestPalindrome(String s) {
+        int resLeft=0, resRight = 0;
+        for(int i=0; i<s.length(); i++){
+            int len = resRight - resLeft;
+            if(len==0){
+                resLeft = 0;
+                resRight = i+1;
+            }
+            int left = i-1;
+            int right = i+1;
+            while(left >=0 && right < s.length() && s.charAt(left) == s.charAt(right)){
+                if(right-left+1 > len){
+                    resLeft = left;
+                    resRight = right+1;
+                }
+                left--;
+                right++;
+            }
+            if(i+1 < s.length() && s.charAt(i) == s.charAt(i+1)){
+                if(len < 2){
+                    resLeft = i;
+                    resRight = i+2;
+                }
+                left = i-1;
+                right = i+2;
+                while(left >=0 && right < s.length() && s.charAt(left) == s.charAt(right)){
+                    if(right-left+1 > len){
+                        resLeft = left;
+                        resRight = right+1;
+                    }
+                    left--;
+                    right++;
+                }
+            }
+        }
+        return s.substring(resLeft, resRight);
+    }
+
+
+    public String longestPalindromeInitial(String s) {
         if(s.length()<=1){
             return s;
         }
@@ -46,7 +87,7 @@ public class LongestPalindrome {
         test = "abbc";
         System.out.println(new LongestPalindrome().longestPalindrome(test));
 
-        test = "ac";
+        test = "a";
         System.out.println(new LongestPalindrome().longestPalindrome(test));
 
         test = "ccc";

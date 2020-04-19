@@ -3,8 +3,31 @@ package com.moses.leet.n0020;
 import java.util.HashSet;
 import java.util.Set;
 
-public class LengthOfLongestSubString {
+public class LongestSubstringWithoutRepeatingCharacters {
     public int lengthOfLongestSubstring(String s) {
+        int len = 0;
+        int left = 0, right=0;
+        Set<Character> set = new HashSet<>();
+        while(right < s.length()){
+            char c = s.charAt(right);
+            if(set.contains(c)){
+                len = Math.max(len, right-left);
+                while(left <=right){
+                    char d = s.charAt(left++);
+                    set.remove(d);
+                    if(d == c){
+                        break;
+                    }
+                }
+            }
+            right++;
+            set.add(c);
+        }
+        len = Math.max(len, right-left);
+        return len;
+    }
+
+    public int lengthOfLongestSubstringFirst(String s) {
         int longest = 0;
 
         for(int start = 0; start<s.length(); start++){
@@ -50,8 +73,8 @@ public class LengthOfLongestSubString {
     }
 
     public static void main(String[] args) {
-        String test = "abcde";
-        System.out.println(new LengthOfLongestSubString().lengthOfLongestSubstring(test));
+        String test = "abcabcc";
+        System.out.println(new LongestSubstringWithoutRepeatingCharacters().lengthOfLongestSubstring(test));
     }
 
 }
