@@ -4,7 +4,42 @@ import java.util.Arrays;
 
 public class ThreeSumClosest {
 
-    public int threeSumClosest(int[] nums, int target){
+    public int threeSumClosest(int[] nums, int target) {
+        StringBuilder sb =new StringBuilder();
+        Arrays.sort(nums);
+        int diff = Integer.MAX_VALUE;
+        int res = 0;
+        for(int i=0; i<nums.length-2; i++){
+            int left = i+1;
+            int right = nums.length-1;
+            int tmp = target-nums[i];
+
+            while(left < right){
+                if(nums[left] + nums[right] == tmp){
+                    return target;
+                }else if(nums[left] + nums[right] < tmp ){
+                    int d = Math.abs(nums[left]+nums[right] - tmp);
+                    if(d < diff){
+                        diff = d;
+                        res = nums[i] + nums[left] + nums[right];
+                    }
+                    left++;
+                }else{
+                    int d = Math.abs(nums[left]+nums[right] - tmp);
+                    if(d < diff){
+                        diff = d;
+                        res = nums[i] + nums[left] + nums[right];
+                    }
+                    right--;
+                }
+            }
+        }
+        return res;
+    }
+
+
+
+    public int threeSumClosestOld(int[] nums, int target){
         int result = 0;
         int diff = Integer.MAX_VALUE;
         for(int i=0; i<nums.length-2; i++){
@@ -53,6 +88,6 @@ public class ThreeSumClosest {
 
     public static void main(String[] args) {
         int[] nums = new int[]{-1, 2, 1, -4};
-        System.out.println(new ThreeSumClosest().threeSumClosestFast(nums, 1));
+        System.out.println(new ThreeSumClosest().threeSumClosest(nums, 1));
     }
 }
