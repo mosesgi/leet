@@ -12,7 +12,7 @@ import java.util.PriorityQueue;
 /**
  * https://leetcode.com/problems/merge-k-sorted-lists/
  */
-public class MergeKLists {
+public class MergeKSortedLists {
     public ListNode mergeKListsPq(ListNode[] lists){
         PriorityQueue<ListNode> pq = new PriorityQueue<>((o1, o2) ->{return o1.val- o2.val;});
         for(ListNode n : lists){
@@ -114,6 +114,6 @@ public class MergeKLists {
         ListNode l2 = ListNodeUtil.fromIntegers(1, 3, 4);
         ListNode l3 = ListNodeUtil.fromIntegers(2, 6);
 
-        PrintUtil.traverseNodes(new MergeKLists().mergeKLists(new ListNode[]{l1, l2, l3}));
+        PrintUtil.traverseNodes(new MergeKSortedLists().mergeKLists(new ListNode[]{l1, l2, l3}));
     }
 }

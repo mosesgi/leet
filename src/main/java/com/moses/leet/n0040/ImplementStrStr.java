@@ -1,8 +1,28 @@
 
 package com.moses.leet.n0040;
 
-public class IndexOfStr {
+public class ImplementStrStr {
     public int strStr(String haystack, String needle) {
+        if(needle.length() == 0){
+            return 0;
+        }
+        outer: for(int i=0; i<haystack.length(); i++){
+            if(haystack.charAt(i) == needle.charAt(0)){
+                for(int j=1; j<needle.length(); j++){
+                    if(i+j >= haystack.length()){
+                        return -1;
+                    }
+                    if(haystack.charAt(i+j) != needle.charAt(j)){
+                        continue outer;
+                    }
+                }
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public int strStrOld(String haystack, String needle) {
         if("".equals(needle)){
             return 0;
         }
@@ -43,26 +63,26 @@ public class IndexOfStr {
 
     public static void main(String[] args) {
         String haystack = "hello", needle = "ll";
-        System.out.println(new IndexOfStr().strStr(haystack, needle));
+        System.out.println(new ImplementStrStr().strStr(haystack, needle));
 
         haystack = "mississippi"; needle = "issipi";
-        System.out.println(new IndexOfStr().strStr(haystack, needle));
+        System.out.println(new ImplementStrStr().strStr(haystack, needle));
         
         haystack = "mississippi"; needle = "mississippi";
-        System.out.println(new IndexOfStr().strStr(haystack, needle));
+        System.out.println(new ImplementStrStr().strStr(haystack, needle));
 
 
         haystack = "mississippi"; needle = "issip";
-        System.out.println(new IndexOfStr().strStr(haystack, needle));
+        System.out.println(new ImplementStrStr().strStr(haystack, needle));
 
         haystack = "aaa"; needle = "a";
-        System.out.println(new IndexOfStr().strStr(haystack, needle));
+        System.out.println(new ImplementStrStr().strStr(haystack, needle));
 
         haystack = "aaaaa"; needle = "bba";
-        System.out.println(new IndexOfStr().strStr(haystack, needle));
+        System.out.println(new ImplementStrStr().strStr(haystack, needle));
 
         haystack = "a"; needle="a";
-        System.out.println(new IndexOfStr().strStr(haystack, needle));
+        System.out.println(new ImplementStrStr().strStr(haystack, needle));
 
     }
 }

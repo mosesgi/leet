@@ -7,15 +7,39 @@ import java.util.List;
  * https://leetcode.com/problems/generate-parentheses/solution/
  */
 public class GenerateParentheses {
-    List<String> list = new ArrayList<>();
-
     public List<String> generateParenthesis(int n) {
+        List<String> res = new ArrayList<>();
+        rec(n, 0, new StringBuilder(), res);
+        return res;
+    }
+
+    void rec(int n, int sum, StringBuilder s, List<String> res){
+        if(s.length() == n*2){
+            if(sum==0){
+                res.add(s.toString());
+            }
+            return;
+        }
+        if(sum < 0 || sum > n){
+            return;
+        }
+        s.append("(");
+        rec(n, sum+1, s, res);
+        s.setCharAt(s.length()-1, ')');
+        rec(n, sum-1, s, res);
+        s.setLength(s.length()-1);
+    }
+
+
+
+
+    List<String> list = new ArrayList<>();
+    public List<String> generateParenthesisOld(int n) {
         int total = n*2;
         recurseGen("", total);
 
         return list;
     }
-
     private void recurseGen(String str, int remainChars) {
         if(remainChars == 0){
             if(isValid(str)){
@@ -33,7 +57,6 @@ public class GenerateParentheses {
             }
         }
     }
-
     private boolean isValid(String str){
         int result = 0;
         for(Character c:str.toCharArray()){

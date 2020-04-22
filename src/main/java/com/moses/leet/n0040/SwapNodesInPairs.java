@@ -4,8 +4,24 @@ import com.moses.leet.pojo.ListNode;
 import com.moses.leet.utils.ListNodeUtil;
 import com.moses.leet.utils.PrintUtil;
 
-public class SwapPairsInNodes {
-    public ListNode swapPairs(ListNode head){
+public class SwapNodesInPairs {
+    public ListNode swapPairs(ListNode head) {
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode cur = dummy;
+        while(cur.next != null && cur.next.next != null){
+            ListNode left = cur.next;
+            ListNode right = cur.next.next;
+            left.next = right.next;
+            right.next = left;
+            cur.next = right;
+            cur = left;
+        }
+        return dummy.next;
+    }
+
+
+    public ListNode swapPairsOld(ListNode head){
         int curr = 1;
         ListNode currNode = head;
         ListNode prevNode = null;
@@ -41,6 +57,6 @@ public class SwapPairsInNodes {
 
     public static void main(String[] args) {
         ListNode n1 = ListNodeUtil.fromIntegers(1, 2, 3, 4, 5, 6);
-        PrintUtil.traverseNodes(new SwapPairsInNodes().swapPairs(n1));
+        PrintUtil.traverseNodes(new SwapNodesInPairs().swapPairs(n1));
     }
 }
