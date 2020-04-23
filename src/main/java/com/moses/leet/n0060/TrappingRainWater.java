@@ -9,6 +9,33 @@ import java.util.List;
  */
 public class TrappingRainWater {
 
+    public int trap(int[] height) {
+        //scan from left
+        int[] left = new int[height.length];
+        left[0] = height[0];
+        for(int i=1; i<height.length; i++){
+            left[i] = Math.max(height[i], left[i-1]);
+        }
+
+        //scan from right
+        int[] right = new int[height.length];
+        right[height.length-1] = height[height.length-1];
+        for(int i=height.length-2; i>=0; i--){
+            right[i] = Math.max(height[i], right[i+1]);
+        }
+
+        int res = 0;
+        for(int i=1; i<height.length; i++){
+            int m = Math.min(left[i], right[i]);
+            if(m>height[i]){
+                res += (height[i] - m);
+            }
+        }
+        return res;
+    }
+
+
+
     private int calculateTrap(List<Integer> trap) {
         if(trap.isEmpty()){
             return 0;
@@ -31,7 +58,7 @@ public class TrappingRainWater {
     }
 
 
-    public int trap(int[] height) {
+    public int trapOld(int[] height) {
         boolean heightMet = false;
         int result = 0;
         if(height.length <= 1){

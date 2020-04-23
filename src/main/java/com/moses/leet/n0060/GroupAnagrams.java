@@ -9,6 +9,29 @@ public class GroupAnagrams {
     public List<List<String>> groupAnagrams(String[] strs) {
         Map<String, List<String>> result = new HashMap<>();
         for(String s : strs){
+            int[] cnt = new int[26];
+            for(char c : s.toCharArray()){
+                cnt[c-'a']++;
+            }
+            StringBuilder sb = new StringBuilder();
+            for(int i=0; i<cnt.length; i++){
+                sb.append(cnt[i]);
+            }
+            String k = sb.toString();
+            result.putIfAbsent(k, new ArrayList<>());
+            result.get(k).add(s);
+        }
+        List<List<String>> list = new ArrayList<>();
+        for(Map.Entry<String, List<String>> entry:result.entrySet()){
+            list.add(entry.getValue());
+        }
+        return list;
+    }
+
+
+    public List<List<String>> groupAnagramsOld(String[] strs) {
+        Map<String, List<String>> result = new HashMap<>();
+        for(String s : strs){
             char[] chars = s.toCharArray();
             Arrays.sort(chars);
             String key = new String(chars);

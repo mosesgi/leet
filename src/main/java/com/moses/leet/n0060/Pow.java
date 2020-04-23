@@ -4,8 +4,28 @@ package com.moses.leet.n0060;
  * https://leetcode.com/problems/powx-n/
  */
 public class Pow {
+    public double myPow(double x, int n) {
+        if(n==1){
+            return x;
+        }else if(n==-1){
+            return 1/x;
+        }else if(n==0){
+            return 1d;
+        }
+        boolean isOdd = Math.abs(n)%2==1;
+        if(isOdd){
+            double next = myPow(x, n/2);
+            double cur = n>0?x:1/x;
+            return next*next*cur;
+        }else{
+            double next = myPow(x, n/2);
+            return next*next;
+        }
+    }
+
+
     int count = 0;
-    public double myPow(double x, int n){
+    public double myPowOld(double x, int n){
         if(n==0){
             return 1d;
         }

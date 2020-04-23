@@ -1,10 +1,57 @@
 package com.moses.leet.n0060;
 
-import java.math.BigInteger;
 
 public class MultiplyStrings {
-
     public String multiply(String num1, String num2){
+        int[] rst = new int[num1.length() + num2.length()];
+
+        for(int i=num1.length()-1; i>=0; i--){
+            for(int j = num2.length()-1; j>=0; j--){
+                int pos = i+j+1;
+                int n1 = num1.charAt(i) - '0';
+                int n2 = num2.charAt(j) - '0';
+                rst[pos] = rst[pos] + n1 * n2;
+
+                //瘦身为十位以下
+                int carry = 0;
+                for(int k=rst.length-1; k>=0; k--){
+                    rst[k] += carry;
+                    carry = rst[k]/10;
+                    rst[k] = rst[k]%10;
+                }
+            }
+        }
+
+        StringBuilder sb = new StringBuilder();
+        boolean found = false;
+        for(int i=0; i<rst.length; i++){
+            if(found){
+                sb.append(rst[i]);
+            }else if(rst[i] != 0){
+                sb.append(rst[i]);
+                found = true;
+            }
+        }
+        return sb.length()==0?"0":sb.toString();
+    }
+
+    public static void main(String[] args) {
+
+        String num1 = "2", num2 = "3";
+        System.out.println(new MultiplyStrings().multiply(num1, num2));
+
+        num1 = "9133"; num2 = "0";
+        System.out.println(new MultiplyStrings().multiply(num1, num2));
+
+        num1 = "123"; num2 = "456";
+        System.out.println(new MultiplyStrings().multiply(num1, num2));
+
+        num1 = "999"; num2 = "99";
+        System.out.println(new MultiplyStrings().multiply(num1, num2));
+    }
+
+
+    public String multiplyOld(String num1, String num2){
         if(num1.equals("0") || num2.equals("0")){
             return "0";
         }
@@ -72,18 +119,5 @@ public class MultiplyStrings {
         return sb.toString();
     }
 
-    public static void main(String[] args) {
 
-        String num1 = "2", num2 = "3";
-        System.out.println(new MultiplyStrings().multiply(num1, num2));
-
-        num1 = "9133"; num2 = "0";
-        System.out.println(new MultiplyStrings().multiply(num1, num2));
-
-        num1 = "123"; num2 = "456";
-        System.out.println(new MultiplyStrings().multiply(num1, num2));
-
-        num1 = "999"; num2 = "99";
-        System.out.println(new MultiplyStrings().multiply(num1, num2));
-    }
 }

@@ -6,6 +6,30 @@ import java.util.Arrays;
  * https://leetcode.com/problems/rotate-image/
  */
 public class RotateImage {
+
+    public void rotate(int[][] matrix) {
+        int n = matrix.length;
+        //swap top and down
+        for(int i=0; i<n/2; i++){
+            int b = n -1 -i;
+            for(int j=0; j<n; j++){
+                int tmp = matrix[i][j];
+                matrix[i][j] = matrix[b][j];
+                matrix[b][j] = tmp;
+            }
+        }
+
+        //swap symmentry
+        for(int i=0; i<n-1; i++){
+            for(int j=i+1;j<n; j++){
+                int tmp = matrix[i][j];
+                matrix[i][j] = matrix[j][i];
+                matrix[j][i] = tmp;
+            }
+        }
+    }
+
+
     /**
      * 3X3
      * [0,0] -> [0,2], [0,2] -> [2,2], [2,2] -> [2,0], [2,0] -> [0,0]
@@ -19,7 +43,7 @@ public class RotateImage {
      *
      * @param matrix
      */
-    public void rotate(int[][] matrix) {
+    public void rotateOld(int[][] matrix) {
         int n = matrix.length;
         int allLevels = (n-1)/2;
         for(int i=0; i<=allLevels; i++) {
