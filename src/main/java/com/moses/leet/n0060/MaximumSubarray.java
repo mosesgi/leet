@@ -3,7 +3,7 @@ package com.moses.leet.n0060;
 /**
  * https://leetcode.com/problems/maximum-subarray/
  */
-public class MaxSubarray {
+public class MaximumSubarray {
 
     public int maxSubArray(int[] nums){
         if(nums.length<1){
@@ -23,6 +23,23 @@ public class MaxSubarray {
         }
 
         return max;
+    }
+
+    public int maxSubArrayNew(int[] nums) {
+        //-2,-1,-4,0,-1,1,2,-3,1
+        int[] sum = new int[nums.length];
+        sum[0] = nums[0];
+        for(int i=1; i<nums.length; i++){
+            sum[i] = sum[i-1] + nums[i];
+        }
+
+        int min = 0;
+        int res = nums[0];
+        for(int i=0; i<nums.length; i++){
+            res = Math.max(res, sum[i] - min);
+            min = Math.min(min, sum[i]);
+        }
+        return res;
     }
 
     /**
@@ -48,7 +65,7 @@ public class MaxSubarray {
 
     public static void main(String[] args) {
         int[] nums = new int[]{-2,1,-3,4,-1,2,1,-5,4};
-        System.out.println(new MaxSubarray().maxSubArray(nums));
+        System.out.println(new MaximumSubarray().maxSubArray(nums));
 
     }
 }

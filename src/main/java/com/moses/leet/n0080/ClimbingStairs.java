@@ -7,10 +7,19 @@ import java.util.Map;
  * https://leetcode.com/problems/climbing-stairs/
  */
 public class ClimbingStairs {
-    int rst = 0;
-
-
     public int climbStairs(int n) {
+        int[] dp = new int[n+1];
+        dp[0] = 1;
+        dp[1] = 1;
+        for(int i=2; i<=n; i++){
+            dp[i] = dp[i-1] + dp[i-2];
+        }
+        return dp[n];
+    }
+
+
+    int rst = 0;
+    public int climbStairsOld(int n) {
         Map<Integer, Integer> cache = new HashMap<>();
         cache.put(1, 1);
         cache.put(2, 2);

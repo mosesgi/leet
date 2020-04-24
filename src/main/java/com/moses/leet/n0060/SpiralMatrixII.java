@@ -1,9 +1,48 @@
 package com.moses.leet.n0060;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 
 public class SpiralMatrixII {
     public int[][] generateMatrix(int n){
+        int[][] m = new int[n][n];
+        int num = 1;
+        int x = 0, y = 0, xz = n-1, yz = n-1;
+        while(x<=xz && y<=yz){
+            //right
+            for(int i=y; i<=yz; i++){
+                m[x][i] = num++;
+            }
+            x++;
+            //down
+            for(int i=x; i<=xz; i++){
+                m[i][yz] = num++;
+            }
+            yz--;
+
+            if(y>yz){
+                break;
+            }
+            //left
+            for(int i=yz; i>=y; i--){
+                m[xz][i] = num++;
+            }
+            xz--;
+
+            if(x>xz){
+                break;
+            }
+            //up
+            for(int i=xz; i>=x; i--){
+                m[i][y] = num++;
+            }
+            y++;
+        }
+        return m;
+    }
+
+
+    public int[][] generateMatrixOld(int n){
         int layer = 0;
         int currNum = 1;
         int[][] rst = new int[n][n];

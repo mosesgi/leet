@@ -6,6 +6,72 @@ import java.util.List;
 
 public class SpiralMatrix {
     public List<Integer> spiralOrder(int[][] matrix) {
+        List<Integer> res = new ArrayList<>();
+        if(matrix.length == 0){
+            return res;
+        }
+        int rows = matrix.length, cols = matrix[0].length;
+        int x=0, y=0, xEnd=rows-1, yEnd = cols-1;
+        while(x<=xEnd && y<=yEnd){
+            //right
+            for(int i=y; i<=yEnd; i++){
+                res.add(matrix[x][i]);
+            }
+            x++;
+            //down
+            for(int i=x; i<=xEnd; i++){
+                res.add(matrix[i][yEnd]);
+            }
+            yEnd--;
+            //left
+            if(x>xEnd) {
+                break;
+            }
+            for (int i = yEnd; i >= y; i--) {
+                res.add(matrix[xEnd][i]);
+            }
+            xEnd--;
+            //top
+            if(y > yEnd) {
+                break;
+            }
+            for (int i = xEnd; i >= x; i--) {
+                res.add(matrix[i][y]);
+            }
+            y++;
+        }
+        return res;
+    }
+
+    public static void main(String[] args) {
+        int[][] matrix = new int[][]{
+                {1,2,3},
+                {4,5,6},
+                {7,8,9}
+        };
+        System.out.println(Arrays.toString(new SpiralMatrix().spiralOrder(matrix).toArray()));
+
+
+        matrix = new int[][]{
+                {1,2,3,4},
+                {5,6,7,8},
+                {9,10,11,12}
+        };
+        System.out.println(Arrays.toString(new SpiralMatrix().spiralOrder(matrix).toArray()));
+
+        matrix = new int[][]{
+                { 1, 2, 3, 4, 5, 6},
+                { 7, 8, 9,10,11,12},
+                {13,14,15,16,17,18},
+                {19,20,21,22,23,24},
+                {25,26,27,28,29,30},
+                {31,32,33,34,35,36},
+                {37,38,39,40,41,42}
+        };
+        System.out.println(Arrays.toString(new SpiralMatrix().spiralOrder(matrix).toArray()));
+    }
+
+    public List<Integer> spiralOrderOld(int[][] matrix) {
         //00,01,02,12,22,21,20,10,11
 
         //00,01,02,03,13,23,22,21,20,10,11,12
@@ -61,31 +127,5 @@ public class SpiralMatrix {
         recursive(matrix, level+1, totalRows, totalCols, list);
     }
 
-    public static void main(String[] args) {
-        int[][] matrix = new int[][]{
-                {1,2,3},
-                {4,5,6},
-                {7,8,9}
-        };
-        System.out.println(Arrays.toString(new SpiralMatrix().spiralOrder(matrix).toArray()));
 
-
-        matrix = new int[][]{
-                {1,2,3,4},
-                {5,6,7,8},
-                {9,10,11,12}
-        };
-        System.out.println(Arrays.toString(new SpiralMatrix().spiralOrder(matrix).toArray()));
-
-        matrix = new int[][]{
-                { 1, 2, 3, 4, 5, 6},
-                { 7, 8, 9,10,11,12},
-                {13,14,15,16,17,18},
-                {19,20,21,22,23,24},
-                {25,26,27,28,29,30},
-                {31,32,33,34,35,36},
-                {37,38,39,40,41,42}
-        };
-        System.out.println(Arrays.toString(new SpiralMatrix().spiralOrder(matrix).toArray()));
-    }
 }

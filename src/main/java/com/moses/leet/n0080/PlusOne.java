@@ -4,6 +4,28 @@ import java.util.Arrays;
 
 public class PlusOne {
     public int[] plusOne(int[] digits){
+        int not9 = -1;
+        for(int i=digits.length-1; i>=0; i--){
+            if(digits[i] != 9){
+                not9 = i;
+                break;
+            }
+        }
+        if(not9 == -1){
+            int[] res = new int[digits.length+1];
+            res[0] = 1;
+            return res;
+        }else{
+            digits[not9]+=1;
+            for(int i=not9+1; i<digits.length; i++){
+                digits[i] = 0;
+            }
+            return digits;
+        }
+    }
+
+
+    public int[] plusOneOld(int[] digits){
         int promotion = 0;
         boolean worst = false;
         for(int i=digits.length-1; i>=0; i--){

@@ -8,7 +8,60 @@ import java.util.List;
  */
 public class PermutationSequence {
 
-    public String getPermutation(int n, int k){
+    public String getPermutation(int n, int k) {
+        //n要减1 !!!!
+        //(1,2,3,4)
+        //9, 3!=6, 9/6 = 1. 9%6=3. confirm 2  (1,3,4)
+        //3, 2!=2, 3/2 = 1. 3%2=1. confirm 3  (1,4)
+        //1, 1!=1, 1==1, =时,不计算. 只confirm 1
+        //1, 0!=1, 0<1, confirm 4
+
+        //8, 3!=6, 8/6=1, 8%6=2. confirm 2
+        //2, 2!=2, 2==2. confirm 1,  2-1
+        //2, 0<1, confirm 3
+
+        //3, 3!=6, 3<6, confirm 1   (2,3,4)
+        //3, 2!=2, 3/2=1, 3%2=1. confirm 3
+        //1, 1!=1, 1==1, confirm 2, 1-1=0
+
+        //1234, 1243, 1324, 1342, 1423, 1432, 2134, 2143, 2314, 2341
+
+        List<Integer> nums = new ArrayList<>();
+        for(int i=1; i<=n; i++){
+            nums.add(i);
+        }
+        k--;
+        int rn = n-1;
+        StringBuilder sb = new StringBuilder();
+        while(nums.size() != 0){
+            int next = jiecheng(rn);
+            int pos = k/next;
+            sb.append(nums.get(pos));
+            nums.remove(pos);
+            k = k%next;
+            rn--;
+        }
+        return sb.toString();
+    }
+
+    int jiecheng(int k){
+        int res = 1;
+        for(int i=2; i<=k; i++){
+            res*=i;
+        }
+        return res;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new PermutationSequence().getPermutation(3, 3));
+        System.out.println(new PermutationSequence().getPermutation(4, 9));
+        System.out.println(new PermutationSequence().getPermutation(1, 1));
+        long start = System.currentTimeMillis();
+        System.out.println(new PermutationSequence().getPermutation(9, 136371));
+        System.out.println(System.currentTimeMillis()- start + "ms");
+    }
+
+    public String getPermutationOld(int n, int k){
         List<Integer> array = new ArrayList<>(n);
         for(int i=0; i<n; i++){
             array.add(i+1);
@@ -38,19 +91,7 @@ public class PermutationSequence {
         return recursiveGen(array, n-1, leftK, str);
     }
 
-    public static void main(String[] args) {
-//        List<String> list = new PermutationSequence().getPermutationObsolete(4, 9);
-//        for(String s: list){
-//            System.out.println(s);
-//        }
 
-        System.out.println(new PermutationSequence().getPermutation(3, 3));
-        System.out.println(new PermutationSequence().getPermutation(4, 9));
-        System.out.println(new PermutationSequence().getPermutation(1, 1));
-        long start = System.currentTimeMillis();
-        System.out.println(new PermutationSequence().getPermutation(9, 136371));
-        System.out.println(System.currentTimeMillis()- start + "ms");
-    }
 
 
 

@@ -7,6 +7,26 @@ import java.math.BigInteger;
  */
 public class SqrtX {
     public int mySqrt(int x){
+        if(x<=1){
+            return x;
+        }
+        int l=1, r = x, ans =0;
+        while(l<=r){
+            int m = l + (r-l)/2;
+            if(m==x/m){
+                return m;
+            }else if(m < x/m){
+                l = m+1;
+                ans = m;        //keep biggest number which is less than sqrt(x)
+            }else{
+                r=m-1;
+            }
+        }
+        return ans;
+    }
+
+
+    public int mySqrtOld(int x){
         if(x==1 || x==0){
             return x;
         }
@@ -31,6 +51,7 @@ public class SqrtX {
     }
 
     public static void main(String[] args) {
+        System.out.println(new SqrtX().mySqrt(3));
         System.out.println(new SqrtX().mySqrt(4));
         System.out.println(new SqrtX().mySqrt(8));
         System.out.println(new SqrtX().mySqrt(17));

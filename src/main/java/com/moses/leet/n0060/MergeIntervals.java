@@ -6,7 +6,33 @@ import java.util.*;
  * https://leetcode.com/problems/merge-intervals/
  */
 public class MergeIntervals {
-    public int[][] merge(int[][] intervals){
+    public int[][] merge(int[][] intervals) {
+        Arrays.sort(intervals, (o1, o2) -> o1[0]==o2[0]?o2[1]-o1[1]:o1[0]-o2[0]);
+        List<int[]> list = new ArrayList<>();
+        if(intervals.length == 0){
+            return new int[0][0];
+        }
+        list.add(intervals[0]);
+        for(int i=1; i<intervals.length; i++){
+            int[] prev = list.get(list.size() -1);
+            int[] cur = intervals[i];
+            if(prev[1]>=cur[0]){
+                prev[0] = Math.min(prev[0], cur[0]);
+                prev[1] = Math.max(prev[1], cur[1]);
+            }else{
+                list.add(cur);
+            }
+        }
+
+        int[][] res = new int[list.size()][2];
+        for(int i=0; i<list.size(); i++){
+            res[i] = list.get(i);
+        }
+        return res;
+    }
+
+
+    public int[][] mergeOld(int[][] intervals){
         List<int[]> list = new ArrayList<>();
         for(int i=0; i<intervals.length; i++) {
             int[] curr = intervals[i];
