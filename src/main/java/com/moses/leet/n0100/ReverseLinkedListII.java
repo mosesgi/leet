@@ -18,6 +18,59 @@ public class ReverseLinkedListII {
         1,5,4,3,2,6,7
      */
     public ListNode reverseBetween(ListNode head, int m, int n) {
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode pre = dummy;
+
+        for(int i=1; i<m; i++){
+            pre = pre.next;
+        }
+
+        ListNode oneBeforeEnd = pre.next;
+        ListNode end = oneBeforeEnd.next;
+        ListNode endAfter = end==null?null:end.next;
+        for(int i=0; i<n-m; i++){
+            oneBeforeEnd.next = endAfter;
+            end.next = pre.next;
+            pre.next = end;
+
+            end = endAfter;
+            endAfter = end==null?null:end.next;
+        }
+        return dummy.next;
+    }
+
+    public static void main(String[] args) {
+        ListNode head = ListNodeUtil.fromIntegers(1,2,3,4,5);
+        PrintUtil.traverseNodes(new ReverseLinkedListII().reverseBetween(head, 2, 4));
+
+        head = ListNodeUtil.fromIntegers(1);
+        PrintUtil.traverseNodes(new ReverseLinkedListII().reverseBetween(head, 1, 1));
+
+        head = ListNodeUtil.fromIntegers(1,2,3,4,5,6,7);
+        PrintUtil.traverseNodes(new ReverseLinkedListII().reverseBetween(head, 1, 1));
+
+        head = ListNodeUtil.fromIntegers(1,2,3,4,5,6,7);
+        PrintUtil.traverseNodes(new ReverseLinkedListII().reverseBetween(head, 2, 5));
+
+        head = ListNodeUtil.fromIntegers(1,2,3,4,5);
+        PrintUtil.traverseNodes(new ReverseLinkedListII().reverseBetween(head, 1, 4));
+
+        head = ListNodeUtil.fromIntegers(1,2,3,4,5);
+        PrintUtil.traverseNodes(new ReverseLinkedListII().reverseBetween(head, 1, 5));
+    }
+
+
+    /*
+        [1,2,3,4,5,6,7]
+        2
+        5
+
+        1,3,2,4,5,6,7
+        1,4,3,2,5,6,7
+        1,5,4,3,2,6,7
+     */
+    public ListNode reverseBetweenOld(ListNode head, int m, int n) {
         if(head== null || head.next == null){
             return head;
         }
@@ -55,23 +108,5 @@ public class ReverseLinkedListII {
         return dummy.next;
     }
 
-    public static void main(String[] args) {
-        ListNode head = ListNodeUtil.fromIntegers(1,2,3,4,5);
-        PrintUtil.traverseNodes(new ReverseLinkedListII().reverseBetween(head, 2, 4));
 
-        head = ListNodeUtil.fromIntegers(1);
-        PrintUtil.traverseNodes(new ReverseLinkedListII().reverseBetween(head, 1, 1));
-
-        head = ListNodeUtil.fromIntegers(1,2,3,4,5,6,7);
-        PrintUtil.traverseNodes(new ReverseLinkedListII().reverseBetween(head, 1, 1));
-
-        head = ListNodeUtil.fromIntegers(1,2,3,4,5,6,7);
-        PrintUtil.traverseNodes(new ReverseLinkedListII().reverseBetween(head, 2, 5));
-
-        head = ListNodeUtil.fromIntegers(1,2,3,4,5);
-        PrintUtil.traverseNodes(new ReverseLinkedListII().reverseBetween(head, 1, 4));
-
-        head = ListNodeUtil.fromIntegers(1,2,3,4,5);
-        PrintUtil.traverseNodes(new ReverseLinkedListII().reverseBetween(head, 1, 5));
-    }
 }

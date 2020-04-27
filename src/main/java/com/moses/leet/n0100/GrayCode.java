@@ -5,7 +5,57 @@ import java.util.Arrays;
 import java.util.List;
 
 public class GrayCode {
-    public List<Integer> grayCode(int n){
+    public List<Integer> grayCode(int n) {
+        List<Integer> res = new ArrayList<>();
+        if(n==0){
+            res.add(0);
+            return res;
+        }
+        int size = (int)Math.pow(2, n);
+        boolean[] visited = new boolean[size];
+        StringBuilder sb = new StringBuilder();
+        for(int i=0; i<n; i++){
+            sb.append("0");
+        }
+        dfs(sb, visited, res, size);
+        return res;
+    }
+
+    boolean dfs(StringBuilder sb, boolean[] visited, List<Integer> res, int size){
+        if(res.size() == size){
+            return true;
+        }
+
+        int cur = Integer.valueOf(sb.toString(), 2);
+        if(visited[cur]){
+            return false;
+        }
+        res.add(cur);
+        visited[cur] = true;
+
+        for(int i=0; i<sb.length(); i++){
+            char c = sb.charAt(i);
+            if(sb.charAt(i) == '0'){
+                sb.setCharAt(i, '1');
+            }else{
+                sb.setCharAt(i, '0');
+            }
+            if(dfs(sb, visited, res, size)){
+                return true;
+            }
+            sb.setCharAt(i, c);
+        }
+
+        visited[cur] = false;
+        res.remove(res.size() - 1);
+        return false;
+    }
+
+
+
+
+
+    public List<Integer> grayCodeOld(int n){
         List<Integer> list = new ArrayList<>();
         if(n==0){
             list.add(0);
@@ -43,7 +93,7 @@ public class GrayCode {
     }
 
     public static void main(String[] args) {
-
+        StringBuilder sb = new StringBuilder();
         System.out.println(Arrays.toString(new GrayCode().grayCode(2).toArray()));      //00,01,11,10
         System.out.println(Arrays.toString(new GrayCode().grayCode(0).toArray()));
         System.out.println(Arrays.toString(new GrayCode().grayCode(3).toArray()));      //000,001,011,010,110,111,101,100

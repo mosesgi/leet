@@ -8,6 +8,34 @@ import java.util.List;
  * https://leetcode.com/problems/restore-ip-addresses/
  */
 public class RestoreIPAddresses {
+
+    public List<String> restoreIpAddresses(String s) {
+        List<String> res = new ArrayList<>();
+        back(s, 0, 0, "", res);
+        return res;
+    }
+
+    void back(String s, int pos, int level, String c, List<String> res){
+        if(pos == s.length() && level == 4){
+            res.add(c.substring(0, c.length()-1));
+            return;
+        }
+        if(level >= 4){
+            return;
+        }
+        for(int i=pos; i<=pos+3 && i<s.length(); i++){
+            String str = s.substring(pos, i+1);
+            if(str.length() > 1 && str.charAt(0) == '0'){
+                continue;
+            }
+            int tmp = Integer.valueOf(str);
+            if(tmp > 255){
+                return;
+            }
+            back(s, i+1, level+1, c+str+".", res);
+        }
+    }
+
     /*
         12 -> 3*4
         11 -> 3*3 + 2
@@ -17,7 +45,7 @@ public class RestoreIPAddresses {
 
      */
     List<String> list = new ArrayList<>();
-    public List<String> restoreIpAddresses(String s) {
+    public List<String> restoreIpAddressesOld(String s) {
 
         if(s.length()<4 || s.length() > 12){
             return list;

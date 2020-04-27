@@ -12,7 +12,7 @@ public class LargestRectangleInHistogram {
         for(int i=0; i<heights.length; i++){
             int lowest = Integer.MAX_VALUE;
             for(int j= i; j<heights.length; j++){
-                lowest = heights[j]<lowest?heights[j]:lowest;
+                lowest = Math.min(heights[j], lowest);
                 int tmpSize = (j-i+1)*lowest;
                 if(tmpSize > largest){
                     largest = tmpSize;

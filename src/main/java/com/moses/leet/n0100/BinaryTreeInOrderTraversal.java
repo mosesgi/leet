@@ -4,12 +4,31 @@ import com.moses.leet.pojo.TreeNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * https://leetcode.com/problems/binary-tree-inorder-traversal/
  */
 
 public class BinaryTreeInOrderTraversal {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode cur = root;
+        while(cur != null || !stack.isEmpty()){
+            while(cur != null) {
+                stack.push(cur);
+                cur = cur.left;
+            }
+            TreeNode t = stack.pop();
+            res.add(t.val);
+            cur = t.right;
+        }
+        return res;
+    }
+
+
+
     //Morris Traversal, without recursive. O(n)
     //1. 初始化当前节点 cur 为 root 节点.
     //2. 如果 cur 没有左孩子，则输出当前节点并将其右孩子作为当前节点,即 cur = cur->right。
@@ -49,7 +68,7 @@ public class BinaryTreeInOrderTraversal {
 
 
     //Simple recursive
-    public List<Integer> inorderTraversal(TreeNode root) {
+    public List<Integer> inorderTraversalOld(TreeNode root) {
         List<Integer> rst = new ArrayList<>();
 
         recursive(root, rst);

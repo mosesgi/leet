@@ -8,10 +8,31 @@ import java.util.*;
  * https://leetcode.com/problems/subsets-ii/
  */
 public class SubsetsII {
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> res = new ArrayList<>();
+        dfs(nums, new ArrayList<>(), 0, res);
+        return res;
+    }
+
+    void dfs(int[] nums, List<Integer> l, int start, List<List<Integer>> res){
+        res.add(new ArrayList<>(l));
+        for(int i=start; i<nums.length; i++){
+            if(i>start && nums[i] == nums[i-1]){
+                continue;
+            }
+            l.add(nums[i]);
+            dfs(nums, l, i+1, res);
+            l.remove(l.size() -1);
+        }
+    }
+
+
+
     List<List<Integer>> list = new ArrayList<>();
     List<Integer> l = new ArrayList<>();
 
-    public List<List<Integer>> subsetsWithDup(int[] nums) {
+    public List<List<Integer>> subsetsWithDupOld(int[] nums) {
         Arrays.sort(nums);
         for(int i=0; i<=nums.length; i++){
             backtrack(nums, i, 0, i);

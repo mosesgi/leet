@@ -8,7 +8,28 @@ import com.moses.leet.utils.PrintUtil;
  * https://leetcode.com/problems/partition-list/
  */
 public class PartitionList {
+
     public ListNode partition(ListNode head, int x) {
+        ListNode dL = new ListNode(0);
+        ListNode lCur = dL;
+        ListNode dR = new ListNode(0);
+        ListNode rCur = dR;
+        while(head != null){
+            if(head.val < x){
+                lCur.next = head;
+                lCur = lCur.next;
+            }else{
+                rCur.next = head;
+                rCur = rCur.next;
+            }
+            head = head.next;
+        }
+        rCur.next = null;
+        lCur.next = dR.next;
+        return dL.next;
+    }
+
+    public ListNode partitionOld(ListNode head, int x) {
         ListNode slow = null;
         ListNode fast = head;
         ListNode fast_1 = null;

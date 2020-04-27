@@ -15,6 +15,62 @@ import java.util.Queue;
 public class UniqueBinarySearchTreesII {
 
     public List<TreeNode> generateTrees(int n) {
+        return generate(1, n);
+    }
+
+    List<TreeNode> generate(int l, int r){
+        List<TreeNode> list = new ArrayList<>();
+        if(r<l){
+            return list;
+        }else if(l==r){
+            TreeNode node = new TreeNode(l);
+            list.add(node);
+            return list;
+        }
+        for(int i=l; i<=r; i++){
+            List<TreeNode> left = generate(l, i-1);
+            List<TreeNode> right = generate(i+1, r);
+            if(left.isEmpty()){
+                for (TreeNode rn : right) {
+                    TreeNode cur = new TreeNode(i);
+                    cur.right = rn;
+                    list.add(cur);
+                }
+            }else if(right.isEmpty()){
+                for (TreeNode ln : left) {
+                    TreeNode cur = new TreeNode(i);
+                    cur.left = ln;
+                    list.add(cur);
+                }
+            }else {
+                for (TreeNode ln : left) {
+                    for (TreeNode rn : right) {
+                        TreeNode cur = new TreeNode(i);
+                        cur.left = ln;
+                        cur.right = rn;
+                        list.add(cur);
+                    }
+                }
+            }
+        }
+        return list;
+    }
+
+
+    public static void main(String[] args) {
+        List<TreeNode> list = new UniqueBinarySearchTreesII().generateTrees(3);
+        for(TreeNode root: list){
+            PrintUtil.printTreeNodes(root);
+        }
+
+        list = new UniqueBinarySearchTreesII().generateTrees(4);
+        for(TreeNode root: list){
+            PrintUtil.printTreeNodes(root);
+        }
+    }
+
+
+    public List<TreeNode> generateTreesOld(int n) {
         int[] nums = new int[n];
         for(int i=1; i<=n; i++){
             nums[i-1] = i;
@@ -71,15 +127,5 @@ public class UniqueBinarySearchTreesII {
 
     }
 
-    public static void main(String[] args) {
-        List<TreeNode> list = new UniqueBinarySearchTreesII().generateTrees(3);
-        for(TreeNode root: list){
-            PrintUtil.printTreeNodes(root);
-        }
 
-        list = new UniqueBinarySearchTreesII().generateTrees(4);
-        for(TreeNode root: list){
-            PrintUtil.printTreeNodes(root);
-        }
-    }
 }

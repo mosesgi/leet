@@ -13,32 +13,32 @@ public class DecodeWays {
     //DP solution.
     //For example, the String now is "123xxxx" and we know all the result from 2.
     //Because 12<26, we can make this string either"12"+"3xxxx" or 1+23xxxx which is exactly memo[n]=memo[n+1]+memo[n+2].
-    public int numDecodings(String s){
-        if(s.length()==0 || s.startsWith("0")){
+    public int numDecodings(String s) {
+        int[] dp = new int[s.length()];
+        if(s.startsWith("0")){
             return 0;
         }
-        if(s.length() == 1){
-            return 1;
-        }
-
-        int len = s.length();
-        int[] cache = new int[len+1];
-        cache[len] = 1;
-        //initialize len-1
-        cache[len-1] = s.charAt(len-1) == '0'?0:1;
-        for(int i=len-2; i>=0; i--){
-            if(s.charAt(i) == '0'){
-                cache[i] = 0;
-                continue;
+        dp[0] = 1;
+        for(int i=1; i<s.length(); i++){
+            char c = s.charAt(i);
+            int prevTwo = Integer.parseInt(s.substring(i-1, i+1));
+            if(c == '0'){
+                if(prevTwo > 20 || prevTwo == 0){
+                    return 0;
+                }
+                dp[i] = i-2<0?1:dp[i-2];
+            }else{
+                if(s.charAt(i-1) == '0'){
+                    dp[i] = dp[i-1];
+                }else{
+                    if(prevTwo <= 26){
+                        dp[i] = i-2<0?1:dp[i-2];
+                    }
+                    dp[i] += dp[i-1];
+                }
             }
-            int tmpInt = Integer.parseInt(s.substring(i, i+2));
-            if(tmpInt <= 26){
-                cache[i] = cache[i+1] + cache[i+2];
-            } else{
-                cache[i] = cache[i+1];
-            }
         }
-        return cache[0];
+        return dp[s.length()-1];
     }
 
 

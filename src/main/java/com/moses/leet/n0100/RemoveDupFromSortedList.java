@@ -8,8 +8,24 @@ import com.moses.leet.utils.PrintUtil;
  * https://leetcode.com/problems/remove-duplicates-from-sorted-list/
  */
 public class RemoveDupFromSortedList {
-
     public ListNode deleteDuplicates(ListNode head) {
+        if(head == null){
+            return head;
+        }
+        ListNode slow = head;
+        ListNode fast = head;
+        while(fast != null){
+            if(fast.val != slow.val){
+                slow.next = fast;
+                slow = slow.next;
+            }
+            fast = fast.next;
+        }
+        slow.next = null;
+        return head;
+    }
+
+    public ListNode deleteDuplicatesOld(ListNode head) {
         if(head == null){
             return head;
         }
