@@ -7,13 +7,40 @@ import java.util.Arrays;
  */
 public class SearchInRotatedSortedArrayII {
 
+    public boolean search(int[] nums, int target) {
+        int l=0, r= nums.length-1;
+        while(r>l && nums[l] == nums[r]){
+            r--;
+        }
+        while(l<=r){
+            int m = l+(r-l)/2;
+            if(nums[m] == target){
+                return true;
+            }
+            if(nums[m]>=nums[l]){       //left side is ascending
+                if(target >=nums[l] && target <nums[m]){
+                    r = m-1;
+                }else{
+                    l = m+1;
+                }
+            }else{          //right side is ascending
+                if(target > nums[m] && target <=nums[r]){
+                    l = m+1;
+                }else{
+                    r = m-1;
+                }
+            }
+        }
+        return false;
+    }
+
     public boolean searchCheat(int[] nums, int target){
         Arrays.sort(nums);
         int result = Arrays.binarySearch(nums, target);
         return result >=0;
     }
 
-    public boolean search(int[] nums, int target){
+    public boolean searchOld(int[] nums, int target){
         int left = 0;
         if(nums.length == 0) return false;
         if(nums.length == 1) return nums[0] == target;

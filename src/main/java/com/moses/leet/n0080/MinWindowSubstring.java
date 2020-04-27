@@ -11,6 +11,84 @@ import java.util.Set;
 public class MinWindowSubstring {
 
     public String minWindow(String s, String t) {
+        Map<Character, Integer> cnt = new HashMap<>();
+        for(char c : t.toCharArray()){
+            cnt.put(c, cnt.getOrDefault(c, 0) + 1);
+        }
+
+        int left = 0;
+        int min = Integer.MAX_VALUE;
+        int start = -1, end = -1;
+        Map<Character, Integer> dyn = new HashMap<>();
+        for(int i=0; i<s.length(); i++){
+            char c = s.charAt(i);
+            if(!cnt.containsKey(c)){
+                continue;
+            }
+            dyn.put(c, dyn.getOrDefault(c, 0) + 1);
+
+            //check if all >= cnt
+            boolean fulfill = fulfill(cnt, dyn);
+
+            while(fulfill){
+                if(i-left+1 < min){
+                    min = i-left+1;
+                    start = left;
+                    end = i;
+                }
+                char l = s.charAt(left++);
+                if(cnt.containsKey(l)) {
+                    dyn.put(l, dyn.get(l) - 1);
+                    if (dyn.get(l) < cnt.getOrDefault(l, 0)) {
+                        break;
+                    }
+                }
+            }
+        }
+        if(start == -1 && end == -1){
+            return "";
+        }else{
+            return s.substring(start, end+1);
+        }
+    }
+
+    boolean fulfill(Map<Character, Integer> cnt, Map<Character, Integer> dyn){
+        for(char k : cnt.keySet()){
+            if(dyn.getOrDefault(k, 0) < cnt.get(k)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        String s = "ADOBECODEBANC";
+        String t = "ABC";
+        System.out.println(new MinWindowSubstring().minWindow(s, t));
+
+        s = "aaaaaaaaaaaabbbbbcdd";
+        t = "abcdd";
+        System.out.println(new MinWindowSubstring().minWindow(s, t));
+
+        s = "bbaa";
+        t = "aba";
+        System.out.println(new MinWindowSubstring().minWindow(s, t));
+
+        s = "CDEADOBECABEBANC";
+        t = "ABC";
+        System.out.println(new MinWindowSubstring().minWindow(s, t));
+
+        s = "CDEADOBECODEBANC";
+        t = "ABC";
+        System.out.println(new MinWindowSubstring().minWindow(s, t));
+
+        s = "abc";
+        t = "cba";
+        System.out.println(new MinWindowSubstring().minWindow(s, t));
+    }
+
+
+    public String minWindowOld(String s, String t) {
         int sLen = s.length();
         int tLen = t.length();
         char[] tChars = t.toCharArray();
@@ -104,31 +182,9 @@ public class MinWindowSubstring {
         return true;
     }
 
-    public static void main(String[] args) {
-        String s = "ADOBECODEBANC";
-        String t = "ABC";
-        System.out.println(new MinWindowSubstring().minWindow(s, t));
 
-        s = "aaaaaaaaaaaabbbbbcdd";
-        t = "abcdd";
-        System.out.println(new MinWindowSubstring().minWindow(s, t));
 
-        s = "bbaa";
-        t = "aba";
-        System.out.println(new MinWindowSubstring().minWindow(s, t));
 
-        s = "CDEADOBECABEBANC";
-        t = "ABC";
-        System.out.println(new MinWindowSubstring().minWindow(s, t));
-
-        s = "CDEADOBECODEBANC";
-        t = "ABC";
-        System.out.println(new MinWindowSubstring().minWindow(s, t));
-
-        s = "abc";
-        t = "cba";
-        System.out.println(new MinWindowSubstring().minWindow(s, t));
-    }
 
 
     //time limit exceeded. This is not O(n)
