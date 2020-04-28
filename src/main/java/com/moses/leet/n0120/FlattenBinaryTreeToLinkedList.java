@@ -5,7 +5,7 @@ import com.moses.leet.pojo.TreeNode;
 /**
  * https://leetcode.com/problems/flatten-binary-tree-to-linked-list/
  */
-public class FlatternBinaryTreeToLinkedList {
+public class FlattenBinaryTreeToLinkedList {
     public void flatten(TreeNode root) {
         while(root != null){
             if(root.left == null){
