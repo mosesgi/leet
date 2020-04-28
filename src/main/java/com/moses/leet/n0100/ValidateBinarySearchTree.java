@@ -1,13 +1,37 @@
 package com.moses.leet.n0100;
 
 import com.moses.leet.pojo.TreeNode;
-import sun.reflect.generics.tree.Tree;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * https://leetcode.com/problems/validate-binary-search-tree/
  */
 public class ValidateBinarySearchTree {
     public boolean isValidBST(TreeNode root) {
+        List<Integer> l = new ArrayList<>();
+        inorder(root, l);
+        for(int i=1; i<l.size(); i++){
+            if(l.get(i) <= l.get(i-1)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    void inorder(TreeNode root, List<Integer> l){
+        if(root == null){
+            return;
+        }
+        inorder(root.left, l);
+        l.add(root.val);
+        inorder(root.right, l);
+    }
+
+
+
+    public boolean isValidBSTOld(TreeNode root) {
         if(root == null || (root.left == null && root.right == null)){
             return true;
         }

@@ -10,8 +10,35 @@ import java.util.Map;
  * https://leetcode.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/
  */
 public class ConstructBTreeFromInAndPostOrderTraversal {
-    Map<Integer, Integer> inPosMap = new HashMap<>();
+
     public TreeNode buildTree(int[] inorder, int[] postorder) {
+        Map<Integer, Integer> inMap = new HashMap<>();
+        for(int i=0; i<inorder.length; i++){
+            inMap.put(inorder[i], i);
+        }
+        return construct(postorder, postorder.length-1, 0, inorder.length-1, inMap);
+    }
+
+    TreeNode construct(int[] postorder, int p, int l, int r, Map<Integer, Integer> inMap){
+        if(p<0 || l>r){
+            return null;
+        }
+        int cur = postorder[p];
+        int inPos = inMap.get(cur);
+        if(inPos < l || inPos > r){
+            return null;
+        }
+        TreeNode node = new TreeNode(cur);
+        node.right = construct(postorder, p-1, inPos+1, r, inMap);
+        node.left = construct(postorder, p-(r-inPos)-1, l, inPos-1, inMap);
+        return node;
+    }
+
+
+
+
+    Map<Integer, Integer> inPosMap = new HashMap<>();
+    public TreeNode buildTreeOld(int[] inorder, int[] postorder) {
         if(inorder.length != postorder.length || inorder.length == 0){
             return null;
         }

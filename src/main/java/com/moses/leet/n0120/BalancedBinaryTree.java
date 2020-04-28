@@ -4,8 +4,31 @@ import com.moses.leet.pojo.TreeNode;
 import sun.reflect.generics.tree.Tree;
 
 public class BalancedBinaryTree {
+    boolean flag = true;
+    public boolean isBalanced(TreeNode root) {
+        cal(root);
+        return flag;
+    }
+
+    int cal(TreeNode node){
+        if(flag == false){
+            return -1;
+        }
+        if(node == null){
+            return 0;
+        }else{
+            int l = cal(node.left);
+            int r = cal(node.right);
+            if(Math.abs(l-r) > 1){
+                flag = false;
+            }
+            return 1+Math.max(l, r);
+        }
+    }
+
+
     static int BREAK_FLAG = -100;
-    public boolean isBalanced(TreeNode root){
+    public boolean isBalancedOld(TreeNode root){
         if(root == null){
             return true;
         }

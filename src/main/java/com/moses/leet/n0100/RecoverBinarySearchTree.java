@@ -3,23 +3,43 @@ package com.moses.leet.n0100;
 import com.moses.leet.pojo.TreeNode;
 import com.moses.leet.utils.PrintUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * https://leetcode.com/problems/recover-binary-search-tree/
  */
 public class RecoverBinarySearchTree {
     //https://leetcode.com/problems/recover-binary-search-tree/discuss/32535/No-Fancy-Algorithm-just-Simple-and-Powerful-In-Order-Traversal
-    //将树问题化为中序遍历问题，找到两个错误node.
     public void recoverTree(TreeNode root) {
-        if(root == null ){
-            return;
+        //3,2,1
+        //1,3,2,4
+        List<TreeNode> l = new ArrayList<>();
+        inorder(root, l);
+        TreeNode first = null, second = null;
+
+        for(int i=0; i<l.size()-1; i++){
+            if(l.get(i).val > l.get(i+1).val){
+                if(first==null){
+                    first = l.get(i);
+                    second = l.get(i+1);
+                }else{
+                    second = l.get(i+1);
+                }
+            }
         }
+        int tmp = first.val;
+        first.val = second.val;
+        second.val = tmp;
     }
 
-
-    private void swapVal(TreeNode a, TreeNode b){
-        int tmp = a.val;
-        a.val = b.val;
-        b.val = tmp;
+    void inorder(TreeNode root, List<TreeNode> l){
+        if(root == null){
+            return;
+        }
+        inorder(root.left, l);
+        l.add(root);
+        inorder(root.right, l);
     }
 
     public static void main(String[] args) {
