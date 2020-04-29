@@ -5,6 +5,36 @@ package com.moses.leet.n0140;
  */
 public class BestTimeToBuyAndSellStock {
     public int maxProfit(int[] prices) {
+        if(prices.length == 0){
+            return 0;
+        }
+        int min = prices[0];
+        int max = 0;
+        for(int i=1; i<prices.length; i++){
+            max = Math.max(max, prices[i] - min);
+            min = Math.min(min, prices[i]);
+        }
+        return max;
+    }
+
+    //Use DP. https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/discuss/108870/Most-consistent-ways-of-dealing-with-the-series-of-stock-problems
+    public int maxProfitDp(int[] prices) {
+        if(prices.length == 0){
+            return 0;
+        }
+        int[] buy = new int[prices.length];
+        int[] sell = new int[prices.length];
+        buy[0] = -prices[0];
+        sell[0] = 0;
+        for(int i=1; i<prices.length; i++){
+            buy[i] = Math.max(buy[i-1], -prices[i]);
+            sell[i] = Math.max(sell[i-1], buy[i-1] + prices[i]);
+        }
+        return sell[prices.length-1];
+    }
+
+
+    public int maxProfitOld(int[] prices) {
         int max = 0;
         if(prices.length < 2){
             return 0;

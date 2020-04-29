@@ -8,6 +8,31 @@ import java.util.Queue;
  */
 public class PopulateNextRightPointersEachNode {
     public Node connect(Node root) {
+        Node cur = root;
+
+        while(cur != null && cur.left != null){
+            Node first = cur;
+            Node prev = null;
+            Node tmp = first;
+            while(tmp != null){
+                if(prev == null){
+                    prev = tmp.left;
+                }else{
+                    prev.next = tmp.left;
+                    prev = prev.next;
+                }
+                prev.next = tmp.right;
+                prev = prev.next;
+                tmp = tmp.next;
+            }
+
+            cur = first.left;
+        }
+        return root;
+    }
+
+
+    public Node connectOld(Node root) {
         Node curr = root;
         Node mostLeft = root;
         Node nextLevel = null;

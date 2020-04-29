@@ -1,8 +1,47 @@
 package com.moses.leet.n0120;
 
 public class PopulateNextRightPointersEachNodeII {
-
     public Node connect(Node root) {
+        Node cur = root;
+        while(cur != null ){
+            Node prev = null;
+            Node nextFirst = null;
+            Node tmp = cur;
+            while(tmp != null){
+                if(prev == null){
+                    if(tmp.left != null){
+                        prev = tmp.left;
+                        nextFirst = prev;
+                    }
+                    if(tmp.right != null){
+                        if(prev == null){
+                            prev = tmp.right;
+                            nextFirst = prev;
+                        }else{
+                            prev.next = tmp.right;
+                            prev = prev.next;
+                        }
+                    }
+                }else{
+                    if(tmp.left != null){
+                        prev.next = tmp.left;
+                        prev = prev.next;
+                    }
+                    if(tmp.right != null){
+                        prev.next = tmp.right;
+                        prev = prev.next;
+                    }
+                }
+                tmp = tmp.next;
+            }
+            cur = nextFirst;
+        }
+
+        return root;
+    }
+
+
+    public Node connectOld(Node root) {
         if(root == null){
             return root;
         }

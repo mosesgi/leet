@@ -9,10 +9,35 @@ import java.util.Map;
  * https://leetcode.com/problems/distinct-subsequences/
  */
 public class DistinctSubsequences {
+
+    public int numDistinct(String s, String t) {
+        Integer[][] mem = new Integer[s.length()][t.length()];
+        return rec(s, t, 0, 0, mem);
+    }
+
+    int rec(String s, String t, int ps, int pt, Integer[][] mem){
+        if(pt == t.length()){
+            return 1;
+        }
+        if(ps == s.length()){
+            return 0;
+        }
+        if(mem[ps][pt] != null){
+            return mem[ps][pt];
+        }
+        if(s.charAt(ps) == t.charAt(pt)){
+            mem[ps][pt] = rec(s, t, ps+1, pt, mem) + rec(s, t, ps+1, pt+1, mem);
+        }else{
+            mem[ps][pt] = rec(s, t, ps+1, pt, mem);
+        }
+        return mem[ps][pt];
+    }
+
+
     int count = 0;
     Map<Character, List<Integer>> index = new HashMap<>();
 
-    public int numDistinct(String s, String t) {
+    public int numDistinctOld(String s, String t) {
         if(s.length() == 0){
             if(t.length() == 0){
                 return 1;

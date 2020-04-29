@@ -16,16 +16,16 @@ public class Triangle {
         if(rows == 1){
             return triangle.get(0).get(0);
         }
-
+        int[] dp = new int[rows];
+        for(int i=0; i<rows; i++){
+            dp[i] = triangle.get(rows-1).get(i);
+        }
         for(int i= rows-2; i>=0; i--){
-            List<Integer> currRow = triangle.get(i);
-            List<Integer> nextRow = triangle.get(i+1);
             for(int j=0; j<=i; j++){
-                int minNext = nextRow.get(j) < nextRow.get(j+1)? nextRow.get(j) : nextRow.get(j+1);
-                currRow.set(j, currRow.get(j) + minNext);
+                dp[j] = triangle.get(i).get(j) + Math.min(dp[j], dp[j+1]);
             }
         }
-        return triangle.get(0).get(0);
+        return dp[0];
     }
 
     //DP cache version

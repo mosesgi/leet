@@ -2,7 +2,29 @@ package com.moses.leet.n0140;
 
 
 public class BestTimeToBuyAndSellStockIII {
+
     public int maxProfit(int[] prices) {
+        int n = prices.length;
+        if(n==0){
+            return 0;
+        }
+        int[] firstBuy = new int[n];
+        int[] firstSell = new int[n];
+        int[] secondBuy = new int[n];
+        int[] secondSell = new int[n];
+        firstBuy[0] = -prices[0];
+        secondBuy[0] = -prices[0];
+        firstSell[0] = 0;
+        for(int i=1; i<prices.length; i++){
+            firstBuy[i] = Math.max(firstBuy[i-1], -prices[i]);
+            firstSell[i] = Math.max(firstSell[i-1], firstBuy[i-1] + prices[i]);
+            secondBuy[i] = Math.max(secondBuy[i-1], firstSell[i-1] - prices[i]);
+            secondSell[i] = Math.max(secondSell[i-1], secondBuy[i-1] + prices[i]);
+        }
+        return secondSell[n-1];
+    }
+
+    public int maxProfitOld(int[] prices) {
         int max = 0;
         if(prices.length<2){
             return max;

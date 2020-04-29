@@ -23,8 +23,7 @@ public class PascalTriangleII {
                     row.add(i-1, row.get(j-1) + row.get(j));
                 } else {
                     int tmp = row.get(j-1) + row.get(j);
-                    row.remove(j);
-                    row.add(j, tmp);
+                    row.set(j, tmp);
                 }
             }
         }
