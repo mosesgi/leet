@@ -9,8 +9,33 @@ import java.util.List;
  * https://leetcode.com/problems/sum-root-to-leaf-numbers/
  */
 public class SumRootToLeafNumbers {
+    int sum = 0;
+    public int sumNumbers(TreeNode root) {
+        if(root==null){
+            return sum;
+        }
+        dfs(root, 0);
+        return sum;
+    }
+
+    void dfs(TreeNode root, int num){
+        num*=10;
+        num+=root.val;
+        if(root.left == null && root.right == null){
+            sum+=num;
+            return;
+        }
+        if(root.left != null){
+            dfs(root.left, num);
+        }
+        if(root.right != null){
+            dfs(root.right, num);
+        }
+    }
+
+
     List<Integer> list = new ArrayList<>();
-    public int sumNumbers(TreeNode root){
+    public int sumNumbersOld(TreeNode root){
         if(root == null){
             return 0;
         }

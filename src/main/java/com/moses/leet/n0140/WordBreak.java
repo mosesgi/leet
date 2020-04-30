@@ -3,8 +3,29 @@ package com.moses.leet.n0140;
 import java.util.*;
 
 public class WordBreak {
-    Map<String, Boolean> cache = new HashMap<>();
+
     public boolean wordBreak(String s, List<String> wordDict) {
+        boolean[] dp = new boolean[s.length()];
+        Set<String> set = new HashSet<>(wordDict);
+        for(int i=0; i<s.length(); i++){
+            if(set.contains(s.substring(0, i+1))){
+                dp[i] = true;
+            }
+        }
+
+        for(int i=1; i<s.length(); i++){
+            if(dp[i-1]){
+                for(int j=i; j<s.length(); j++){
+                    if(set.contains(s.substring(i, j+1))){
+                        dp[j] = true;
+                    }
+                }
+            }
+        }
+        return dp[s.length()-1];
+    }
+
+    public boolean wordBreakBfs(String s, List<String> wordDict) {
         //BFS. Beat 88.15%
         Queue<Integer> q = new LinkedList<>();
         q.offer(0);
@@ -31,8 +52,41 @@ public class WordBreak {
     }
 
 
+    public boolean wordBreakDfs(String s, List<String> wordDict) {
+        Boolean[] mem = new Boolean[s.length()];
+        Set<String> set = new HashSet<>();
+        int maxLen = 0;
+        for(String dict : wordDict){
+            maxLen = Math.max(maxLen, dict.length());
+            set.add(dict);
+        }
+        return dfs(s, 0, maxLen, set, mem);
+    }
+
+    boolean dfs(String s, int start, int maxLen, Set<String> set, Boolean[] mem){
+        if(start == s.length()){
+            return true;
+        }
+        if(mem[start] != null){
+            return mem[start];
+        }
+        for(int i=start; i<start+maxLen && i<s.length(); i++){
+            if(set.contains(s.substring(start, i+1))){
+                if(dfs(s, i+1, maxLen, set,mem)){
+                    mem[start] = true;
+                    return true;
+                }
+            }
+        }
+        mem[start] = false;
+        return false;
+    }
 
 
+
+
+
+    Map<String, Boolean> cache = new HashMap<>();
     //recursive, beat 10%
     private boolean recursive(String s, int pos, List<String> wordDict) {
         int sLen = s.length();

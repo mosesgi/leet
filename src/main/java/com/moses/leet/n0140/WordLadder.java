@@ -6,8 +6,42 @@ import java.util.*;
  * https://leetcode.com/problems/word-ladder/
  */
 public class WordLadder {
-
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        Set<String> remain = new HashSet<>();
+        remain.addAll(wordList);
+        if(!remain.contains(endWord)){
+            return 0;
+        }
+        Queue<String> q = new LinkedList<>();
+        q.offer(beginWord);
+        int steps = 1;
+        while(!q.isEmpty()){
+            int size = q.size();
+            for(int i=0; i<size; i++){
+                String cur = q.poll();
+                if(cur.equals(endWord)){
+                    return steps;
+                }
+                for(int j=0; j<cur.length(); j++){
+                    char[] curChars = cur.toCharArray();
+                    for(char ch = 'a'; ch<='z'; ch++){
+                        curChars[j] = ch;
+                        String next = new String(curChars);
+                        if(remain.contains(next)){
+                            remain.remove(next);
+                            q.offer(next);
+                        }
+                    }
+                }
+            }
+            steps++;
+        }
+        return 0;
+    }
+
+
+
+    public int ladderLengthOld(String beginWord, String endWord, List<String> wordList) {
         if(wordList.isEmpty() || !wordList.contains(endWord)){
             return 0;
         }

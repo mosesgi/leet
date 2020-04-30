@@ -10,23 +10,16 @@ import java.util.Set;
  */
 public class LinkedListCycle {
     public boolean hasCycle(ListNode head) {
-        if(head == null || head.next == null){
+        if(head == null){
             return false;
         }
-
-        ListNode slow = null;
-        ListNode fast = head;
-        int i = 0;
-        while(fast != null){
-            if(fast == slow){
+        ListNode s = head, f = head;
+        while(f.next != null && f.next.next != null){
+            f = f.next.next;
+            s = s.next;
+            if(f == s){
                 return true;
             }
-            int r = i%2;
-            if(r == 0){
-                slow = slow==null?head:slow.next;
-            }
-            i++;
-            fast = fast.next;
         }
         return false;
     }

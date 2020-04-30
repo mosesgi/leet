@@ -37,29 +37,24 @@ public class LongestConsecutiveSequence {
 
     //O(NlogN)
     public int longestConsecutiveLogN(int[] nums) {
-        if(nums.length <=1){
-            return nums.length;
+        if(nums.length == 0){
+            return 0;
         }
         Arrays.sort(nums);
-        int longest = 0;
+        int max = 1;
         int tmp = 1;
         for(int i=1; i<nums.length; i++){
-            while(i<nums.length){
-                if(nums[i] - nums[i-1] ==1){
-                    tmp++;
-                    i++;
-                } else if(nums[i] - nums[i-1] == 0){
-                    i++;
-                } else {
-                    break;
-                }
+            if(nums[i] == nums[i-1] + 1){
+                tmp++;
+            }else if(nums[i] == nums[i-1]){
+                continue;
+            }else{
+                max = Math.max(tmp, max);
+                tmp = 1;
             }
-            if(tmp>longest){
-                longest = tmp;
-            }
-            tmp = 1;
         }
-        return longest;
+        max = Math.max(tmp, max);
+        return max;
     }
 
     public static void main(String[] args) {

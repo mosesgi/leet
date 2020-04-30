@@ -13,7 +13,7 @@ public class SingleNumber {
         return a;
     }
 
-    //extra space during sort?
+    //O(NLogN)
     public int singleNumber1(int[] nums) {
         Arrays.sort(nums);
         for(int i=0; i<nums.length; i++){

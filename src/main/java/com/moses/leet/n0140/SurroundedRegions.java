@@ -49,8 +49,25 @@ public class SurroundedRegions {
         }
     }
 
+
     public static void main(String[] args) {
-        char[][] board = new char[][]{
+        char[][] board;
+
+        board = new char[][]{
+                {'O','X','O','O','O','O','O','O','O'},
+                {'O','O','O','X','O','O','O','O','X'},
+                {'O','X','O','X','O','O','O','O','X'},
+                {'O','O','O','O','X','O','O','O','O'},
+                {'X','O','O','O','O','O','O','O','X'},
+                {'X','X','O','O','X','O','X','O','X'},
+                {'O','O','O','X','O','O','O','O','O'},
+                {'O','O','O','X','O','O','O','O','O'},
+                {'O','O','O','O','O','X','X','O','O'}};
+        new SurroundedRegions().solve(board);
+        PrintUtil.printMatrixChar(board);
+
+
+        board = new char[][]{
                 {'X', 'X', 'X', 'X'},
                 {'X', 'O', 'O', 'X'},
                 {'X', 'X', 'O', 'X'},
@@ -58,7 +75,7 @@ public class SurroundedRegions {
         };
         new SurroundedRegions().solve(board);
         PrintUtil.printMatrixChar(board);
-        
+
         board = new char[][]{
                 {'O','X','X','O','X'},
                 {'X','O','O','X','O'},

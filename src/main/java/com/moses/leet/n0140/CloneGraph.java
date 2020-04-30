@@ -6,8 +6,33 @@ import java.util.*;
  * https://leetcode.com/problems/clone-graph/
  */
 public class CloneGraph {
-
     public Node cloneGraph(Node node) {
+        if(node == null){
+            return null;
+        }
+        Map<Integer, Node> clone = new HashMap<>();
+        Node root = new Node(node.val);
+        clone.put(node.val, root);
+        Set<Node> visited = new HashSet<>();
+        Queue<Node> q = new LinkedList<>();
+        q.offer(node);
+        while(!q.isEmpty()){
+            Node cur = q.poll();
+            if(visited.contains(cur)){
+                continue;
+            }
+            visited.add(cur);
+
+            for(Node next:cur.neighbors){
+                clone.putIfAbsent(next.val, new Node(next.val));
+                clone.get(cur.val).neighbors.add(clone.get(next.val));
+            }
+        }
+        return root;
+    }
+
+
+    public Node cloneGraphOld(Node node) {
         if(node == null){
             return null;
         }

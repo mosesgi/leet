@@ -9,6 +9,35 @@ public class CopyListWithRandomPointer {
         if(head == null){
             return null;
         }
+        Node cur = head;
+        Map<Node, Node> oldToNew = new HashMap<>();
+        Node root = new Node(cur.val);
+        Node nCur = root;
+        oldToNew.put(cur, root);
+        while(cur.next != null){
+            nCur.next = new Node(cur.next.val);
+            oldToNew.put(cur.next, nCur.next);
+            nCur = nCur.next;
+            cur=cur.next;
+        }
+
+        cur = head;
+        nCur = root;
+        while(cur != null){
+            if(cur.random != null){
+                nCur.random = oldToNew.get(cur.random);
+            }
+            nCur = nCur.next;
+            cur = cur.next;
+        }
+        return root;
+    }
+
+
+    public Node copyRandomListOld(Node head) {
+        if(head == null){
+            return null;
+        }
         Map<Integer, Node> old = new TreeMap<>();
         Map<Node, Integer> oldRev = new HashMap<>();
         Map<Integer, Node> copy = new TreeMap<>();

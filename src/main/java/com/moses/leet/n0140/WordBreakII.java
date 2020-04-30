@@ -6,9 +6,46 @@ import java.util.*;
  * https://leetcode.com/problems/word-break-ii/
  */
 public class WordBreakII {
+    Map<Integer, List<String>> mem = new HashMap<>();
+    public List<String> wordBreak(String s, List<String> wordDict) {
+        Set<String> set = new HashSet<>();
+        int maxLen = 0;
+        for(String dict : wordDict){
+            maxLen = Math.max(maxLen, dict.length());
+            set.add(dict);
+        }
+        return dfs(s, 0, maxLen, set);
+    }
+
+    List<String> dfs(String s, int start, int maxLen, Set<String> set){
+        if(start == s.length()){
+            return null;
+        }
+        if(mem.containsKey(start)){
+            return mem.get(start);
+        }
+        List<String> l = new ArrayList<>();
+        for(int i=start; i<start+maxLen && i<s.length(); i++){
+            String tmp = s.substring(start, i+1);
+            if(set.contains(tmp)){
+                List<String> next = dfs(s, i+1, maxLen, set);
+                if(next==null){
+                    l.add(tmp);
+                }else{
+                    for(String n : next){
+                        l.add(tmp + " " + n);
+                    }
+                }
+            }
+        }
+        mem.put(start, l);
+        return l;
+    }
+
+
 
     Map<Integer, List<String>> cache = new HashMap<>();
-    public List<String> wordBreak(String s, List<String> wordDict) {
+    public List<String> wordBreakOld(String s, List<String> wordDict) {
         return recursive(s, 0, wordDict);
     }
 
