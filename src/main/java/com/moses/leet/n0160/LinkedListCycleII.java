@@ -31,6 +31,35 @@ public class LinkedListCycleII {
         return null;
     }
 
+
+    public ListNode detectCycleNew(ListNode head){
+        if(head == null){
+            return null;
+        }
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while(fast.next != null && fast.next.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+
+            if(slow == fast){
+                break;
+            }
+        }
+        if(fast.next == null || fast.next.next == null){
+            return null;
+        }
+
+        fast = head;
+        while(fast != slow){
+            fast = fast.next;
+            slow = slow.next;
+        }
+
+        return fast;
+    }
+
     public ListNode detectCycleOn(ListNode head) {
         if(head == null || head.next == null){
             return null;

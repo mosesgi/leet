@@ -4,6 +4,7 @@ import com.moses.leet.pojo.ListNode;
 import com.moses.leet.utils.ListNodeUtil;
 import com.moses.leet.utils.PrintUtil;
 
+import java.util.LinkedList;
 import java.util.Stack;
 
 /**
@@ -11,6 +12,39 @@ import java.util.Stack;
  */
 public class ReorderList {
     public void reorderList(ListNode head) {
+        if(head == null || head.next == null){
+            return;
+        }
+        ListNode cur = head;
+        Stack<ListNode> stack = new Stack<>();  //使用LinkedList更好.
+//        LinkedList<ListNode> l = new LinkedList<>();
+//        l.pollFirst();
+//        l.pollLast();
+        int n = 1;
+        while(cur != null){
+            stack.push(cur);
+            cur = cur.next;
+            n++;
+        }
+
+        cur = head;
+        for(int i=0; i<n/2-1; i++){
+            cur = cur.next;
+        }
+        cur.next = null;
+
+        cur = head;
+        for(int i=0; i<n/2; i++){
+            ListNode next = cur.next;
+            cur.next = stack.pop();
+            cur = cur.next;
+            cur.next = next;
+            cur = cur.next;
+        }
+
+    }
+
+    public void reorderListOld(ListNode head) {
         if(head == null || head.next == null){
             return;
         }

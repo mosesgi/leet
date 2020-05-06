@@ -9,7 +9,54 @@ import com.moses.leet.utils.PrintUtil;
  * //TODO: Need review and recite!!!
  */
 public class SortList {
+
+    //Recursive way. not O(1) space exactly.
     public ListNode sortList(ListNode head) {
+        if(head == null || head.next == null){
+            return head;
+        }
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode fast = dummy;
+        ListNode slow = dummy;
+        //1,2,3,4,5
+        while(fast.next!=null && fast.next.next != null){
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        ListNode rightStart = slow.next;
+        slow.next = null;
+
+        ListNode left = sortList(dummy.next);
+        ListNode right = sortList(rightStart);
+        ListNode cur = dummy;
+        while(left != null && right != null){
+            if(left.val <= right.val){
+                cur.next = left;
+                left = left.next;
+            }else{
+                cur.next = right;
+                right = right.next;
+            }
+            cur = cur.next;
+        }
+        while(left != null){
+            cur.next = left;
+            left = left.next;
+            cur = cur.next;
+        }
+        while(right != null){
+            cur.next = right;
+            right = right.next;
+            cur = cur.next;
+        }
+        return dummy.next;
+    }
+
+
+
+
+    public ListNode sortListBottomUp(ListNode head) {
         if(head == null || head.next == null){
             return head;
         }
