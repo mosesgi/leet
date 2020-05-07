@@ -6,6 +6,20 @@ import java.util.Map;
 
 public class MajorityElement {
     public int majorityElement(int[] nums) {
+        int cand = nums[0];
+        int cnt = 0;
+        for(int i : nums){
+            cnt += i==cand?1:-1;
+            if(cnt == 0){
+                cand = i;
+                cnt = 1;
+            }
+        }
+        return cand;
+    }
+
+
+    public int majorityElementONLgN(int[] nums) {
         Arrays.sort(nums);
         return nums[nums.length/2];
     }

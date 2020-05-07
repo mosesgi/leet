@@ -5,6 +5,30 @@ package com.moses.leet.n0160;
  */
 public class FindMinInRotatedSortedArrayII {
     public int findMin(int[] nums) {
+        //2,2,2,0,1
+        //2,3,3,3,0,1
+        //2,3,0,0,0,1
+        //2,3,3,0,0,1
+        int l=0, r = nums.length-1;
+        while(l<=r){
+            while(nums[l] == nums[r] && l<r){
+                r--;
+            }
+            int m = l + (r-l)/2;
+            if(nums[l] <= nums[r]){
+                return nums[l];
+            }
+            if(nums[m] <= nums[r]){
+                r=m;
+            }else if(nums[m] >= nums[l]){
+                l=m+1;
+            }
+        }
+        return nums[l];
+    }
+
+
+    public int findMinOld(int[] nums) {
         return recursive(nums, 0, nums.length-1);
     }
 

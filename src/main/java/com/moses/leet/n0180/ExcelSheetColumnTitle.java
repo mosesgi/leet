@@ -7,6 +7,24 @@ import java.util.Stack;
 public class ExcelSheetColumnTitle {
 
     public String convertToTitle(int n) {
+        //52 - AZ; 53 - BA
+        //AAA - 703.
+        //ZZ - 702
+        //BZ - 26*2 + 26 = 78
+        StringBuilder sb = new StringBuilder();
+        while(n > 0){
+            if(n%26 == 0){
+                sb.insert(0, 'Z');
+                n = n/26-1;
+            }else{
+                sb.insert(0, (char)('A' + n%26 - 1));
+                n = n/26;
+            }
+        }
+        return sb.toString();
+    }
+
+    public String convertToTitleOld(int n) {
         Map<Integer, Character> map = new HashMap<>();
         char a = 'A';
         for(int i=1; i<=26; i++){
