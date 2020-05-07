@@ -6,29 +6,17 @@ import com.moses.leet.utils.PrintUtil;
 
 public class RemoveLinkedListElements {
     public ListNode removeElements(ListNode head, int val) {
-        if(head == null){
-            return head;
-        }
         ListNode dummy = new ListNode(0);
         dummy.next = head;
-
-        ListNode curr = head;
         ListNode prev = dummy;
-        ListNode next = head.next;
-
-        while(curr != null){
-            if(curr.val == val){
-                prev.next = next;
-                curr = next;
-                if(curr != null) {
-                    next = curr.next;
-                }
-            } else {
-                prev = curr;
-                curr = next;
-                if(curr != null) {
-                    next = curr.next;
-                }
+        ListNode cur = head;
+        while(cur != null){
+            if(cur.val == val){
+                prev.next = cur.next;
+                cur = cur.next;
+            }else{
+                prev = prev.next;
+                cur = cur.next;
             }
         }
         return dummy.next;

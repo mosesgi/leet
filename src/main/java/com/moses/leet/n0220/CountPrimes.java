@@ -6,34 +6,44 @@ import java.util.TreeSet;
 
 public class CountPrimes {
     public int countPrimes(int n) {
-        if(n==3){
-            return 1;
-        } else if(n<3){
+        if(n<=2){
             return 0;
         }
-        boolean[] nonPrime = new boolean[n];
-        nonPrime[1] = true;
-        for(int i=2; i<n; i++){
-            if(nonPrime[i]){
+        int res = 0;
+        boolean[] ints = new boolean[n];
+        ints[1] = true;     //non-prime
+        for(int i=2; i<ints.length; i++){
+            if(ints[i]){
                 continue;
             }
-            int k = n/i;
-            for(int j=i; j<=k; j++){
-                int rst = i*j;
-                if(rst >= n){
-                    continue;
-                }
-                nonPrime[rst]=true;
+            res++;
+            for(long j=i; i*j<n; j++){
+                ints[(int)(i*j)] = true;
             }
         }
+        return res;
+    }
 
-        int cnt = 0;
-        for(int i=1; i<nonPrime.length; i++){
-            if(!nonPrime[i]){
-                cnt++;
+    public int countPrimesSqrt(int n) {
+        int res = 0;
+        for(int i=1; i<n; i++){
+            if(isPrime(i)){
+                res++;
             }
         }
-        return cnt;
+        return res;
+    }
+
+    public boolean isPrime(int n){
+        if(n==1){
+            return false;
+        }
+        for(int i=2; i*i <= n; i++){
+            if(n%i == 0){
+                return false;
+            }
+        }
+        return true;
     }
 
     public static void main(String[] args) {

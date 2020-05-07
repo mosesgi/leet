@@ -6,13 +6,13 @@ public class BitwiseAndOfNumbersRange {
 
     //best solution. Find same prefix
     public int rangeBitwiseAnd(int m, int n) {
-        int tmp = 1;
+        int pos = 0;
         while(m!=n){
             m>>=1;
             n>>=1;
-            tmp<<=1;
+            pos++;
         }
-        return m*tmp;
+        return m<<pos;
     }
 
     //my own way

@@ -6,7 +6,25 @@ import java.util.List;
 import java.util.Set;
 
 public class HappyNumber {
-    public boolean isHappy(int n){
+    public boolean isHappy(int n) {
+        Set<Integer> set = new HashSet<>();
+        set.add(1);
+        while(true){
+            if(set.contains(n)){
+                return n==1;
+            }
+            set.add(n);
+            int tmp = 0;
+            while(n>0){
+                int p = n%10;
+                tmp += p*p;
+                n = n/10;
+            }
+            n = tmp;
+        }
+    }
+
+    public boolean isHappyOld(int n){
         Set<Integer> rst = new HashSet<>();
 
         while(true) {

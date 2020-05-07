@@ -1,7 +1,18 @@
 package com.moses.leet.n0200;
 
 public class ReverseBits {
-    public int reverseBits(int n){
+    public int reverseBits(int n) {
+        int res = 0;
+        for(int i=0; i<32; i++){
+            if((n|1)==n){
+                res |= 1<<(31-i);
+            }
+            n>>>=1;
+        }
+        return res;
+    }
+
+    public int reverseBitsOld(int n){
         int rst = 0;
 
         for(int i=0; i<32; i++) {
