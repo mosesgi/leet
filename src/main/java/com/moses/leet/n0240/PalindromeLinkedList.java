@@ -4,7 +4,58 @@ import com.moses.leet.pojo.ListNode;
 import com.moses.leet.utils.ListNodeUtil;
 
 public class PalindromeLinkedList {
-    public boolean isPalindrome(ListNode head){
+    public boolean isPalindrome(ListNode head) {
+        if(head == null || head.next == null){
+            return true;
+        }
+        //1,2,3,2,1
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode slow = dummy;
+        ListNode fast = dummy;
+        while(fast.next != null && fast.next.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        ListNode cur = slow.next;
+        slow.next = null;
+        slow = cur;
+        ListNode prev = null;
+        while(slow != null){
+            ListNode next = slow.next;
+            slow.next = prev;
+            prev = slow;
+            if(next != null) {
+                slow = next;
+            }else{
+                break;
+            }
+        }
+
+        ListNode left = head;
+        while(left != null){
+            if(left.val != slow.val){
+                return false;
+            }
+            left = left.next;
+            slow = slow.next;
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        ListNode head;
+        head = ListNodeUtil.fromIntegers(1,2,2,1);
+        System.out.println(new PalindromeLinkedList().isPalindrome(head));
+
+        head = ListNodeUtil.fromIntegers(1,2,3,3,2,1);
+        System.out.println(new PalindromeLinkedList().isPalindrome(head));
+
+    }
+
+
+    public boolean isPalindromeOld(ListNode head){
         if(head == null){
             return true;
         }
@@ -64,13 +115,5 @@ public class PalindromeLinkedList {
     }
 
 
-    public static void main(String[] args) {
-        ListNode head;
-        head = ListNodeUtil.fromIntegers(1, 2,1);
-        System.out.println(new PalindromeLinkedList().isPalindrome(head));
 
-        head = ListNodeUtil.fromIntegers(1,2,3,3,2,1);
-        System.out.println(new PalindromeLinkedList().isPalindrome(head));
-
-    }
 }

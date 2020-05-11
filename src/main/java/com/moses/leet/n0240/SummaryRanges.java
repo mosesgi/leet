@@ -6,28 +6,22 @@ import java.util.List;
 
 public class SummaryRanges {
     public List<String> summaryRanges(int[] nums) {
-        List<String> list = new ArrayList<>();
-        if(nums.length==0){
-            return list;
-        } else if(nums.length == 1){
-            list.add(String.valueOf(nums[0]));
-            return list;
-        }
+        List<String> res = new ArrayList<>();
         for(int i=0; i<nums.length; i++){
-            int tmp = nums[i];
-            int begin = i;
-            while(i+1 < nums.length && nums[i+1] == tmp + 1){
-                tmp = nums[i+1];
-                i++;
+            int start = nums[i];
+            int j= i;
+            while(j+1 < nums.length && nums[j+1] == nums[j]+1){
+                j++;
             }
-            int end = i;
-            if(begin == end){
-                list.add(String.valueOf(nums[i]));
-            } else {
-                list.add(nums[begin] + "->" + nums[end]);
+            if(nums[i] == nums[j]){
+                res.add(nums[i]+"");
+            }else{
+                res.add(nums[i] + "->" + nums[j]);
+                i = j;
             }
+
         }
-        return list;
+        return res;
     }
 
     public static void main(String[] args) {
