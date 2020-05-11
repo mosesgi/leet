@@ -3,8 +3,23 @@ package com.moses.leet.n0220;
 public class MinimumSizeSubarraySum {
     //O(NLogN), sum array(sum from begin to i) and binary search. Cannot figure it out by myself...
 
-    //O(n), can be simplified
+
     public int minSubArrayLen(int s, int[] nums) {
+        int res = Integer.MAX_VALUE;
+        int tmp = 0;
+        int i=0;
+        for(int j=0; j<nums.length; j++){
+            tmp += nums[j];
+            while(tmp >= s){
+                res = Math.min(res, j-i+1);
+                tmp -= nums[i++];
+            }
+        }
+        return res == Integer.MAX_VALUE?0:res;
+    }
+
+    //O(n), can be simplified
+    public int minSubArrayLenOld(int s, int[] nums) {
         if(nums.length == 0){
             return 0;
         }

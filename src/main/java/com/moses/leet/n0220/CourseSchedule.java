@@ -4,6 +4,53 @@ import java.util.*;
 
 public class CourseSchedule {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
+        Map<Integer, Set<Integer>> inMap = new HashMap<>();
+        Map<Integer, Set<Integer>> outMap = new HashMap<>();
+        for(int[] p : prerequisites){
+            inMap.putIfAbsent(p[0], new HashSet<>());
+            inMap.get(p[0]).add(p[1]);
+            outMap.putIfAbsent(p[1], new HashSet<>());
+            outMap.get(p[1]).add(p[0]);
+        }
+
+        Queue<Integer> q = new LinkedList<>();
+        for(int i=0; i<numCourses; i++){
+            if(!inMap.containsKey(i) || inMap.get(i).isEmpty()){
+                q.offer(i);
+            }
+        }
+        while(!q.isEmpty()){
+            int n = q.size();
+            for(int i=0; i<n; i++){
+                int source = q.poll();
+                Set<Integer> targets = outMap.get(source);
+                if(targets == null){
+                    continue;
+                }
+                for(int j : targets){
+                    inMap.get(j).remove(source);
+                    if(inMap.get(j).isEmpty()){
+                        inMap.remove(j);
+                        q.offer(j);
+                    }
+                }
+            }
+        }
+
+        for(int i=0; i<numCourses; i++){
+            if(inMap.containsKey(i)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+
+
+
+
+    public boolean canFinishOld(int numCourses, int[][] prerequisites) {
         Map<Integer, List<Integer>> map = new TreeMap<>();
         Integer min = null;
         for(int[] ints : prerequisites){
@@ -57,6 +104,12 @@ public class CourseSchedule {
     public static void main(String[] args) {
         int nums;
         int[][] pre;
+
+        nums = 2;
+        pre = new int[][]{
+                {1,0}
+        };
+        System.out.println(new CourseSchedule().canFinish(nums, pre));
 
         nums = 5;
         pre = new int[][]{

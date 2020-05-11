@@ -23,9 +23,41 @@ public class ReverseLinkedList {
     }
 
 
+    public ListNode reverseListNew(ListNode head) {
+        if(head == null || head.next == null){
+            return head;
+        }
+        return rev(null, head);
+    }
+
+    ListNode rev(ListNode a, ListNode b){
+        if(b==null){
+            return a;
+        }
+        ListNode next = b.next;
+        b.next = a;
+        return rev(b, next);
+    }
+
+
+
+    public ListNode reverseListIterative(ListNode head) {
+        if(head == null){
+            return head;
+        }
+        ListNode dummy =new ListNode(0);
+        dummy.next = head;
+        while(head.next != null){
+            ListNode next = head.next;
+            head.next = next.next;
+            next.next = dummy.next;
+            dummy.next = next;
+        }
+        return dummy.next;
+    }
 
     //Iteratively
-    public ListNode reverseListIter(ListNode head) {
+    public ListNode reverseListIterOld(ListNode head) {
         ListNode prev = null;
         ListNode curr = head;
         while(curr != null){

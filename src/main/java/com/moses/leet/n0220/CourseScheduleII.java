@@ -9,6 +9,52 @@ public class CourseScheduleII {
 
     //Topological Sort of Graph. Reduce Indegree
     public int[] findOrder(int numCourses, int[][] prerequisites) {
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        int[] inDeg = new int[numCourses];
+        for(int[] p : prerequisites){
+            map.putIfAbsent(p[1], new ArrayList<>());
+            map.get(p[1]).add(p[0]);
+            inDeg[p[0]]++;
+        }
+
+        int[] res = new int[numCourses];
+        int pos = 0;
+
+        Queue<Integer> q = new LinkedList<>();
+        for(int i=0; i<numCourses; i++){
+            if(inDeg[i] == 0){
+                q.offer(i);
+            }
+        }
+
+        while(!q.isEmpty()){
+            int n = q.size();
+            for(int i=0; i<n; i++){
+                int from = q.poll();
+                res[pos++] = from;
+
+                List<Integer> tos = map.get(from);
+                if(tos == null || tos.isEmpty()){
+                    continue;
+                }
+                for(int j : tos){
+                    inDeg[j]--;
+                    if(inDeg[j] == 0){
+                        q.offer(j);
+                    }
+                }
+            }
+        }
+
+        if(pos != numCourses){
+            return new int[0];
+        }
+        return res;
+    }
+
+
+
+    public int[] findOrderOld(int numCourses, int[][] prerequisites) {
         int[] inDegrees = new int[numCourses];
         Map<Integer, List<Integer>> map = new HashMap<>();
 

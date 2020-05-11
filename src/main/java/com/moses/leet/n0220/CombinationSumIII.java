@@ -7,10 +7,34 @@ import java.util.List;
 import java.util.TreeSet;
 
 public class CombinationSumIII {
+    public List<List<Integer>> combinationSum3(int k, int n) {
+        List<List<Integer>> res = new ArrayList<>();
+        rec(k, n, 0, 1, new ArrayList<>(), res);
+        return res;
+    }
+
+    void rec(int k, int n, int sum, int start, List<Integer> l, List<List<Integer>> res){
+        if(sum == n && k== 0){
+            res.add(new ArrayList<>(l));
+            return;
+        }
+        if(sum >= n){
+            return;
+        }
+        for(int i=start; i<=9; i++){
+            l.add(i);
+            rec(k-1, n, sum+i, i+1, l, res);
+            l.remove(l.size() -1);
+        }
+    }
+
+
+
+
+
     List<List<Integer>> list = new ArrayList<>();
 
-    public List<List<Integer>> combinationSum3(int k, int n) {
-
+    public List<List<Integer>> combinationSum3Old(int k, int n) {
         List<Integer> l = new ArrayList<>();
         recursive(0, 0, l, k, n, 1);
         return list;
