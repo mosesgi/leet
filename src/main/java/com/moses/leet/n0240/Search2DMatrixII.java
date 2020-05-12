@@ -1,7 +1,7 @@
 package com.moses.leet.n0240;
 
 public class Search2DMatrixII {
-    public boolean searchMatrix(int[][] matrix, int target) {
+    public boolean searchMatrixSmart(int[][] matrix, int target) {
         if(matrix.length == 0 || matrix[0].length == 0){
             return false;
         }
@@ -21,6 +21,29 @@ public class Search2DMatrixII {
         return false;
     }
 
+
+    //Recursive, slow. 5%
+    public boolean searchMatrix(int[][] matrix, int target) {
+        if(matrix.length == 0 || matrix[0].length == 0){
+            return false;
+        }
+        return search(matrix, target, 0, matrix.length-1, 0, matrix[0].length-1);
+    }
+
+    boolean search(int[][] matrix, int target, int xl, int xr, int yl, int yr){
+        if(xl<0 || yl<0 || xr >=matrix.length || yr >= matrix[0].length || xl>xr || yl>yr){
+            return false;
+        }
+        int xm = xl + (xr-xl)/2;
+        int ym = yl + (yr-yl)/2;
+        if(matrix[xm][ym] == target){
+            return true;
+        }else if(matrix[xm][ym] < target){
+            return search(matrix, target, xl, xm, ym+1, yr) || search(matrix, target, xm+1, xr, yl, ym) || search(matrix, target, xm+1, xr, ym+1, yr);
+        }else{
+            return search(matrix, target, xl, xm-1, yl, ym-1) || search(matrix, target, xl, xm-1, ym, yr) || search(matrix, target, xm, xr, yl, ym-1);
+        }
+    }
 
 
     //my own stupid resolution. find region, and row by row/col by col. Beat 39%

@@ -14,6 +14,7 @@ public class AddDigits {
     }
 
     public static void main(String[] args) {
+        System.out.println(23456%9);
         System.out.println(new AddDigits().addDigits(38));
         System.out.println(new AddDigits().addDigits(65356789));
     }

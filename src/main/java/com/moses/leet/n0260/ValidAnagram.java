@@ -4,7 +4,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ValidAnagram {
+
     public boolean isAnagram(String s, String t) {
+        if(s.length() != t.length()){
+            return false;
+        }
+        int[] cnts = new int[26];
+        for(char c : s.toCharArray()){
+            cnts[c-'a']++;
+        }
+
+        for(char c : t.toCharArray()){
+            cnts[c-'a']--;
+            if(cnts[c-'a'] < 0){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isAnagramOld(String s, String t) {
         if(s.length() != t.length()){
             return false;
         } else if(s.length() == 0){
