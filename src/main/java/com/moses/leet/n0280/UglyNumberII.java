@@ -4,6 +4,8 @@ import java.util.*;
 
 public class UglyNumberII {
 
+
+
     // 2,3,5 乘以之前的ugly number, 比谁小, 索引+1
     public int nthUglyNumber(int n){
         int[] cache = new int[n+1];

@@ -2,6 +2,27 @@ package com.moses.leet.n0300;
 
 public class FindTheDuplicateNumber {
     public int findDuplicate(int[] nums) {
+        int n = nums.length;
+        int l = 1, r = n-1;
+        while(l<r){
+            int m = l+(r-l)/2;
+            int cnt = 0;
+            for(int i=0; i<n; i++){
+                if(nums[i] <= m){
+                    cnt++;
+                }
+            }
+            if(cnt <= m){
+                l = m+1;
+            }else {
+                r = m;
+            }
+        }
+        return r;
+    }
+
+
+    public int findDuplicateCycle(int[] nums) {
         int slow = nums[0];
         int fast = nums[nums[0]];
         //step 1, fast and slow, meet somewhere.

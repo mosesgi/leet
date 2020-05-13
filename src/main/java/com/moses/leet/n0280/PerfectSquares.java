@@ -1,17 +1,25 @@
 package com.moses.leet.n0280;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class PerfectSquares {
 
     //DP solution. https://leetcode.com/problems/perfect-squares/discuss/71495/An-easy-understanding-DP-solution-in-Java
+    public int numSquares(int n) {
+        int[] dp = new int[n+1];
+        Arrays.fill(dp, Integer.MAX_VALUE);
+        dp[0] = 0;
 
+        for(int i=1; i<=n; i++){
+            for(int j=1; j<=i/j; j++){
+                dp[i] = Math.min(dp[i], 1 + dp[i-j*j]);
+            }
+        }
+        return dp[n];
+    }
 
     //BFS solution
-    public int numSquares(int n){
+    public int numSquaresBfs(int n){
         List<Integer> squares = new ArrayList<>();
         int k=1;
         int tmp = k*k;

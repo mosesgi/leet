@@ -1,7 +1,22 @@
 package com.moses.leet.n0280;
 
 public class HIndexII {
-    public int hIndex(int[] citations){
+
+    public int hIndex(int[] citations) {
+        int len = citations.length;
+        int l = 0, r = citations.length-1;
+        while(l<=r){
+            int m = l+(r-l)/2;
+            if(citations[m] >= len-m){
+                r = m-1;
+            }else{
+                l = m+1;
+            }
+        }
+        return len-l;
+    }
+
+    public int hIndexOld(int[] citations){
         int size = citations.length;
         int left = 1;
         int right = citations.length;
