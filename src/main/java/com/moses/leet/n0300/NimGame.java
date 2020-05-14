@@ -7,8 +7,6 @@ public class NimGame {
     Map<String, Boolean> cache = new HashMap<>();
     public boolean canWinNim(int n) {
         return n%4==0;
-
-//        return canWin(n, 1);
     }
 
     private boolean canWin(int left, int level) {

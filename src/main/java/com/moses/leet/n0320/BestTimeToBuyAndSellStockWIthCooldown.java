@@ -9,7 +9,21 @@ public class BestTimeToBuyAndSellStockWIthCooldown {
 
     //https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/discuss/75928/Share-my-DP-solution-(By-State-Machine-Thinking)
     public int maxProfit(int[] prices){
-        return 0;
+        if(prices.length == 0){
+            return 0;
+        }
+        int[] buy = new int[prices.length];
+        int[] sell = new int[prices.length];
+
+        buy[0] = -prices[0];
+        sell[0] = 0;
+
+        for(int i=1; i<prices.length; i++){
+            int prev = i>=2?sell[i-2]:0;
+            buy[i] = Math.max(buy[i-1], prev-prices[i]);
+            sell[i] = Math.max(sell[i-1], buy[i-1] + prices[i]);
+        }
+        return sell[prices.length-1];
     }
 
     //recursive of my own. very very slow.

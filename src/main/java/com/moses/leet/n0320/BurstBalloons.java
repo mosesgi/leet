@@ -4,11 +4,32 @@ import java.util.*;
 
 public class BurstBalloons {
 
-    //divide and conquer.
-    //https://leetcode.com/problems/burst-balloons/discuss/76245/Easiest-Java-Solution
+    //https://leetcode.com/problems/burst-balloons/discuss/76228/Share-some-analysis-and-explanations
     public int maxCoins(int[] nums) {
+        int[] numbers = new int[nums.length+2];
+        numbers[0] = 1;
+        numbers[numbers.length-1] = 1;
+        for(int i=0; i<nums.length; i++){
+            numbers[i+1] = nums[i];
+        }
 
-        return 0;
+        Integer[][] mem = new Integer[numbers.length][numbers.length];
+        return rec(numbers, 0, numbers.length-1, mem);
+    }
+
+    private int rec(int[] numbers, int l, int r, Integer[][] mem) {
+        if(l+1==r){
+            return 0;
+        }
+        if(mem[l][r] != null){
+            return mem[l][r];
+        }
+        int tmp = 0;
+        for(int i=l+1; i<r; i++){
+            tmp = Math.max(tmp, numbers[i]*numbers[l]*numbers[r] + rec(numbers, l, i, mem) + rec(numbers, i, r, mem) );
+        }
+        mem[l][r] = tmp;
+        return tmp;
     }
 
     public static void main(String[] args) {

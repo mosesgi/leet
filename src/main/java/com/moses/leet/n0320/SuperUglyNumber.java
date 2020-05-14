@@ -4,6 +4,30 @@ import java.util.*;
 
 public class SuperUglyNumber {
     public int nthSuperUglyNumber(int n, int[] primes) {
+        List<Integer> res = new ArrayList<>();
+        int[] pos = new int[primes.length];
+        res.add(1);
+        while(res.size() < n){
+            int min = Integer.MAX_VALUE;
+            int p = -1;
+            for(int j=0; j<primes.length; j++){
+                int tmp = res.get(pos[j])*primes[j];
+                if(tmp < min){
+                    min = tmp;
+                    p = j;
+                }
+            }
+            pos[p]++;
+            if(res.get(res.size()-1) != min) {
+                res.add(min);
+            }
+        }
+        return res.get(n-1);
+    }
+
+
+
+    public int nthSuperUglyNumberOld(int n, int[] primes) {
         int[] rst = new int[n];
         int[] indexes = new int[primes.length];
         rst[0] = 1;

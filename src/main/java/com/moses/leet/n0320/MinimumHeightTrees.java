@@ -4,7 +4,7 @@ import java.util.*;
 
 public class MinimumHeightTrees {
     //remove leaves round after round.
-    public List<Integer> findMinHeightTrees(int n, int[][] edges) {
+    public List<Integer> findMinHeightTreesSolution(int n, int[][] edges) {
         if(n==1){
             return Arrays.asList(0);
         }
@@ -44,19 +44,58 @@ public class MinimumHeightTrees {
         return leaves;
     }
 
+    public List<Integer> findMinHeightTrees(int n, int[][] edges) {
+        if(edges.length == 0){
+            return Arrays.asList(0);
+        }
+        Set<Integer>[] map = new Set[n];
+        for(int[] edge : edges){
+            if(map[edge[0]] == null){
+                map[edge[0]] = new HashSet<>();
+            }
+            if(map[edge[1]] == null){
+                map[edge[1]] = new HashSet<>();
+            }
+            map[edge[0]].add(edge[1]);
+            map[edge[1]].add(edge[0]);
+        }
+        List<Integer> res = new ArrayList<>();
+        for(int i=0; i<n; i++){
+            res.add(i);
+        }
+
+        while(res.size() > 2){
+            List<Integer> ones = new ArrayList<>();
+            List<Integer> next = new ArrayList<>();
+            for(int i: res){
+                if(map[i] != null && map[i].size() == 1){
+                    ones.add(i);
+                }else{
+                    next.add(i);
+                }
+            }
+            for(int i : ones){
+                int j = map[i].iterator().next();
+                map[j].remove(i);
+            }
+            res = next;
+        }
+        return res;
+    }
+
     public static void main(String[] args) {
         int n;
         int[][] edges;
 
-        n = 7;
-        edges = new int[][]{{0,1},{1,2},{1,3},{2,4},{3,5},{4,6}};
-        System.out.println(Arrays.toString(new MinimumHeightTrees().findMinHeightTrees(n, edges).toArray()));
-
-        n=4;
-        edges = new int[][]{
-                {1,0},{1,2}, {1,3}
-        };
-        System.out.println(Arrays.toString(new MinimumHeightTrees().findMinHeightTrees(n, edges).toArray()));
+//        n = 7;
+//        edges = new int[][]{{0,1},{1,2},{1,3},{2,4},{3,5},{4,6}};
+//        System.out.println(Arrays.toString(new MinimumHeightTrees().findMinHeightTrees(n, edges).toArray()));
+//
+//        n=4;
+//        edges = new int[][]{
+//                {1,0},{1,2}, {1,3}
+//        };
+//        System.out.println(Arrays.toString(new MinimumHeightTrees().findMinHeightTrees(n, edges).toArray()));
 
         n=6;
         edges = new int[][]{
