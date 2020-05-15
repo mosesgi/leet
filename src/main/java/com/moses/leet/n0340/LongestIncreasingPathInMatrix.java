@@ -1,8 +1,46 @@
 package com.moses.leet.n0340;
 
 public class LongestIncreasingPathInMatrix {
-
     public int longestIncreasingPath(int[][] matrix) {
+        if(matrix.length == 0 || matrix[0].length == 0){
+            return 0;
+        }
+        int m = matrix.length;
+        int n = matrix[0].length;
+        Integer[][] mem = new Integer[m][n];
+        int res = 0;
+        for(int i=0; i<m; i++){
+            for(int j=0; j<n; j++){
+                int cnt = dfs(matrix, i, j, m,n,mem);
+                res = Math.max(res, cnt);
+            }
+        }
+        return res;
+    }
+
+    int[][] directions = new int[][]{
+            {-1,0},{1,0},{0,-1},{0,1}
+    };
+    int dfs(int[][] matrix, int i, int j, int m, int n, Integer[][] mem){
+        if(mem[i][j] != null){
+            return mem[i][j];
+        }
+        int res = 1;
+        for(int[] d : directions){
+            int x = i+d[0];
+            int y = j+d[1];
+            if(x<0 || y<0 || x>=m || y>=n || matrix[x][y] <= matrix[i][j]){
+                continue;
+            }
+            res = Math.max(res, 1+dfs(matrix, x,y,m,n,mem));
+        }
+        mem[i][j] = res;
+        return res;
+    }
+
+
+
+    public int longestIncreasingPathSame(int[][] matrix) {
         int rows = matrix.length;
         if(rows == 0){
             return 0;
