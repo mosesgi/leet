@@ -16,6 +16,33 @@ public class RussianDollEnvelopes {
                 }
             }
         });
+        int[] dp = new int[envelopes.length];
+        int res = 0;
+        for(int i=0; i<envelopes.length; i++){
+            dp[i] = 1;
+            for(int j=0; j<i; j++){
+                if(envelopes[i][0] > envelopes[j][0] && envelopes[i][1] > envelopes[j][1]){
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
+                }
+            }
+            res = Math.max(res, dp[i]);
+        }
+        return res;
+    }
+
+
+    public int maxEnvelopesOld(int[][] envelopes) {
+        //2,3; 4,8; 5,4; 6,4; 6,7
+        Arrays.sort(envelopes, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if(o1[0] != o2[0]){
+                    return o1[0] - o2[0];
+                } else {
+                    return o1[1] - o2[1];
+                }
+            }
+        });
 
         int[] cache = new int[envelopes.length];
         Arrays.fill(cache, -1);

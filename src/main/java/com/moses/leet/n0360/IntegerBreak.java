@@ -6,6 +6,18 @@ public class IntegerBreak {
         int[] dp = new int[n+1];
         dp[1] = 1;
         for(int i=2; i<=n; i++){
+            for(int j=1; j<=i/2; j++){
+//                dp[i] = Math.max(Math.max(dp[i], dp[i-j] * j), (i-j)*j);
+                dp[i] = Math.max(dp[i], Math.max(dp[i-j], i-j) * Math.max(dp[j], j));
+            }
+        }
+        return dp[n];
+    }
+
+    public int integerBreakOld(int n) {
+        int[] dp = new int[n+1];
+        dp[1] = 1;
+        for(int i=2; i<=n; i++){
             recursive(i, dp);
         }
         return dp[n];

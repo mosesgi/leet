@@ -3,7 +3,40 @@ package com.moses.leet.n0360;
 import java.util.*;
 
 public class TopKFrequentElements {
-    public List<Integer> topKFrequent(int[] nums, int k) {
+
+    //priority queue
+    public int[] topKFrequent(int[] nums, int k) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for(int i : nums){
+            map.put(i, map.getOrDefault(i, 0)+1);
+        }
+
+        PriorityQueue<Pair> q = new PriorityQueue<>((o1, o2) -> o1.value - o2.value);
+        for(int key : map.keySet()){
+            q.offer(new Pair(key, map.get(key)));
+            if(q.size() > k){
+                q.poll();
+            }
+        }
+        int[] res = new int[k];
+        for(int i=0; i<k && !q.isEmpty(); i++){
+            res[i] = q.poll().key;
+        }
+        return res;
+    }
+
+
+    class Pair{
+        int key;
+        int value;
+
+        Pair(int key, int value){
+            this.key = key;
+            this.value = value;
+        }
+    }
+
+    public List<Integer> topKFrequentON_Bucket(int[] nums, int k) {
         if(nums.length==0 || k==0){
             return new ArrayList<>();
         }

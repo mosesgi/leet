@@ -10,23 +10,24 @@ public class IntersectionOfTwoArraysII {
         //1,2,9,11,12
         List<Integer> l = new ArrayList<>();
         int pos1 = 0, pos2 = 0;
-        while(pos1 < nums1.length && pos2 < nums2.length) {
-            while (pos1 < nums1.length && pos2 < nums2.length && nums1[pos1] == nums2[pos2]) {
-                l.add(nums1[pos1]);
-                pos1++;
-                pos2++;
-            }
-            if(pos1 >=nums1.length-1 || pos2 >= nums2.length-1){
+
+        int j= 0;
+        for(int i=0; i<nums1.length; i++){
+            if(j >= nums2.length){
                 break;
             }
-            if (nums1[pos1] < nums2[pos2]) {
-                while (pos1 < nums1.length && nums1[pos1] < nums2[pos2]) {
-                    pos1++;
-                }
-            } else {
-                while (pos2 < nums2.length && nums1[pos1] > nums2[pos2]) {
-                    pos2++;
-                }
+            if(nums1[i] < nums2[j]){
+                continue;
+            }
+            while(j < nums2.length && nums1[i]> nums2[j]){
+                j++;
+            }
+            if(j >= nums2.length){
+                break;
+            }
+            if(nums1[i] == nums2[j]){
+                j++;
+                l.add(nums1[i]);
             }
         }
         int[] rst = new int[l.size()];
@@ -34,6 +35,36 @@ public class IntersectionOfTwoArraysII {
             rst[i] = l.get(i);
         }
         return rst;
+
+
+
+
+
+
+//        while(pos1 < nums1.length && pos2 < nums2.length) {
+//            while (pos1 < nums1.length && pos2 < nums2.length && nums1[pos1] == nums2[pos2]) {
+//                l.add(nums1[pos1]);
+//                pos1++;
+//                pos2++;
+//            }
+//            if(pos1 >=nums1.length-1 || pos2 >= nums2.length-1){
+//                break;
+//            }
+//            if (nums1[pos1] < nums2[pos2]) {
+//                while (pos1 < nums1.length && nums1[pos1] < nums2[pos2]) {
+//                    pos1++;
+//                }
+//            } else {
+//                while (pos2 < nums2.length && nums1[pos1] > nums2[pos2]) {
+//                    pos2++;
+//                }
+//            }
+//        }
+//        int[] rst = new int[l.size()];
+//        for(int i =0; i<l.size(); i++){
+//            rst[i] = l.get(i);
+//        }
+//        return rst;
     }
 
     public static void main(String[] args) {

@@ -5,61 +5,55 @@ import java.util.*;
 public class DesignTwitter {
 
     class Twitter {
-        Map<Integer, Set<Integer>> followedByMap;
-        Map<Integer, Set<Tweet>> selfTweets;
-        Map<Integer, TreeSet<Tweet>> userFeeds;
+        Map<Integer, Set<Integer>> followingMap;
+        Map<Integer, List<Tweet>> userPosts;
 
         /** Initialize your data structure here. */
         public Twitter() {
-            followedByMap = new HashMap<>();
-            selfTweets = new HashMap<>();
-            userFeeds = new HashMap<>();
+            followingMap = new HashMap<>();
+            userPosts = new HashMap<>();
         }
 
         /** Compose a new tweet. */
         public void postTweet(int userId, int tweetId) {
-            initialize(userId);
+            userPosts.putIfAbsent(userId, new LinkedList<>());
             Tweet t = new Tweet(tweetId);
-            selfTweets.get(userId).add(t);
-
-            for(Integer id : followedByMap.get(userId)){
-                if(!userFeeds.containsKey(id)){
-                    TreeSet<Tweet> set = new TreeSet<Tweet>();
-                    userFeeds.put(id, set);
-                }
-                userFeeds.get(id).add(t);
-            }
-        }
-
-        private void initialize(int userId) {
-            if(!selfTweets.containsKey(userId)){
-                Set<Tweet> set = new HashSet<>();
-                selfTweets.put(userId, set);
-            }
-            if(!followedByMap.containsKey(userId)){
-                Set<Integer> set = new HashSet<>();
-                set.add(userId);
-                followedByMap.put(userId, set);
-            }
-            if(!userFeeds.containsKey(userId)){
-                userFeeds.put(userId, new TreeSet<>());
-            }
+            userPosts.get(userId).add(0, t);
         }
 
         /** Retrieve the 10 most recent tweet ids in the user's news feed. Each item in the news feed must be posted by users who the user followed or by the user herself. Tweets must be ordered from most recent to least recent. */
         public List<Integer> getNewsFeed(int userId) {
-            initialize(userId);
-            TreeSet<Tweet> tweets = userFeeds.get(userId);
-            List<Integer> list = new ArrayList<>();
-            int k=0;
-            for(Tweet t: tweets){
-                list.add(t.displayId);
-                k++;
-                if(k==10){
-                    break;
+            PriorityQueue<Tweet> p = new PriorityQueue<>((o1, o2) -> o1.internalId - o2.internalId);    //ascending
+            if(userPosts.containsKey(userId)){
+                for(Tweet t : userPosts.get(userId)){
+                    if(p.size() >= 10){
+                        break;
+                    }
+                    p.offer(t);
                 }
             }
-            return list;
+            if(followingMap.containsKey(userId)) {
+                for (int uid : followingMap.get(userId)) {
+                    for (Tweet t : userPosts.get(uid)) {
+                        if (p.size() < 10) {
+                            p.offer(t);
+                        } else {
+                            if (t.internalId < p.peek().internalId) {
+                                break;
+                            } else {
+                                p.offer(t);
+                                p.poll();
+                            }
+                        }
+                    }
+                }
+            }
+
+            List<Integer> res = new LinkedList<>();
+            while(!p.isEmpty()){
+                res.add(0, p.poll().displayId);
+            }
+            return res;
         }
 
         /** Follower follows a followee. If the operation is invalid, it should be a no-op. */
@@ -67,48 +61,28 @@ public class DesignTwitter {
             if(followerId == followeeId){
                 return;
             }
-            initialize(followerId);
-            initialize(followeeId);
-            followedByMap.get(followeeId).add(followerId);
-
-            TreeSet<Tweet> userTweets = userFeeds.get(followerId);
-            userTweets.addAll(selfTweets.get(followeeId));
+            userPosts.putIfAbsent(followeeId, new LinkedList<>());
+            userPosts.putIfAbsent(followerId, new LinkedList<>());
+            followingMap.putIfAbsent(followerId, new HashSet<>());
+            followingMap.get(followerId).add(followeeId);
         }
 
         /** Follower unfollows a followee. If the operation is invalid, it should be a no-op. */
         public void unfollow(int followerId, int followeeId) {
-            if(followerId == followeeId){
+            if(followerId == followeeId || !followingMap.containsKey(followerId)){
                 return;
             }
-            initialize(followerId);
-            initialize(followeeId);
-            followedByMap.get(followeeId).remove(followerId);
-            if(userFeeds.containsKey(followerId) && selfTweets.containsKey(followeeId)){
-                Set<Tweet> list = userFeeds.get(followerId);
-                Iterator<Tweet> iter = list.iterator();
-                Set<Tweet> followeeTweets = selfTweets.get(followeeId);
-                while(iter.hasNext()){
-                    Tweet tweetId = iter.next();
-                    if(followeeTweets.contains(tweetId)){
-                        iter.remove();
-                    }
-                }
-            }
+            followingMap.get(followerId).remove(followeeId);
         }
 
         int ID = 1;
-        class Tweet implements Comparable<Tweet>{
+        class Tweet{
             int internalId;
             int displayId;
             Tweet(int displayId){
                 this.internalId = ID;
                 this.displayId = displayId;
                 ID++;
-            }
-
-            @Override
-            public int compareTo(Tweet o) {
-                return o.internalId - this.internalId;
             }
 
             @Override

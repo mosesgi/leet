@@ -2,6 +2,7 @@ package com.moses.leet.n0380;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 public class LargestDivisibleSubset {
@@ -45,6 +46,45 @@ public class LargestDivisibleSubset {
             }
         }
         return cache[pos];
+    }
+
+
+    public List<Integer> largestDivisibleSubsetRec(int[] nums) {
+        Arrays.sort(nums);
+        List<Integer>[][] cache = new List[nums.length][nums.length];
+        return dfs(nums, 0, null, cache);
+    }
+
+    List<Integer> dfs(int[] nums, int pos, Integer prev, List<Integer>[][] cache){
+        if(pos >= nums.length){
+            return new LinkedList<>();
+        }
+
+        List<Integer> res1 = new LinkedList<>();
+        List<Integer> res2 = new LinkedList<>();
+        if(prev == null){
+            List<Integer> n1 = dfs(nums, pos+1, pos, cache);
+            res1.add(nums[pos]);
+            res1.addAll(n1);
+            List<Integer> n2 = dfs(nums, pos+1, null, cache);
+            res2.addAll(n2);
+            return res1.size() >= res2.size()?res1:res2;
+        }else{
+            if(cache[prev][pos] != null){
+                return cache[prev][pos];
+            }
+            if(nums[pos] % nums[prev] == 0){
+                List<Integer> n1 = dfs(nums, pos+1, pos, cache);
+                res1.add(nums[pos]);
+                res1.addAll(n1);
+                List<Integer> n2 = dfs(nums, pos+1, prev, cache);
+                res2.addAll(n2);
+                cache[prev][pos] = res1.size() >= res2.size()?res1:res2;
+            }else{
+                cache[prev][pos] = dfs(nums, pos+1, prev, cache);
+            }
+        }
+        return cache[prev][pos];
     }
 
     public static void main(String[] args) {

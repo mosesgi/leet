@@ -2,28 +2,20 @@ package com.moses.leet.n0380;
 
 public class ValidPerfectSquare {
     public boolean isPerfectSquare(int num) {
-        if(num==1){
+        if(num == 1){
             return true;
         }
-        int right = num/2;
-        int left = 1;
-        while(left <= right){
-            int mid = left + (right-left)/2;
-            int tmp = num/mid;
-            if(tmp > mid){
-                left = mid +1;
-            } else if(tmp < mid){
-                right = mid - 1;
-            } else {
-                if(num%mid == 0) {
-                    return true;
-                }else{
-                    break;
-                }
+        long l=1L, r = num/2L;
+        while(l <= r){
+            long m = l+(r-l)/2;
+            long tmp = m*m;
+            if(tmp == num){
+                return true;
+            }else if(tmp < num){
+                l = m+1;
+            }else{
+                r = m-1;
             }
-        }
-        if(left * left == num || right * right == num){
-            return true;
         }
         return false;
     }

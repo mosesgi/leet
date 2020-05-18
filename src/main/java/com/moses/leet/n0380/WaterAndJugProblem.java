@@ -9,21 +9,11 @@ public class WaterAndJugProblem {
     //Bézout's identity  数论: 裴蜀定理
 
     public boolean canMeasureWater(int x, int y, int z) {
-        if(z==0){
+        if(z==0 || x == z || y == z || x+y == z){
             return true;
         }
-        if(x == z || y == z){
-            return true;
-        }
-        if(x==0|| y==0){
+        if(x==0|| y==0 || x==y){
             return false;
-        }
-
-        if(x == y){
-            return false;
-        }
-        if(x+y == z){
-            return true;
         }
         if(y > x) {
             return recursive(x, y, null, z);
@@ -40,18 +30,12 @@ public class WaterAndJugProblem {
                 return true;
             }
             tmp = tmp - xLeft;
-            if(tmp == z){
-                return true;
-            }
-        }
-        if(tmp == x){
-            return false;
         }
         while(tmp > x){
-            tmp = tmp-x;
             if(tmp == z){
                 return true;
             }
+            tmp = tmp-x;
         }
         if(tmp == x){
             return false;
