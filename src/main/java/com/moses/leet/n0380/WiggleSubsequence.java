@@ -1,9 +1,48 @@
 package com.moses.leet.n0380;
 
 import java.util.Arrays;
+import java.util.Stack;
 
 public class WiggleSubsequence {
-    public int wiggleMaxLength(int[] nums){
+    public int wiggleMaxLength(int[] nums) {
+        if(nums.length == 0){
+            return 0;
+        }
+        Boolean down = null;
+        Stack<Integer> stack = new Stack<>();
+        stack.push(nums[0]);
+        for(int i=1; i<nums.length; i++){
+            if(nums[i] == stack.peek()){
+                continue;
+            }
+            if(down == null){
+                down = nums[i] < stack.peek() ;
+                stack.push(nums[i]);
+            }else{
+                if(down){
+                    if(nums[i] < stack.peek()){
+                        stack.pop();
+                        stack.push(nums[i]);
+                    }else{
+                        stack.push(nums[i]);
+                        down = !down;
+                    }
+                }else{
+                    if(nums[i] > stack.peek()){
+                        stack.pop();
+                        stack.push(nums[i]);
+                    }else{
+                        stack.push(nums[i]);
+                        down = !down;
+                    }
+                }
+            }
+        }
+        return stack.size();
+    }
+
+
+    public int wiggleMaxLengthON(int[] nums){
         if(nums.length<2){
             return nums.length;
         }
@@ -57,6 +96,9 @@ public class WiggleSubsequence {
 
     public static void main(String[] args) {
         int[] nums;
+        nums = new int[]{3,3,3,2,5};
+        System.out.println(new WiggleSubsequence().wiggleMaxLength(nums));
+
         nums = new int[]{1,7,4,9,2,5};
         System.out.println(new WiggleSubsequence().wiggleMaxLength(nums));
         nums = new int[]{1,17,5,10,13,15,10,5,16,8};
