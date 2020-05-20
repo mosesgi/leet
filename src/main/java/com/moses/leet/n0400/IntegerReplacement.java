@@ -1,8 +1,6 @@
 package com.moses.leet.n0400;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class IntegerReplacement {
     public int integerReplacement(int n) {
@@ -28,6 +26,29 @@ public class IntegerReplacement {
         }
         dp.put(n, steps);
         return steps;
+    }
+
+    public int integerReplacementBfs(int n) {
+        Queue<Long> q = new LinkedList<>();
+        q.offer((long)n);
+        int step = 0;
+        while(!q.isEmpty()){
+            int size = q.size();
+            for(int i=0; i<size; i++){
+                long cur = q.poll();
+                if(cur == 1){
+                    return step;
+                }
+                if(cur%2 == 0){
+                    q.offer(cur/2);
+                }else{
+                    q.offer(cur+1);
+                    q.offer(cur-1);
+                }
+            }
+            step++;
+        }
+        return -1;
     }
 
     //StackOverflow. 2147483647

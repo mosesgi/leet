@@ -3,48 +3,35 @@ package com.moses.leet.n0400;
 import java.util.*;
 
 public class LongestSubStringWithAtLeastKRepChars {
-    //Top rated solution O(N), two pointers
+    //divide and conquer
+    public int longestSubstring(String s, int k) {
+        char[] strs = s.toCharArray();
+        return div(strs, 0, strs.length-1, k);
+    }
 
-    public int longestSubstringBest(String s, int k){
-        char[] str = s.toCharArray();
-        int[] counts = new int[26];
-        int uniqueCnts, left, right, cntIdx, max = 0, tmpUnique, noLessThanK;
-
-        for (uniqueCnts = 1; uniqueCnts <= 26; uniqueCnts++) {
-            Arrays.fill(counts, 0);
-            left = 0;
-            right = 0;
-            tmpUnique = 0;
-            noLessThanK = 0;
-            while (right < str.length) {
-                if (tmpUnique <= uniqueCnts) {
-                    cntIdx = str[right] - 'a';
-                    if (counts[cntIdx] == 0)
-                        tmpUnique++;
-                    counts[cntIdx]++;
-                    if (counts[cntIdx] == k)
-                        noLessThanK++;
-                    right++;
+    int div(char[] strs, int l, int r, int k){
+        if(r-l+1 < k){
+            return 0;
+        }
+        int[] cnt = new int[26];
+        for(int i=l; i<=r; i++){
+            cnt[strs[i]-'a']++;
+        }
+        for(int i=0; i<cnt.length; i++){
+            if(cnt[i] > 0 && cnt[i] < k){
+                for(int j=l; j<=r; j++){
+                    if(strs[j]-'a' == i){
+                        //rest of the string will be handled in right part (j+1, r)
+                        return Math.max(div(strs, l, j-1, k), div(strs, j+1, r, k));
+                    }
                 }
-                else {
-                    cntIdx = str[left] - 'a';
-                    if (counts[cntIdx] == k)
-                        noLessThanK--;
-                    counts[cntIdx]--;
-                    if (counts[cntIdx] == 0)
-                        tmpUnique--;
-                    left++;
-                }
-                if (tmpUnique == uniqueCnts && tmpUnique == noLessThanK)
-                    max = Math.max(right - left, max);
             }
         }
-
-        return max;
+        return r-l+1;
     }
 
     //Mine second solution, cost too much time but works.
-    public int longestSubstring(String s, int k) {
+    public int longestSubstringMyOwn(String s, int k) {
         Map<Character, SortedSet<Integer>> map = new HashMap<>();
         for(int i = 0; i < s.length(); i++){
             char c= s.charAt(i);
