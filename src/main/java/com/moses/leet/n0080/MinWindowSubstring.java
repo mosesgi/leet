@@ -6,7 +6,7 @@ import java.util.Set;
 
 /**
  * https://leetcode.com/problems/minimum-window-substring/
- * 找到match的字母,打开窗口,右指针右移. 找到全部字母后,左指针左移,直到不满足, 记录最小字符串. 然后再右指针右移, 以此循环
+ * 找到match的字母,打开窗口,右指针右移. 找到全部字母后,左指针右移,直到不满足, 记录最小字符串. 然后再右指针右移, 以此循环
  */
 public class MinWindowSubstring {
 

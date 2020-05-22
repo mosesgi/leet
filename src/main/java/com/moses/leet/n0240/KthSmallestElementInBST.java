@@ -7,7 +7,28 @@ import java.util.List;
 import java.util.Stack;
 
 public class KthSmallestElementInBST {
+    Integer res = null;
+    int cnt = 0;
     public int kthSmallest(TreeNode root, int k) {
+        dfs(root, k);
+        return res;
+    }
+
+    void dfs(TreeNode root, int k){
+        if(root == null || cnt >= k){
+            return;
+        }
+        dfs(root.left, k);
+        cnt++;
+        if(cnt == k){
+            res = root.val;
+            return;
+        }
+        dfs(root.right, k);
+    }
+
+
+    public int kthSmallestIterative(TreeNode root, int k) {
         Stack<TreeNode> stack = new Stack<>();
         TreeNode curr = root;
         while(curr != null){
