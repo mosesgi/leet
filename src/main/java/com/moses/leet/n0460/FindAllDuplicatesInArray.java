@@ -7,6 +7,19 @@ import java.util.List;
 public class FindAllDuplicatesInArray {
     //Another way, flip nums[i-1] to negative. Result is the positive ones
     public List<Integer> findDuplicates(int[] nums) {
+        List<Integer> res = new ArrayList<>();
+        for(int i=0; i<nums.length; i++){
+            if(nums[Math.abs(nums[i])-1] < 0){
+                res.add(Math.abs(nums[i]));
+            }else{
+                nums[Math.abs(nums[i])-1] *= -1;
+            }
+        }
+        return res;
+    }
+
+
+    public List<Integer> findDuplicatesBinary(int[] nums) {
         //7,3,2,4,8,2,3,1
         //3,3,2,4,8,2,7,1
         //2,3,3,4,8,2,7,1
