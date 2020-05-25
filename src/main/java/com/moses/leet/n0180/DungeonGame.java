@@ -1,9 +1,32 @@
 package com.moses.leet.n0180;
 
 public class DungeonGame {
+    public int calculateMinimumHP(int[][] dungeon) {
+        int rows = dungeon.length;
+        if(rows == 0){
+            return 1;
+        }
+        int cols = dungeon[0].length;
+        int[][] dp = new int[rows][cols];
+        dp[rows-1][cols-1] = Math.max(0, -dungeon[rows-1][cols-1]);
+        for(int i=rows-2; i>=0; i--){
+            dp[i][cols-1] = Math.max(0, dp[i+1][cols-1] - dungeon[i][cols-1]);
+        }
+
+        for(int j=cols-2; j>=0; j--){
+            dp[rows-1][j] = Math.max(0, dp[rows-1][j+1] - dungeon[rows-1][j]);
+        }
+
+        for(int i = rows-2; i>=0; i--){
+            for(int j=cols-2; j>=0; j--){
+                dp[i][j] = Math.max(0, Math.min(dp[i+1][j], dp[i][j+1]) - dungeon[i][j]);
+            }
+        }
+        return dp[0][0]+1;
+    }
 
     Integer[][] cache;
-    public int calculateMinimumHP(int[][] dungeon) {
+    public int calculateMinimumHPOld(int[][] dungeon) {
         int rows = dungeon.length;
         int cols = dungeon[0].length;
         cache = new Integer[rows][cols];

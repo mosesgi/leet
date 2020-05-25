@@ -4,9 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class NimGame {
-    Map<String, Boolean> cache = new HashMap<>();
     public boolean canWinNim(int n) {
-        return n%4==0;
+        return n%4!=0;
+    }
+
+    Map<String, Boolean> cache = new HashMap<>();
+    public boolean canWinNimOld(int n) {
+        return n%4!=0;
     }
 
     private boolean canWin(int left, int level) {

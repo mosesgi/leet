@@ -6,11 +6,33 @@ import java.util.Comparator;
 import java.util.TreeSet;
 
 public class CoinChange2 {
-    //Iterative DP, bottom-up
+
     public int change(int amount, int[] coins){
+        //    0,1,2,3,4,5
+        //1 - 1,1,1,1,1,1
+        //2 - 1,1,2,2,3,3
+        //5 - 1,1,2,2,3,4
         int[][] dp = new int[coins.length+1][amount+1];
         dp[0][0] = 1;
         for(int i=1; i<=coins.length; i++){
+            dp[i][0] = 1;
+            for(int j = 1; j<=amount; j++){
+                if(j >= coins[i-1]){
+                    dp[i][j] = dp[i-1][j] + dp[i][j-coins[i-1]];
+                }else{
+                    dp[i][j] = dp[i-1][j];
+                }
+            }
+        }
+        return dp[coins.length][amount];
+    }
+
+
+    //Iterative DP, bottom-up
+    public int change1(int amount, int[] coins){
+        int[][] dp = new int[coins.length+1][amount+1];
+        dp[0][0] = 1;
+        for(int i=1; i<=coins.length; i++){     //零钱在外层是组合; 如果amount在外则是排列了.
             dp[i][0] = 1;
             for(int j=1; j<=amount; j++){
                 //not using i-th coin

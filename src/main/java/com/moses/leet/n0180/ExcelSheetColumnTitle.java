@@ -5,8 +5,17 @@ import java.util.Map;
 import java.util.Stack;
 
 public class ExcelSheetColumnTitle {
-
     public String convertToTitle(int n) {
+        StringBuilder result = new StringBuilder();
+        while(n>0){
+            n--;
+            result.insert(0, (char)('A' + n % 26));
+            n /= 26;
+        }
+        return result.toString();
+    }
+
+    public String convertToTitleMine(int n) {
         //52 - AZ; 53 - BA
         //AAA - 703.
         //ZZ - 702

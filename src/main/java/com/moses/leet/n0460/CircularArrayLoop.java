@@ -14,6 +14,7 @@ public class CircularArrayLoop {
             int slow = i, fast = getIndex(i, nums);
             while(nums[fast] * nums[i] > 0 && nums[getIndex(fast, nums)] * nums[i] > 0){
                 if(slow == fast){
+                    // check for loop with only one element
                     if(slow == getIndex(slow, nums)){
                         break;
                     }

@@ -11,6 +11,15 @@ public class FactorialTrailingZeroes {
         return n/5+trailingZeroes(n/5);
     }
 
+    public int trailingZeroesIterative(int n) {
+        int res = 0;
+        while(n > 0){
+            res += n/5;
+            n = n/5;
+        }
+        return res;
+    }
+
     public long factorial(int n){
         long tmp = 1;
         while(n>0){

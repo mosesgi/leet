@@ -8,6 +8,7 @@ public class ReorganizeString {
     //aaaaabbbc -
     //abaaaabbc - ababaaabc - abababaac - abababaca
     //aaaaabbbbccc - ababcabcabca
+    //aaabccc
     public String reorganizeString(String S) {
         Map<Character, Integer> map = new HashMap<>();
         for (char c : S.toCharArray()) {
