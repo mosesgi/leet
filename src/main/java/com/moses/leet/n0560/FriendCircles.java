@@ -7,6 +7,41 @@ import java.util.Set;
 
 public class FriendCircles {
     public int findCircleNum(int[][] M) {
+        int[] uf = new int[M.length];
+        for(int i=0; i<uf.length; i++){
+            uf[i] = i;
+        }
+
+        for(int i=0; i<M.length; i++){
+            for(int j=i+1; j<M.length; j++){
+                if(M[i][j] == 1){
+                    int p = findParent(uf, j);
+                    int q = findParent(uf, i);
+                    uf[p] = q;
+                }
+            }
+        }
+        int res = 0;
+        for(int i=0; i<uf.length; i++){
+            if(uf[i] == i){
+                res++;
+            }
+        }
+        return res;
+    }
+
+    int findParent(int[] uf, int n){
+        while(uf[n] != n){
+            uf[n] = uf[uf[n]];
+            n = uf[n];
+        }
+        return n;
+    }
+
+
+
+
+    public int findCircleNumBfs(int[][] M) {
         int len = M.length;
         if(len == 0){
             return 0;
@@ -50,6 +85,13 @@ public class FriendCircles {
 
     public static void main(String[] args) {
         int[][] m;
+        m = new int[][]{
+                {1,0,0,1},
+                {0,1,1,0},
+                {0,1,1,1},
+                {1,0,1,1}};
+        System.out.println(new FriendCircles().findCircleNum(m));
+
         m = new int[][]{
                 {1,1,0},
                 {1,1,1},
