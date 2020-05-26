@@ -11,22 +11,15 @@ public class SearchInsertPos {
             return nums.length;
         }
         int l=0, r = nums.length-1;
-        while(l<=r){
-            int mid = l+(r-l)/2;
-            if(nums[mid] == target){
-                return mid;
-            }
-            if(nums[mid] > target){
-                r = mid-1;
-            }else{
-                l = mid+1;
+        while(l<r) {
+            int mid = l + (r - l) / 2;
+            if (nums[mid] < target) {
+                l = mid + 1;
+            } else {
+                r = mid;        //右取中间，这种情况mid使用下取整。 否则mid应该上取整  l+(r-l+1)/2, 以避免1，2问题
             }
         }
-        if(nums[l] > target){
-            return l;
-        }else{
-            return l+1;
-        }
+        return l;
     }
 
     public static void main(String[] args) {

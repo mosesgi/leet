@@ -1,15 +1,17 @@
 package com.moses.leet.n0320;
 
+import java.util.Arrays;
+
 public class BulbSwitcher {
 
     //I was soooooo close...
     //only square numbers will be switched odd times.
-    public int bulbSwitch(int n) {
+    public int bulbSwitchF(int n) {
         return (int)Math.sqrt(n);
     }
 
 
-    public int bulbSwitchSlow(int n) {
+    public int bulbSwitch(int n) {
         if(n==0){
             return 0;
         }
@@ -26,6 +28,7 @@ public class BulbSwitcher {
                 cnt++;
             }
         }
+        System.out.println(Arrays.toString(ns));
         return cnt;
     }
 
