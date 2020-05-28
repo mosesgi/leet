@@ -14,7 +14,7 @@ public class PreviousPermutationWithOneSwap {
         }
 
         int toSwitch = A.length-1;
-        while(A[last] == A[toSwitch]){
+        while(A[last] <= A[toSwitch]){
             toSwitch--;
         }
         for(int i=toSwitch; i>last; i--){
