@@ -5,8 +5,43 @@ import com.moses.leet.pojo.TreeNode;
 import java.util.Stack;
 
 public class BinaryTreeUpsideDown {
-
     public TreeNode upsideDownBinaryTree(TreeNode root) {
+        if(root == null || root.left == null){
+            return root;
+        }
+        TreeNode right = root.right;
+        TreeNode left = root.left;
+        root.left = null;
+        root.right = null;
+        TreeNode newRoot = upsideDownBinaryTree(left);
+        left.left = right;
+        left.right = root;
+        return newRoot;
+    }
+
+    public TreeNode upsideDownBinaryTreeStack(TreeNode root) {
+        if(root == null){
+            return root;
+        }
+        Stack<TreeNode> stack = new Stack<>();
+        while(root != null){
+            stack.push(root);
+            root = root.left;
+        }
+        TreeNode newRoot = stack.pop();
+        TreeNode cur = newRoot;
+        while(!stack.isEmpty()){
+            TreeNode p = stack.pop();
+            cur.left = p.right;
+            cur.right = p;
+            cur = p;
+            p.left = null;
+            p.right = null;
+        }
+        return newRoot;
+    }
+
+    public TreeNode upsideDownBinaryTreeOld(TreeNode root) {
         if(root == null){
             return null;
         }
