@@ -6,14 +6,14 @@ public class LongestRepeatingCharacterReplacement {
     //sliding window
     public int characterReplacement(String s, int k){
         int left = 0;
-        int[] cnts = new int[26];
-        int maxCnt = 0, maxLen = 0;
-        for(int right = 0; right<s.length(); right++){
-            int expandLetterCnt = ++cnts[s.charAt(right)-'A'];
-            maxCnt = Math.max(maxCnt, expandLetterCnt);
-            if(right-left+1-maxCnt > k){
-                cnts[s.charAt(left)-'A']--;
-                left++;
+        int[] cnt = new int[128];
+        int curMax = 0;
+        int maxLen = 0;
+        for(int right=0; right<s.length(); right++){
+            int curCnt = ++cnt[s.charAt(right)-'A'];
+            curMax = Math.max(curMax, curCnt);
+            if(right-left + 1 > curMax + k){
+                cnt[s.charAt(left++)-'A']--;
             }
             maxLen = Math.max(maxLen, right-left+1);
         }
