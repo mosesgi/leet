@@ -9,8 +9,71 @@ import java.util.Set;
  * 找到match的字母,打开窗口,右指针右移. 找到全部字母后,左指针右移,直到不满足, 记录最小字符串. 然后再右指针右移, 以此循环
  */
 public class MinWindowSubstring {
-
     public String minWindow(String s, String t) {
+        int[] cnt = new int[128];
+        for(char c : t.toCharArray()){
+            cnt[c-'A']++;
+        }
+
+        int[] sCnt = new int[128];
+        int i=0, j = 0;
+        int left = 0, right = 0;
+        int min = Integer.MAX_VALUE;
+        while(j<s.length()){
+            while(j<s.length() && !cover(sCnt, cnt)){
+                sCnt[s.charAt(j++) - 'A']++;
+            }
+            while(i<j && cover(sCnt, cnt)){
+                sCnt[s.charAt(i) - 'A']--;
+                if(j-i < min){
+                    min = j-i;
+                    left = i;
+                    right = j;
+                }
+                i++;
+            }
+        }
+        return s.substring(left, right);
+
+    }
+
+    boolean cover(int[] sCnt, int[] tCnt){
+        for(int i=0; i<sCnt.length; i++){
+            if(sCnt[i] < tCnt[i]){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        String s = "ADOBECODEBANC";
+        String t = "ABC";
+        System.out.println(new MinWindowSubstring().minWindow(s, t));
+
+        s = "aaaaaaaaaaaabbbbbcdd";
+        t = "abcdd";
+        System.out.println(new MinWindowSubstring().minWindow(s, t));
+
+        s = "bbaa";
+        t = "aba";
+        System.out.println(new MinWindowSubstring().minWindow(s, t));
+
+        s = "CDEADOBECABEBANC";
+        t = "ABC";
+        System.out.println(new MinWindowSubstring().minWindow(s, t));
+
+        s = "CDEADOBECODEBANC";
+        t = "ABC";
+        System.out.println(new MinWindowSubstring().minWindow(s, t));
+
+        s = "abc";
+        t = "cba";
+        System.out.println(new MinWindowSubstring().minWindow(s, t));
+    }
+
+
+    public String minWindowOld2(String s, String t) {
         Map<Character, Integer> cnt = new HashMap<>();
         for(char c : t.toCharArray()){
             cnt.put(c, cnt.getOrDefault(c, 0) + 1);
@@ -61,31 +124,7 @@ public class MinWindowSubstring {
         return true;
     }
 
-    public static void main(String[] args) {
-        String s = "ADOBECODEBANC";
-        String t = "ABC";
-        System.out.println(new MinWindowSubstring().minWindow(s, t));
 
-        s = "aaaaaaaaaaaabbbbbcdd";
-        t = "abcdd";
-        System.out.println(new MinWindowSubstring().minWindow(s, t));
-
-        s = "bbaa";
-        t = "aba";
-        System.out.println(new MinWindowSubstring().minWindow(s, t));
-
-        s = "CDEADOBECABEBANC";
-        t = "ABC";
-        System.out.println(new MinWindowSubstring().minWindow(s, t));
-
-        s = "CDEADOBECODEBANC";
-        t = "ABC";
-        System.out.println(new MinWindowSubstring().minWindow(s, t));
-
-        s = "abc";
-        t = "cba";
-        System.out.println(new MinWindowSubstring().minWindow(s, t));
-    }
 
 
     public String minWindowOld(String s, String t) {

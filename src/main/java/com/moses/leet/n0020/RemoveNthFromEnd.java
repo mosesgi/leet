@@ -7,6 +7,25 @@ import com.moses.leet.pojo.ListNode;
  */
 public class RemoveNthFromEnd {
     public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode slow = dummy;
+        ListNode fast = dummy;
+        int cnt = 0;
+        while(fast != null){
+            if(cnt > n){
+                slow = slow.next;
+            }
+            fast = fast.next;
+            cnt++;
+        }
+        slow.next = slow.next.next;
+        return dummy.next;
+    }
+
+
+
+    public ListNode removeNthFromEndOld(ListNode head, int n) {
         ListNode prev = null;
         ListNode after = null;
         ListNode currNode = head;
