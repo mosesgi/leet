@@ -1,9 +1,34 @@
 package com.moses.leet.n0460;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FourSumII {
     public int fourSumCount(int[] A, int[] B, int[] C, int[] D) {
+        Map<Integer, Integer> ab = new HashMap<>();
+        for(int i=0; i<A.length; i++){
+            for(int j=0; j<B.length; j++){
+                int tmp = A[i] + B[j];
+                ab.put(tmp, ab.getOrDefault(tmp, 0) + 1);
+            }
+        }
+
+        int res = 0;
+        for(int i=0; i<C.length; i++){
+            for(int j=0; j<D.length; j++){
+                int tmp = -(C[i]+D[j]);
+                if(ab.containsKey(tmp)){
+                    res += ab.get(tmp);
+                }
+            }
+        }
+        return res;
+
+    }
+
+
+    public int fourSumCountOld(int[] A, int[] B, int[] C, int[] D) {
         int len = A.length;
         int cnt = 0;
 
