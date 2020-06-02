@@ -3,8 +3,19 @@ package com.moses.leet.n0220;
 import com.moses.leet.pojo.ListNode;
 
 public class ReverseLinkedList {
-    //Recursively
+    //Recursive 3
     public ListNode reverseList(ListNode head) {
+        if(head == null || head.next == null){
+            return head;
+        }
+        ListNode ret = reverseList(head.next);
+        head.next.next = head;
+        head.next = null;
+        return ret;
+    }
+
+    //Recursively 1
+    public ListNode reverseList1(ListNode head) {
         ListNode newHead = recursive(null, head);
         return newHead;
     }
@@ -23,6 +34,7 @@ public class ReverseLinkedList {
     }
 
 
+    //Recursively 2
     public ListNode reverseListNew(ListNode head) {
         if(head == null || head.next == null){
             return head;
