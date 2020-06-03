@@ -44,9 +44,11 @@ package com.moses.leet.n1060;
  *
  */
 public class RobotBoundedInCircle {
+
+    //copy from others
     public boolean isRobotBounded(String instructions) {
         if (!(instructions.length() >= 1 && instructions.length() <= 100)) return false;
-        int d = 0;  //四个方向 0上1右2下3左  这样定是为了满足 d+1就是向左转 d+3就是向右转
+        int d = 0;  //四个方向 0上1右2下3左  这样定是为了满足 d+1就是向右转 d+3就是向左转
         int[] dx = {0, 1, 0, -1};//索引和方向对应
         int[] dy = {1, 0, -1, 0};
         int x = 0;
