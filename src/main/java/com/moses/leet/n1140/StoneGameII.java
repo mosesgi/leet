@@ -50,7 +50,7 @@ public class StoneGameII {
             int tmp = sum[start] - rec(piles, i+1, Math.max(m, i-start+1), sum);
             max = Math.max(max, tmp);
         }
-        System.out.println("m:" + m + ",start: " + start + ", max:" + max);
+        System.out.println("m:" + m + ",start: " + start + ", max :" + max);
         mem[start][m] = max;
         return max;
     }
