@@ -2,9 +2,38 @@ package com.moses.leet.n1060;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.PriorityQueue;
 
 public class LastStoneWeightII {
+    public int lastStoneWeightII(int[] stones) {
+        //换成，分两组石头，使其中一组最接近 allWeight/2. 转换成背包
+        int allWeight = 0;
+        for(int i: stones){
+            allWeight+=i;
+        }
+        int weight=allWeight/2;
+
+        //dp[i][j] = Math.max(dp[i-1][j-stone] + stone, dp[i-1][j]);
+        int[][] dp = new int[stones.length+1][weight+1];
+        for(int i=1; i<=stones.length; i++){
+            for(int j=stones[i-1]; j<weight+1; j++){
+                dp[i][j] = Math.max(dp[i-1][j-stones[i-1]] + stones[i-1], dp[i-1][j]);
+            }
+        }
+
+        return allWeight - 2*dp[stones.length][weight];
+    }
+
+
+
+
+
+
+
+
+
+
+
+
     int res = Integer.MAX_VALUE;
     public int lastStoneWeightIIMLE(int[] stones) {
         List<Integer> l = new ArrayList<>();

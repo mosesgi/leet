@@ -36,9 +36,82 @@ import java.util.Map;
  *
  */
 public class StoneGame {
+
+    //Basic DP
+    //dp[i][j].first; dp[i][j].second.
+    //dp[i][j].first = max(piles[i] + dp[i+1][j].second, piles[j] + dp[i][j-1].second)      //先手选后，剩下的里面自己成为后手
+    //dp[i][j].second = max(dp[i+1][j].first, dp[i][j-1].first)     //先手选完之后，后手选。此时后手变成先手。
+    public boolean stoneGame(int[] piles) {
+        int len = piles.length;
+        Pair[][] dp = new Pair[len][len];
+        //initialize. i==j.  first takes all
+        for(int i=0; i<len; i++){
+            dp[i][i] = new Pair(piles[i], 0);
+        }
+        //from 0 to len-1, 斜着遍历。 0,1; 1,2; 2,3;  0,2; 1,3;   0,3
+        for(int k=1; k<len; k++){
+            for(int i=0; i<len-k; i++){
+                int j = i+k;
+                int left = piles[i] + dp[i+1][j].second;
+                int right = piles[j] + dp[i][j-1].second;
+
+                if(left > right){
+                    dp[i][j] = new Pair(left, dp[i+1][j].first);
+                }else{
+                    dp[i][j] = new Pair(right, dp[i][j-1].first);
+                }
+            }
+        }
+        return dp[0][len-1].first > dp[0][len-1].second;
+    }
+
+
+    class Pair{
+        int first;
+        int second;
+
+        public Pair(int first, int second){
+            this.first = first;
+            this.second = second;
+        }
+    }
+
+
+
+    public boolean stoneGameSimpleDP(int[] piles) {
+        //dp其实就是存储了递归过程中的数值
+        //dps[i][j]代表从i到j所能获得的最大的绝对分数
+        //（比如为1就说明亚历克斯从i到j可以赢李1分）
+        //如何计算dps[i][j]呢:max(piles[i]-dp[i+1][j],piles[j]-dp[i][j-1]);
+        //这里减去dps数组是因为李也要找到最大的
+        //最后dps=[5 2 4 1]
+        //        [0 3 1 4]
+        //        [0 0 4 1]
+        //        [0 0 0 5]
+        int n=piles.length;
+        int [][]dps=new int[n][n];
+        //dps[i][i]存储当前i的石子数
+        for(int i=0;i<n;i++)
+            dps[i][i]=piles[i];
+        //d=1,其实代表，先算两个子的时候
+        for(int d=1;d<n;d++)
+        {
+            //有多少组要比较
+            for(int j=0;j<n-d;j++)
+            {
+                //比较j到d+j
+                dps[j][d+j]=Math.max(piles[j]-dps[j+1][d+j],piles[d+j]-dps[j][d+j-1]);
+            }
+        }
+        return dps[0][n-1]>0;
+    }
+
+
+
+
     int total=0;
     Map<String, Boolean> mem = new HashMap<>();
-    public boolean stoneGame(int[] piles) {
+    public boolean stoneGameTLE(int[] piles) {
         for(int i: piles){
             total+=i;
         }
