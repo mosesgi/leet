@@ -5,7 +5,61 @@ package com.moses.leet.n0020;
  */
 public class StringToInteger {
 
-    public int myAtoi(String str){
+    public int myAtoi(String str) {
+        str = str.trim();
+        int mult = 1;
+        boolean signFound = false;
+        boolean firstDigit = true;
+        int res =0;
+        for(char c : str.toCharArray()){
+            if(c=='+'){
+                if(signFound){
+                    break;
+                }else{
+                    signFound = true;
+                }
+            }else if(c=='-'){
+                if(signFound){
+                    break;
+                }else{
+                    signFound = true;
+                    mult = -1;
+                }
+            }else if(Character.isDigit(c)){
+                if(firstDigit){
+                    firstDigit = false;
+                    signFound = true;
+                    res = c-'0';
+                    res*=mult;
+                }else{
+                    int tmp = mult==1?res*10 + (c-'0') : res*10 - (c-'0');
+                    if(mult==1 && (tmp<0 || (tmp - (c-'0')) / 10 != res)){
+                        return Integer.MAX_VALUE;
+                    }else if(mult==-1 && (tmp>0 || (tmp+(c-'0'))/10 != res)){
+                        return Integer.MIN_VALUE;
+                    }
+                    res = tmp;
+                }
+            }else{
+                break;
+            }
+        }
+        return res;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new StringToInteger().myAtoi("-2147483649"));
+        System.out.println(new StringToInteger().myAtoi("2147483648"));
+        System.out.println(new StringToInteger().myAtoi("+-2"));
+        System.out.println(new StringToInteger().myAtoi("    -42"));
+        System.out.println(new StringToInteger().myAtoi("4193 with words"));
+        System.out.println(new StringToInteger().myAtoi("words and 987"));
+        System.out.println(new StringToInteger().myAtoi("-91283472332"));
+        System.out.println(new StringToInteger().myAtoi("    -42"));
+
+    }
+
+    public int myAtoi1(String str){
         str = str.trim();
         int res = 0;
         int mult = 1;
@@ -76,14 +130,5 @@ public class StringToInteger {
         return isNeg?-1*result:result;
     }
 
-    public static void main(String[] args) {
-        System.out.println(new StringToInteger().myAtoi("2147483648"));
-        System.out.println(new StringToInteger().myAtoi("+-2"));
-        System.out.println(new StringToInteger().myAtoi("    -42"));
-        System.out.println(new StringToInteger().myAtoi("4193 with words"));
-        System.out.println(new StringToInteger().myAtoi("words and 987"));
-        System.out.println(new StringToInteger().myAtoi("-91283472332"));
-        System.out.println(new StringToInteger().myAtoi("    -42"));
 
-    }
 }

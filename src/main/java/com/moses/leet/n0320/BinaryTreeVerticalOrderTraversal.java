@@ -29,6 +29,7 @@ public class BinaryTreeVerticalOrderTraversal {
             }
         }
         for(int key : map.keySet()){
+            Collections.sort(map.get(key));
             list.add(map.get(key));
         }
         return list;

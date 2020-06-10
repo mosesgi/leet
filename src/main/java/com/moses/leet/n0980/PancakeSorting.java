@@ -55,6 +55,9 @@ public class PancakeSorting {
 
     public static void main(String[] args) {
         int[] A;
+        A = new int[]{1,2,3};
+        System.out.println(new PancakeSorting().pancakeSort(A));
+
         A = new int[]{3,2,4,1};
         System.out.println(new PancakeSorting().pancakeSort(A));
     }

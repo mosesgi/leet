@@ -7,6 +7,27 @@ import java.util.Map;
 public class CoinChange {
 
     public int coinChange(int[] coins, int amount) {
+        if(amount==0){
+            return 0;
+        }
+        int[] dp = new int[amount+1];
+        Arrays.fill(dp, Integer.MAX_VALUE);
+        for(int i : coins){
+            if(i<=amount){
+                dp[i] = 1;
+            }
+        }
+        for(int i=1; i<=amount; i++){
+            for(int j:coins){
+                if(j<i && dp[j] != Integer.MAX_VALUE && dp[i-j] != Integer.MAX_VALUE){
+                    dp[i] = Math.min(dp[i], dp[j]+dp[i-j]);
+                }
+            }
+        }
+        return dp[amount]==Integer.MAX_VALUE?-1:dp[amount];
+    }
+
+    public int coinChangeOld(int[] coins, int amount) {
         if(amount == 0){
             return 0;
         }

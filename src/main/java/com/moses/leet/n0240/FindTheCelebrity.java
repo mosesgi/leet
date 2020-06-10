@@ -12,6 +12,28 @@ import java.util.List;
  */
 public class FindTheCelebrity {
     public int findCelebrity(int n) {
+        int cand = 0;
+        for(int j=1; j<n; j++){
+            if(knows(cand, j)){
+                cand = j;
+            }
+        }
+
+        for(int i=0; i<n; i++){
+            if(i==cand){
+                continue;
+            }
+            if(knows(cand, i)){
+                return -1;
+            }
+            if(!knows(i, cand)){
+                return -1;
+            }
+        }
+        return cand;
+    }
+
+    public int findCelebrityOld(int n) {
         List<Integer> cand = new ArrayList<>();
         for(int i=0; i<n; i++){
             boolean know0 = true;
