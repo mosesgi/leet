@@ -1,60 +1,70 @@
 package com.moses.leet.study;
 
+import com.moses.leet.pojo.TreeNode;
+
 import java.util.*;
 
 public class Test {
 
-    Map<Integer, Boolean> mem = new HashMap<>();
-    public boolean canIWin(int maxChoosableInteger, int desiredTotal) {
-        if(maxChoosableInteger * (maxChoosableInteger+1)/2 < desiredTotal){
-            return false;
+    public List<List<String>> solveNQueens(int n) {
+        char[][] board = new char[n][n];
+        List<List<String>> res =new ArrayList<>();
+        for(int i=0; i<board.length; i++){
+            Arrays.fill(board[i], '.');
         }
-        boolean[] used = new boolean[maxChoosableInteger+1];
-        return back(maxChoosableInteger, used, 0, desiredTotal);
-    }
-
-    private boolean back(int maxChoosableInteger, boolean[] used, int sum, int desiredTotal) {
-        int key = compress(used);
-        if(mem.containsKey(key)){
-            return mem.get(key);
-        }
-        for(int i=maxChoosableInteger; i>=1; i--){
-            if(used[i]){
-                continue;
-            }
-            if(sum+i >= desiredTotal){
-                mem.put(key, true);
-                return true;
-            }else{
-                break;
-            }
-        }
-
-        for(int i=1; i<=maxChoosableInteger; i++){
-            if(used[i]){
-                continue;
-            }
-            used[i] = true;
-            if(!back(maxChoosableInteger, used, sum+i, desiredTotal)){
-                used[i] = false;
-                mem.put(key, true);
-                return true;
-            }
-            used[i] = false;
-        }
-        mem.put(key, false);
-        return false;
-    }
-
-    int compress(boolean[] used){
-        int res = 0;
-        int mask = 1;
-        for(int i=used.length-1; i>=0; i--){
-            if(used[i]) {
-                res |= (mask << used.length - 1 - i);
-            }
-        }
+        dfs(board, 0, res);
         return res;
+    }
+
+    void dfs(char[][] board, int row, List<List<String>> res){
+        if(row == board.length){
+            res.add(convert(board));
+            return;
+        }
+        for(int i=0; i<board[row].length; i++){
+            if(board[row][i] != '.'){
+                continue;
+            }
+            if(!valid(row, i, board)){
+                continue;
+            }
+            board[row][i] = 'Q';
+            dfs(board, row+1, res);
+            board[row][i] = '.';
+        }
+    }
+
+    private boolean valid(int x, int y, char[][] board) {
+        for(int i=0; i<x; i++){
+            if(board[i][y] == 'Q'){
+                return false;
+            }
+        }
+        int i=x, j = y;
+        while(i>0 && j>0){
+            if(board[i-1][j-1] == 'Q'){
+                return false;
+            }
+            i--;
+            j--;
+        }
+        i=x; j=y;
+        while(i>0 && j<board[0].length-1){
+            if(board[i-1][j+1] == 'Q'){
+                return false;
+            }
+            i--;
+            j++;
+        }
+        return true;
+    }
+
+    private List<String> convert(char[][] board) {
+        List<String> l = new ArrayList<>();
+        for(int i=0; i<board.length; i++){
+            l.add(new String(board[i]));
+        }
+        return l;
     }
 
 

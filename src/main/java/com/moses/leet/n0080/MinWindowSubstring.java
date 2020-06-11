@@ -1,6 +1,7 @@
 package com.moses.leet.n0080;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -10,6 +11,49 @@ import java.util.Set;
  */
 public class MinWindowSubstring {
     public String minWindow(String s, String t) {
+        int[] tCnt = new int[128];
+        Set<Character> set = new HashSet<>();
+        for(char c : t.toCharArray()){
+            tCnt[c-' ']++;
+            set.add(c);
+        }
+        int letters = set.size();
+
+        int left = -1, right = s.length();
+        int l = 0, r=0;
+        int[] tmp = new int[128];
+        int count = 0;
+        while(r<s.length()){
+            char c = s.charAt(r);
+            tmp[c-' ']++;
+            if(tmp[c-' '] == tCnt[c-' ']){
+                count++;
+            }
+            r++;
+            if(count < letters){
+                continue;
+            }
+            while(l<r && count == letters){
+                char lChar = s.charAt(l++);
+                tmp[lChar-' ']--;
+                if(tCnt[lChar-' '] > 0 && tmp[lChar-' '] < tCnt[lChar-' ']){
+                    count--;
+                }
+            }
+            if(r-l+1 < right-left){
+                left = l-1;
+                right = r;
+            }
+        }
+        if(left == -1){
+            return "";
+        }
+        return s.substring(left, right);
+
+    }
+
+
+    public String minWindowOl3(String s, String t) {
         int[] cnt = new int[128];
         for(char c : t.toCharArray()){
             cnt[c-'A']++;
