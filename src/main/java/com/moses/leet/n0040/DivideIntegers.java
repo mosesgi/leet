@@ -1,8 +1,40 @@
 package com.moses.leet.n0040;
 
 public class DivideIntegers{
-    //with long. still not very good
     public int divide(int dividend, int divisor) {
+        if(dividend==0) return 0;
+        if(divisor == 1) return dividend;
+        if(divisor == -1){
+            if(dividend == Integer.MIN_VALUE){
+                return Integer.MAX_VALUE;
+            }
+            return -dividend;
+        }
+        int mult = 1;
+        if(dividend<0 && divisor>0 || dividend>0 && divisor < 0){
+            mult = -1;
+        }
+        long a = Math.abs((long)dividend);
+        long b = Math.abs((long)divisor);
+        return mult * rec(a, b, b);
+    }
+
+    //17/3   3+3; 6+6;
+    int rec(long dividend, long divisor, long originDivisor){
+        if(dividend < divisor){
+            return 0;
+        }
+        int res = 1;
+        while(divisor + divisor < dividend){
+            divisor += divisor;
+            res+=res;
+        }
+        return res + rec(dividend-divisor, originDivisor, originDivisor);
+    }
+
+
+    //with long. still not very good
+    public int divide1(int dividend, int divisor) {
         boolean isNeg = dividend<0 && divisor>0 || dividend>0 && divisor<0;
         long a = dividend;
         long b = divisor;

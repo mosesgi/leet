@@ -2,6 +2,7 @@ package com.moses.leet.n0280;
 
 import com.moses.leet.pojo.TreeNode;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -31,7 +32,32 @@ import java.util.List;
  */
 public class ClosestBinarySearchTreeValueII {
     public List<Integer> closestKValues(TreeNode root, double target, int k) {
-        return null;
+        LinkedList<Integer> l = new LinkedList<>();
+        dfs(root, target, k, l);
+        return l;
+    }
+
+    boolean dfs(TreeNode root, double target, int k, LinkedList<Integer> l){
+        if(root == null){
+            return false;
+        }
+        if(dfs(root.left, target, k, l)){
+            return true;
+        }
+        l.addLast(root.val);
+        if(l.size() > k){
+            int first = l.peekFirst();
+            if(Math.abs(first-target) <= Math.abs(root.val-target)){
+                l.pollLast();
+                return true;
+            }else{
+                l.pollFirst();
+            }
+        }
+        if(dfs(root.right, target, k, l)){
+            return true;
+        }
+        return false;
     }
 }
 

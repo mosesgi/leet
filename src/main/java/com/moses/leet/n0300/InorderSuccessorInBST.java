@@ -11,8 +11,33 @@ import java.util.Stack;
  *
  */
 public class InorderSuccessorInBST {
-    TreeNode res = null;
+
+
     public TreeNode inorderSuccessor(TreeNode root, TreeNode p) {
+        if(root == null || p==null){
+            return res;
+        }
+        if(root.val > p.val){
+            res = root;
+            return inorderSuccessor(root.left, p);
+        }else if(root.val < p.val){
+            return inorderSuccessor(root.right, p);
+        }else{
+            if(root.right == null){
+                return res;
+            }else{
+                root = root.right;
+                while(root.left != null){
+                    root = root.left;
+                }
+                return root;
+            }
+        }
+    }
+
+
+    TreeNode res = null;
+    public TreeNode inorderSuccessorIn(TreeNode root, TreeNode p) {
         inorder(root, p);
         return res;
     }

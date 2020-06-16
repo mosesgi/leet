@@ -1,6 +1,6 @@
 package com.moses.leet.n0020;
 
-public class PalindromeCheck {
+public class PalindromeNumber {
 
     public boolean isPalindrome(int x){
         String s = String.valueOf(x);
@@ -32,10 +32,10 @@ public class PalindromeCheck {
     }
 
     public static void main(String[] args) {
-        System.out.println(new PalindromeCheck().isPalindrome(121));
-        System.out.println(new PalindromeCheck().isPalindrome(-121));
-        System.out.println(new PalindromeCheck().isPalindrome(10));
-        System.out.println(new PalindromeCheck().isPalindrome(53235));
+        System.out.println(new PalindromeNumber().isPalindrome(121));
+        System.out.println(new PalindromeNumber().isPalindrome(-121));
+        System.out.println(new PalindromeNumber().isPalindrome(10));
+        System.out.println(new PalindromeNumber().isPalindrome(53235));
 
     }
 }

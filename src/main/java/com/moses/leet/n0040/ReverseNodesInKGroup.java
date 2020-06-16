@@ -8,7 +8,52 @@ import java.util.Stack;
 
 public class ReverseNodesInKGroup {
 
-    public ListNode reverseKGroup(ListNode head, int k){
+
+    public ListNode reverseKGroup(ListNode head, int k) {
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode cur = head;
+        ListNode start = head;
+        ListNode prev = dummy;
+        int i = 1;
+
+        while(cur != null) {
+            while (i < k  && cur.next != null) {
+                cur = cur.next;
+                i++;
+            }
+            if (i < k) {
+                prev.next = start;
+                return dummy.next;
+            }
+            ListNode next = cur.next;
+            cur.next = null;
+            ListNode newHead = reverse(start);
+            prev.next = newHead;
+
+            prev = start;
+            start = next;
+            cur = start;
+            i=1;
+        }
+
+        return dummy.next;
+    }
+
+    private ListNode reverse(ListNode start) {
+        ListNode cur = start;
+        ListNode prev = null;
+        while(cur != null){
+            ListNode next = cur.next;
+            cur.next = prev;
+            prev = cur;
+            cur = next;
+        }
+        return prev;
+    }
+
+
+    public ListNode reverseKGroup1(ListNode head, int k){
         ListNode dummy = new ListNode(0);
         dummy.next = head;
         ListNode cur = dummy;
@@ -45,9 +90,9 @@ public class ReverseNodesInKGroup {
 
     public static void main(String[] args) {
         ListNode node = ListNodeUtil.fromIntegers(1, 2, 3, 4, 5);
-        PrintUtil.traverseNodes(new ReverseNodesInKGroup().reverseKGroup(node, 3));
-         node = ListNodeUtil.fromIntegers(1, 2, 3, 4, 5);
         PrintUtil.traverseNodes(new ReverseNodesInKGroup().reverseKGroup(node, 2));
+         node = ListNodeUtil.fromIntegers(1, 2, 3, 4, 5);
+        PrintUtil.traverseNodes(new ReverseNodesInKGroup().reverseKGroup(node, 3));
     }
 
     public ListNode reverseKGroupOld(ListNode head, int k){
