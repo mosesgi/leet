@@ -4,13 +4,46 @@ import java.util.*;
 
 public class TaskScheduler {
 
+    public int leastInterval(char[] tasks, int n) {
+        int[] cnt = new int[26];
+        for(char c : tasks){
+            cnt[c-'A']++;
+        }
+
+        PriorityQueue<Integer> p = new PriorityQueue<>((o1, o2) -> o2-o1);
+        for(int i : cnt){
+            if(i > 0){
+                p.offer(i);
+            }
+        }
+        int total = 0;
+        while(!p.isEmpty()){
+            int tmp = 0;
+            List<Integer> list = new ArrayList<>();
+            while(tmp <= n && !p.isEmpty()){
+                int cur = p.poll();
+                if(cur > 1){
+                    list.add(cur-1);
+                }
+                tmp++;
+            }
+            if(list.isEmpty()){
+                total += tmp;
+            }else{
+                total += n+1;
+            }
+            p.addAll(list);
+        }
+        return total;
+    }
+
     //a,a,b,c,d,e,f,g  5
     //a,a,a,b,b,b,b,c,d,e,f,g  3
     //a,a,a,b,b,b,c,c,c  3
     //abicabicabic
     //aaaabbbbcccc  4
     //cabiicabiicabiicab
-    public int leastInterval(char[] tasks, int n) {
+    public int leastIntervalMine(char[] tasks, int n) {
         int[] cnt = new int[26];
         for(char c : tasks){
             cnt[c-'A']++;

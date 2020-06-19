@@ -22,16 +22,4 @@ public class SubarraySumsDivisibleByK {
         return res;
     }
 
-    public String minNumber(int[] nums) {
-        Integer[] numbers = new Integer[nums.length];
-        for(int i=0; i<nums.length; i++){
-            numbers[i] =nums[i];
-        }
-        Arrays.sort(numbers, (o1, o2) -> (o1+""+o2).compareTo(o2+""+o1));
-        StringBuilder sb= new StringBuilder();
-        for(int i : numbers){
-            sb.append(i);
-        }
-        return sb.toString();
-    }
 }

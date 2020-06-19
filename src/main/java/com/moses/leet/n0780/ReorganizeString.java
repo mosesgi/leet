@@ -5,11 +5,46 @@ import java.util.Map;
 import java.util.PriorityQueue;
 
 public class ReorganizeString {
+
+    public String reorganizeString(String S) {
+        //aaaabbc;aaaabcd
+        Map<Character, Integer> map = new HashMap<>();
+        for (char c : S.toCharArray()) {
+            map.put(c, map.getOrDefault(c, 0) + 1);
+        }
+
+        PriorityQueue<Map.Entry<Character, Integer>> p = new PriorityQueue<>((o1, o2) -> o2.getValue() - o1.getValue());
+        p.addAll(map.entrySet());
+        StringBuilder sb = new StringBuilder();
+        while(!p.isEmpty()){
+            Map.Entry<Character, Integer> a = p.poll();
+            Map.Entry<Character, Integer> b = p.poll();
+            if(b == null){
+                if(a.getValue()>1){
+                    return "";
+                }
+                sb.append(a.getKey());
+                return sb.toString();
+            }else{
+                sb.append(a.getKey()).append(b.getKey());
+                if(a.getValue() > 1){
+                    a.setValue(a.getValue()-1);
+                    p.offer(a);
+                }
+                if(b.getValue() > 1){
+                    b.setValue(b.getValue()-1);
+                    p.offer(b);
+                }
+            }
+        }
+        return sb.toString();
+    }
+
     //aaaaabbbc -
     //abaaaabbc - ababaaabc - abababaac - abababaca
     //aaaaabbbbccc - ababcabcabca
     //aaabccc
-    public String reorganizeString(String S) {
+    public String reorganizeStringFirst(String S) {
         Map<Character, Integer> map = new HashMap<>();
         for (char c : S.toCharArray()) {
             map.put(c, map.getOrDefault(c, 0) + 1);

@@ -23,7 +23,7 @@ public class CircularArrayLoop {
                 slow = getIndex(slow, nums);
                 fast = getIndex(getIndex(fast, nums), nums);
             }
-            int j = i;
+            int j = i;      //标记已访问pos
             int val = nums[i];
             while(nums[j] * val > 0){
                 int next = getIndex(j, nums);

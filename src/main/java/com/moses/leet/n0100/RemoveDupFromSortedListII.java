@@ -8,8 +8,33 @@ import com.moses.leet.utils.PrintUtil;
  * https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii/
  */
 public class RemoveDupFromSortedListII {
-
     public ListNode deleteDuplicates(ListNode head) {
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode slow = dummy, fast = dummy;
+        while(fast != null){
+            int cnt = 0;
+            while(fast.next != null && fast.next.next != null && fast.next.next.val == fast.next.val){
+                fast = fast.next;
+                cnt++;
+            }
+            if(cnt > 0){
+                if(fast.next == null || fast.next.next == null){
+                    slow.next = null;
+                    return dummy.next;
+                }
+                fast = fast.next;
+            }else{
+                fast = fast.next;
+                slow.next = fast;
+                slow = slow.next;
+            }
+
+        }
+        return dummy.next;
+    }
+
+    public ListNode deleteDuplicates1(ListNode head) {
         ListNode dummy = new ListNode(-1);
         dummy.next = head;
         ListNode slow = dummy;

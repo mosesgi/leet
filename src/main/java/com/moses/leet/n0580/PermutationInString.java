@@ -3,8 +3,57 @@ package com.moses.leet.n0580;
 import java.util.*;
 
 public class PermutationInString {
-    //aab, cdieabbbaaa
+
     public boolean checkInclusion(String s1, String s2) {
+        int[] cnt = new int[26];
+        for(char c : s1.toCharArray()){
+            cnt[c-'a']++;
+        }
+        int shouldMatch = 0;
+        for(int i : cnt){
+            if(i>0){
+                shouldMatch++;
+            }
+        }
+        int[] cnt2 = new int[26];
+        int l = 0;
+        int matched = 0;
+        for(int r = 0; r<s2.length(); r++){
+            char c = s2.charAt(r);
+            cnt2[c-'a']++;
+            if(cnt2[c-'a'] == cnt[c-'a']){
+                matched++;
+            }
+            if(matched == shouldMatch) {
+                while (l <= r && matched == shouldMatch) {
+                    cnt2[s2.charAt(l) - 'a']--;
+                    if (cnt2[s2.charAt(l) - 'a'] < cnt[s2.charAt(l) - 'a']) {
+                        matched--;
+                    }
+                    l++;
+                }
+                if (r - l + 2 == s1.length()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        String s1, s2;
+        s1 = "ab";
+        s2 = "eidboaoo";
+        System.out.println(new PermutationInString().checkInclusion(s1, s2));
+
+        s1 = "adc";
+        s2 = "dcda";
+        System.out.println(new PermutationInString().checkInclusion(s1, s2));
+    }
+
+
+    //aab, cdieabbbaaa
+    public boolean checkInclusion1(String s1, String s2) {
         int[] cnt = new int[26];
         for(char c : s1.toCharArray()){
             cnt[c-'a']++;
@@ -44,16 +93,7 @@ public class PermutationInString {
         return false;
     }
 
-    public static void main(String[] args) {
-        String s1, s2;
-        s1 = "ab";
-        s2 = "eidboaoo";
-        System.out.println(new PermutationInString().checkInclusion(s1, s2));
 
-        s1 = "adc";
-        s2 = "dcda";
-        System.out.println(new PermutationInString().checkInclusion(s1, s2));
-    }
 
 
     //O(N^2)

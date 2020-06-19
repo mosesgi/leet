@@ -3,7 +3,7 @@ package com.moses.leet.n0160;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LongestSUbstringWithAtMostTwoDistinctChars {
+public class LongestSubstringWithAtMostTwoDistinctChars {
     public int lengthOfLongestSubstringTwoDistinct(String s) {
         Map<Character, Integer> cnt = new HashMap<>();
         int slow = 0;
