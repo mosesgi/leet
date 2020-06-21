@@ -14,6 +14,25 @@ public class SortColors {
     //0,0,1,1,1,2,2
     public void sortColors(int[] nums) {
         int l=0, r = nums.length-1;
+        int cur = 0;
+        while(cur <= r){
+            if(nums[cur] == 0){
+                nums[cur] = nums[l];
+                nums[l] = 0;
+                l++;
+                cur++;
+            }else if(nums[cur] == 2){
+                nums[cur] = nums[r];
+                nums[r] = 2;
+                r--;
+            }else{
+                cur++;
+            }
+        }
+    }
+
+    public void sortColors1(int[] nums) {
+        int l=0, r = nums.length-1;
         int first1 = Integer.MAX_VALUE;
         while(l<=r){
             if(nums[l] == 1 && first1 > l ){
