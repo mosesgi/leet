@@ -40,4 +40,49 @@ public class DeleteNodesAndReturnForest {
         }
         return root;
     }
+
+
+
+    public List<TreeNode> delNodesNew(TreeNode root, int[] to_delete) {
+        Set<Integer> set = new HashSet<>();
+        for(int i : to_delete){
+            set.add(i);
+        }
+        if(root == null){
+            return res;
+        }
+        if(set.contains(root.val)){
+            dfs(root, set, true, root);
+            root.left = null;
+            root.right = null;
+        }else{
+            res.add(root);
+            dfs(root, set, false, root);
+        }
+        return res;
+    }
+
+    void dfs(TreeNode root, Set<Integer> set, boolean parentDeleted, TreeNode parent){
+        if(root == null){
+            return;
+        }
+        if(set.contains(root.val)){
+            if(parent.left == root){
+                parent.left = null;
+            }
+            if(parent.right == root){
+                parent.right = null;
+            }
+            dfs(root.left, set, true, root);
+            dfs(root.right, set, true, root);
+            root.left = null;
+            root.right = null;
+        }else{
+            if(parentDeleted){
+                res.add(root);
+            }
+            dfs(root.left, set, false, root);
+            dfs(root.right, set, false, root);
+        }
+    }
 }
