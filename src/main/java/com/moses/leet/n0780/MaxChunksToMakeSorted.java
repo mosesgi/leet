@@ -3,6 +3,20 @@ package com.moses.leet.n0780;
 public class MaxChunksToMakeSorted {
     public int maxChunksToSorted(int[] arr) {
         //4,  3, 1, 6, 2, 5,| 7,|9,8,|12,14,11,10
+        int max = 0;
+        int cnt = 0;
+        for(int i=0; i<arr.length; i++){
+            max = Math.max(max, arr[i]);
+            if(max == i){
+                cnt++;
+            }
+        }
+        return cnt;
+    }
+
+
+    public int maxChunksToSortedFirst(int[] arr) {
+        //4,  3, 1, 6, 2, 5,| 7,|9,8,|12,14,11,10
         int chunks = 0;
         int left = 0;
         while(left < arr.length){
