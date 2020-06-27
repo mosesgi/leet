@@ -43,29 +43,8 @@ public class SingleNumberIII {
         return rst;
     }
 
-    public boolean isScramble(String s1, String s2) {
-        if(s1.length() != s2.length()){
-            return false;
-        }
-        if(s1.length() == 0 || s1.equals(s2)){
-            return true;
-        }
-        for(int i=1; i<s1.length(); i++){
-            String left1 = s1.substring(0, i);
-            String right1 = s1.substring(i, s1.length());
-            String left2 = s2.substring(0, i);
-            String right2 = s2.substring(i, s2.length());
-            if((right1+left1).equals(left2+right2)){
-                return true;
-            }
-            if(isScramble(left1, left2) && isScramble(right1, right2)){
-                return true;
-            }
-        }
-        return false;
-    }
 
     public static void main(String[] args) {
-        System.out.println(new SingleNumberIII().isScramble("abc", "cba"));
+
     }
 }

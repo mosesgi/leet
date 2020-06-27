@@ -22,8 +22,19 @@ import java.util.*;
 public class DistributeCoinsInBinaryTree {
     int res = 0;
     public int distributeCoins(TreeNode root) {
-        dfs(root);
+        dfsMine(root);
         return res;
+    }
+
+    int dfsMine(TreeNode root){
+        if(root == null){
+            return 0;
+        }
+        int l = dfsMine(root.left);
+        int r = dfsMine(root.right);
+        int diff = l+r+root.val - 1;
+        res += Math.abs(diff);
+        return diff;
     }
 
     int dfs(TreeNode root){
