@@ -15,6 +15,32 @@ import java.util.*;
  *
  */
 public class MinimumAreaRectangle {
+
+    public int minAreaRectExercise(int[][] points) {
+        Map<Integer, List<Integer>> pMap = new TreeMap<>();
+        for(int[] p : points){
+            pMap.computeIfAbsent(p[0], z -> new ArrayList<>()).add(p[1]);
+        }
+        int res = Integer.MAX_VALUE;
+        Map<Integer, Integer> visited = new HashMap<>();
+        for(int x : pMap.keySet()){
+            List<Integer> ps = pMap.get(x);
+            Collections.sort(ps);
+            for(int i=0; i<ps.size(); i++){
+                for(int j=i+1; j<ps.size(); j++){
+                    int key = ps.get(i) * 40001 + ps.get(j);
+                    if(visited.containsKey(key)){
+                        res = Math.min(res, (ps.get(j) - ps.get(i)) * (x - visited.get(key)));
+                    }
+                    visited.put(key, x);
+                }
+            }
+        }
+        return res == Integer.MAX_VALUE?0:res;
+    }
+
+
+
     public int minAreaRect(int[][] points) {
         Map<Integer, List<Integer>> rows = new TreeMap<>();
         for(int[] p : points){
