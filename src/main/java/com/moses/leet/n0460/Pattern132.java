@@ -7,6 +7,23 @@ import java.util.TreeMap;
 public class Pattern132 {
 
     public boolean find132pattern(int[] nums) {
+        if(nums.length<3){
+            return false;
+        }
+        for(int i=0; i<nums.length-2; i++){
+            int max = nums[i+1];
+            for(int j=i+2; j<nums.length; j++){
+                if(nums[j] > nums[i] && nums[j] < max){
+                    return true;
+                }
+                max = Math.max(max, nums[j]);
+            }
+        }
+        return false;
+    }
+
+
+    public boolean find132pattern1(int[] nums) {
         if(nums.length < 3){
             return false;
         }

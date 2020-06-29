@@ -5,10 +5,10 @@ import java.util.List;
 
 public class MinimumDominoRotationsForEqualRow {
     public int minDominoRotations(int[] A, int[] B) {
-        int aa = 0;
-        int ab = 1;
-        int bb = 0;
-        int ba = 1;
+        int aa = 0;     //A[0] 在A中
+        int ab = 1;     //A[0] 在B中
+        int bb = 0;     //B[0] 在B中
+        int ba = 1;     //B[0] 在A中
         for(int i=1; i<A.length; i++){
             if(aa != -1){
                 if(A[i] == A[0]){

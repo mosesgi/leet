@@ -4,7 +4,34 @@ import java.util.Arrays;
 import java.util.PriorityQueue;
 
 public class MaximumNumberOfEventsThatCanBeAttended {
+
     public int maxEvents(int[][] events) {
+        Arrays.sort(events, (o1, o2) -> o1[0] - o2[0]);
+        PriorityQueue<int[]> p = new PriorityQueue<>((o1, o2) -> o1[1] - o2[1]);
+        int res = 0;
+        int day = events[0][0];
+        int i=0;
+        while(i<events.length || !p.isEmpty()){
+            while(i<events.length && events[i][0]<=day && events[i][1] >= day){
+                p.offer(events[i++]);
+            }
+
+            if(!p.isEmpty() && p.peek()[0] <= day && p.peek()[1] >=day){
+                p.poll();
+                res++;
+            }
+            day++;
+            while(!p.isEmpty() && p.peek()[1] < day){
+                p.poll();
+            }
+        }
+        return res;
+    }
+
+
+
+
+    public int maxEvents1(int[][] events) {
         Arrays.sort(events, (o1, o2) -> o1[0] - o2[0]);
         int i=1, res = 0;
         int day = 0;
