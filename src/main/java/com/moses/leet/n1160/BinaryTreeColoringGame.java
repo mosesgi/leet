@@ -3,11 +3,10 @@ package com.moses.leet.n1160;
 import com.moses.leet.pojo.TreeNode;
 
 public class BinaryTreeColoringGame {
-    int res = 0;
+    int leftSub = 0, rightSub = 0;
     public boolean btreeGameWinningMove(TreeNode root, int n, int x) {
-        int tmp = dfs(root, x);
-        res = Math.max(res, tmp);
-        return res > n/2;
+        int parent = dfs(root, x);
+        return parent > n/2 || leftSub > n/2 || rightSub > n/2;
     }
 
     int dfs(TreeNode root, int x){
@@ -16,12 +15,11 @@ public class BinaryTreeColoringGame {
         }
         int l = dfs(root.left, x);
         int r = dfs(root.right, x);
-        res = Math.max(res, Math.max(l, r));
         if(root.val == x){
+            leftSub = l;
+            rightSub = r;
             return 0;
         }
-        int tmp = 1 + l + r;
-        res = Math.max(res, tmp);
-        return tmp;
+        return 1 + l + r;
     }
 }

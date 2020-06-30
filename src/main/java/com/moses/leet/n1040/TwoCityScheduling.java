@@ -10,13 +10,19 @@ public class TwoCityScheduling {
         int all = 0;
         int toB = 0;
         for(int i=0; i<costs.length; i++){
-            all += costs[i][0] + costs[i][1];
+            all += costs[i][0];
             if(i < costs.length/2){
-                toB = costs[i][1] - costs[i][0];
+                toB += costs[i][1] - costs[i][0];
             }
         }
         return all + toB;
 
+    }
+
+    public static void main(String[] args) {
+        int[][] costs;
+        costs =new int[][]{{10,20},{30,200},{400,50},{30,20}};
+        System.out.println(new TwoCityScheduling().twoCitySchedCost(costs));
     }
 
     public int twoCitySchedCostRec(int[][] costs) {
