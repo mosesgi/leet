@@ -19,6 +19,7 @@ public class UglyNumber {
     }
 
     public static void main(String[] args) {
+        System.out.println(new UglyNumber().isUgly(17));
         System.out.println(new UglyNumber().isUgly(6));
         System.out.println(new UglyNumber().isUgly(15));
         System.out.println(new UglyNumber().isUgly(8));
