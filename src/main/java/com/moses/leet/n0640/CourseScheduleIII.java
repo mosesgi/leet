@@ -3,10 +3,10 @@ package com.moses.leet.n0640;
 import java.util.*;
 
 public class CourseScheduleIII {
-
+    //official
     public int scheduleCourse(int[][] courses) {
         Arrays.sort(courses, ((o1, o2) -> {return o1[1] - o2[1];}));
-        PriorityQueue<Integer> queue = new PriorityQueue<>();
+        PriorityQueue<Integer> queue = new PriorityQueue<>((a,b) -> b-a);
         int end = 0;
         for(int[] c : courses){
             if(c[0] + end <= c[1]){
