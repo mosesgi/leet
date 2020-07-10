@@ -43,6 +43,30 @@ import java.util.Set;
  */
 public class LengthOfLongestFibonacciSubsequence {
     public int lenLongestFibSubseq(int[] A) {
+        Set<Integer> set = new HashSet<>();
+        for(int i : A){
+            set.add(i);
+        }
+        int max = 0;
+        for(int i=0; i<A.length; i++){
+            for(int j=i+1; j<A.length; j++){
+                int next = A[j] + A[i];
+                int prev = A[j];
+                int len = 2;
+                while(set.contains(next)){
+                    len++;
+                    int tmp = next;
+                    next += prev;
+                    prev = tmp;
+                }
+                max = Math.max(max, len);
+            }
+        }
+        return max<3?0:max;
+    }
+
+
+    public int lenLongestFibSubseqDp(int[] A) {
         Map<Integer, Integer> map = new HashMap<>();
         int max = 0;
         int[][] dp = new int[A.length][A.length];

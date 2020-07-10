@@ -3,7 +3,8 @@ package com.moses.leet.n1260;
 import java.util.*;
 
 /**
- * Given a list of pairs of equivalent words synonyms and a sentence text, Return all possible synonymous sentences sorted lexicographically.
+ * Given a list of pairs of equivalent words synonyms and a sentence text, Return all possible synonymous sentences
+ * sorted lexicographically.
  *
  *
  *
