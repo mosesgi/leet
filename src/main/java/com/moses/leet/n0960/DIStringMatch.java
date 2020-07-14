@@ -1,5 +1,7 @@
 package com.moses.leet.n0960;
 
+import java.util.Arrays;
+
 /**
  * Given a string S that only contains "I" (increase) or "D" (decrease), let N = S.length.
  *
@@ -52,5 +54,11 @@ public class DIStringMatch {
         }
         res[S.length()]= l;
         return res;
+    }
+
+    public static void main(String[] args) {
+        String S;
+        S = "IIIDDDIDIDD";
+        System.out.println(Arrays.toString(new DIStringMatch().diStringMatch(S)));
     }
 }

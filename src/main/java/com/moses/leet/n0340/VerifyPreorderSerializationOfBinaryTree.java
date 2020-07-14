@@ -1,6 +1,23 @@
 package com.moses.leet.n0340;
 
+import java.util.Stack;
+
 public class VerifyPreorderSerializationOfBinaryTree {
+    public boolean isValidSerialization(String preorder) {
+        Stack<String> stack = new Stack<>();
+        String[] items = preorder.split(",");
+        for(String item : items){
+            while("#".equals(item) && !stack.isEmpty() && "#".equals(stack.peek())){
+                stack.pop();
+                if(stack.isEmpty() || "#".equals(stack.peek())){
+                    return false;
+                }
+                stack.pop();
+            }
+            stack.push(item);
+        }
+        return stack.size()==1 && "#".equals(stack.peek());
+    }
 
     //Regex is even slower than origin version.
     public boolean isValidSerializationRegex(String preorder) {
@@ -21,7 +38,7 @@ public class VerifyPreorderSerializationOfBinaryTree {
     }
 
 
-    public boolean isValidSerialization(String preorder) {
+    public boolean isValidSerializationFirst(String preorder) {
         if("#".equals(preorder)){
             return true;
         }
