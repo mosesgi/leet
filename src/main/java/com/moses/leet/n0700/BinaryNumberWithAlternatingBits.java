@@ -2,6 +2,13 @@ package com.moses.leet.n0700;
 
 public class BinaryNumberWithAlternatingBits {
     public boolean hasAlternatingBits(int n) {
+        int less1 = n>>>1;
+        int xor = n ^ less1;
+        //xor should be all 1
+        return (xor & (xor+1)) == 0;
+    }
+
+    public boolean hasAlternatingBitsMine(int n) {
         boolean is1 = (n|1)==n;
         while(n!=0){
             n>>>=1;

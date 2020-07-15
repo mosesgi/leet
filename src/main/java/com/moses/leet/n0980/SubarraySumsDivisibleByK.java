@@ -11,7 +11,7 @@ public class SubarraySumsDivisibleByK {
         map.put(0, 1);
         for(int i=0; i<A.length; i++){
             s += A[i];
-            int m = (s%K +K)%K;
+            int m = (s%K +K)%K;     //为负值时，需把值改为正值
             map.put(m, map.getOrDefault(m, 0) + 1);
         }
         int res = 0;
