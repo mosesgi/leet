@@ -5,6 +5,21 @@ import java.util.Set;
 
 public class LongestSubstringWithoutRepeatingCharacters {
     public int lengthOfLongestSubstring(String s) {
+        int max = 0;
+        int l =0;
+        int[] cnt = new int[256];
+        for(int r = 0; r<s.length(); r++){
+            int ch = s.charAt(r) - ' ';
+            cnt[ch]++;
+            while(cnt[ch]>1){
+                cnt[s.charAt(l++)-' ']--;
+            }
+            max = Math.max(max, r-l+1);
+        }
+        return max;
+    }
+
+    public int lengthOfLongestSubstring1(String s) {
         int len = 0;
         int left = 0, right=0;
         Set<Character> set = new HashSet<>();

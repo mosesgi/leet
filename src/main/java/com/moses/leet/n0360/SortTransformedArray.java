@@ -3,7 +3,8 @@ package com.moses.leet.n0360;
 import java.util.Arrays;
 
 /**
- * Given a sorted array of integers nums and integer values a, b and c. Apply a quadratic function of the form f(x) = ax2 + bx + c to each element x in the array.
+ * Given a sorted array of integers nums and integer values a, b and c. Apply a quadratic function of the form
+ * f(x) = ax2 + bx + c to each element x in the array.
  *
  * The returned array must be in sorted order.
  *

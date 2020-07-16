@@ -1,31 +1,44 @@
 package com.moses.leet.study;
 
+import com.moses.leet.pojo.ListNode;
 import com.moses.leet.pojo.TreeNode;
 
 import java.util.*;
 
 public class Test {
 
-    public int lastStoneWeightII(int[] stones) {
-        int total = 0;
-        for(int i: stones){
-            total+=i;
-        }
-        int half = total/2;
-        int[][] dp = new int[stones.length+1][half+1];
-        for(int i=1; i<=stones.length; i++){
-            for(int j=0; j<=half; j++){
-                if(j>=stones[i-1]){
-                    dp[i][j] = Math.max(dp[i-1][j], dp[i-1][j-stones[i-1]] + stones[i-1]);
+    public List<List<Integer>> threeSum(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> res = new ArrayList<>();
+        for(int i=0; i<nums.length-2; i++){
+            int remain = -nums[i];
+            int l = i+1, r = nums.length-1;
+            if(i>0 && nums[i] == nums[i-1]){
+                continue;
+            }
+            while(l<r){
+                if(nums[l] + nums[r] == remain){
+                    res.add(Arrays.asList(nums[i], nums[l], nums[r]));
+                    while(l+1<r && nums[l+1] == nums[l]){
+                        l++;
+                    }
+                    while(r-1 > l && nums[r-1] == nums[r]){
+                        r--;
+                    }
+                    l++;
+                    r--;
+                }else if(nums[l] + nums[r] < remain){
+                    l++;
                 }else{
-                    dp[i][j] = dp[i-1][j];
+                    r--;
                 }
             }
         }
-        return total - 2* dp[stones.length][half];
+        return res;
     }
 
     public static void main(String[] args) {
-
+        int[] nums = new int[]{1,-1,-1,0};
+        new Test().threeSum(nums);
     }
 }

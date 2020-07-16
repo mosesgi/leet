@@ -4,6 +4,23 @@ import java.util.Arrays;
 
 public class MaximumNestingDepthOfTwoValidParenthesesStrings {
     public int[] maxDepthAfterSplit(String seq) {
+        int[] res = new int[seq.length()];
+        char[] chars = seq.toCharArray();
+        int depth = 0;
+        for(int i=0; i<chars.length; i++){
+            if(chars[i] == '('){
+                depth++;
+                res[i] = depth%2;
+            }else{
+                res[i] = depth%2;
+                depth--;
+            }
+        }
+        return res;
+    }
+
+
+    public int[] maxDepthAfterSplit1(String seq) {
         boolean s1Start = false;
         boolean s2Start = false;
         int s1Level = 0;
