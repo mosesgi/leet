@@ -5,7 +5,37 @@ import java.util.Arrays;
 import java.util.List;
 
 public class GrayCode {
+    /**
+     * 3
+     *
+     * 000
+     * 001
+     * 011
+     * 010
+     * 110
+     * 111
+     * 101
+     * 100
+     */
     public List<Integer> grayCode(int n) {
+        if(n==0){
+            return Arrays.asList(0);
+        }
+        List<Integer> list = new ArrayList<>();
+        list.add(0);
+        list.add(1);
+        for(int i=2; i<=n; i++){
+            List<Integer> tmp = new ArrayList<>();
+            tmp.addAll(list);
+            for(int j=list.size()-1; j>=0; j--){
+                tmp.add(list.get(j) | (1<<(i-1)));
+            }
+            list = tmp;
+        }
+        return list;
+    }
+
+    public List<Integer> grayCode1(int n) {
         List<Integer> res = new ArrayList<>();
         if(n==0){
             res.add(0);

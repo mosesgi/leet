@@ -1,16 +1,39 @@
 package com.moses.leet.n0240;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.*;
 
 
 // O(N) should use Deque.
 // https://leetcode.com/problems/sliding-window-maximum/discuss/65884/Java-O(n)-solution-using-deque-with-explanation
 public class SlidingWindowMaximum {
-    //O(NK), not fast if descending array. But beats 100%...
+
+    //deque
     public int[] maxSlidingWindow(int[] nums, int k) {
+        Deque<Integer> q = new LinkedList<>();
+        int[] res = new int[nums.length-k+1];
+        for(int i=0; i<k; i++){
+            while(!q.isEmpty() && q.peekLast() < nums[i]){
+                q.pollLast();
+            }
+            q.offerLast(nums[i]);
+            res[0] = q.peekFirst();
+        }
+        for(int i=0; i<nums.length-k; i++){
+            if(q.peekFirst() == nums[i]){
+                q.pollFirst();
+            }
+            while(!q.isEmpty() && q.peekLast() < nums[i+k]){
+                q.pollLast();
+            }
+            q.offerLast(nums[i+k]);
+            res[i+1] = q.peekFirst();
+        }
+        return res;
+    }
+
+
+    //O(NK), not fast if descending array. But beats 100%...
+    public int[] maxSlidingWindow1(int[] nums, int k) {
         if (nums.length == 0) {
             return new int[0];
         }
