@@ -21,6 +21,27 @@ import java.util.TreeSet;
  */
 public class ShortestDistanceToACharacter {
     public int[] shortestToChar(String S, char C) {
+        int[] right = new int[S.length()];
+        int p = S.length() * 2;
+        for(int i=S.length()-1; i>=0; i--){
+            if(S.charAt(i) == C){
+                p = i;
+            }
+            right[i] = p;
+        }
+        int[] res = new int[S.length()];
+        p = -S.length();
+        for(int i=0; i<S.length(); i++){
+            if(S.charAt(i) == C){
+                p = i;
+            }
+            res[i] = Math.min(i-p, right[i]-i);
+        }
+        return res;
+    }
+
+
+    public int[] shortestToCharFirst(String S, char C) {
         TreeSet<Integer> pos = new TreeSet<>();
         for(int i=0; i<S.length(); i++){
             if(S.charAt(i) == C){
