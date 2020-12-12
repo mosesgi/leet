@@ -4,8 +4,21 @@ package com.moses.leet.n0060;
  * https://leetcode.com/problems/maximum-subarray/
  */
 public class MaximumSubarray {
+    public int maxSubArray(int[] nums) {
+        int max = Integer.MIN_VALUE;
+        int left = 0;
+        for(int i : nums){
+            if(left <= 0){
+                left = i;
+            }else{
+                left += i;
+            }
+            max = Math.max(max, left);
+        }
+        return max;
+    }
 
-    public int maxSubArray(int[] nums){
+    public int maxSubArray1(int[] nums){
         if(nums.length<1){
             return Integer.MIN_VALUE;
         }

@@ -5,6 +5,33 @@ import com.moses.leet.pojo.ListNode;
 public class AddTwoNumbers {
 
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode dummy = new ListNode(0);
+        int carry = 0;
+        ListNode node = dummy;
+        while(l1 != null || l2 != null){
+            int a=0;
+            int b=0;
+            if(l1 != null){
+                a = l1.val;
+                l1 = l1.next;
+            }
+            if(l2 != null){
+                b = l2.val;
+                l2 = l2.next;
+            }
+            int cur = a+b+carry;
+            carry = cur/10;
+            cur = cur%10;
+            node.next = new ListNode(cur);
+            node = node.next;
+        }
+        if(carry != 0){
+            node.next = new ListNode(carry);
+        }
+        return dummy.next;
+    }
+
+    public ListNode addTwoNumbers1(ListNode l1, ListNode l2) {
         ListNode result = null;
         ListNode curr1 = l1;
         ListNode curr2 = l2;

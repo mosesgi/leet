@@ -3,10 +3,33 @@ package com.moses.leet.n0020;
 /**
  * 回文字符串, 中心对称
  */
-public class LongestPalindrome {
+public class LongestPalindromicSubstring {
+
+    int resL = 0, resR = 0;
+    public String longestPalindrome(String s) {
+        for(int i=0; i<s.length(); i++){
+            expand(s, i, i);
+            expand(s,i,i+1);
+        }
+        return s.substring(resL, resR+1);
+    }
+
+    void expand(String s, int left, int right){
+        if(left < 0 || right >= s.length()){
+            return;
+        }
+        while(left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)){
+            left--;
+            right++;
+        }
+        if(right - left - 1 > resR - resL + 1){
+            resR = right-1;
+            resL = left+1;
+        }
+    }
 
     //expand from center.
-    public String longestPalindrome(String s) {
+    public String longestPalindrome1(String s) {
         int resLeft=0, resRight = 0;
         for(int i=0; i<s.length(); i++){
             int len = resRight - resLeft;
@@ -76,21 +99,21 @@ public class LongestPalindrome {
 
     public static void main(String[] args) {
         String test = "abadd";
-        System.out.println(new LongestPalindrome().longestPalindrome(test));
+        System.out.println(new LongestPalindromicSubstring().longestPalindrome(test));
 
         test="abacab";
-        System.out.println(new LongestPalindrome().longestPalindrome(test));
+        System.out.println(new LongestPalindromicSubstring().longestPalindrome(test));
 
         test = "babad";
-        System.out.println(new LongestPalindrome().longestPalindrome(test));
+        System.out.println(new LongestPalindromicSubstring().longestPalindrome(test));
 
         test = "abbc";
-        System.out.println(new LongestPalindrome().longestPalindrome(test));
+        System.out.println(new LongestPalindromicSubstring().longestPalindrome(test));
 
         test = "a";
-        System.out.println(new LongestPalindrome().longestPalindrome(test));
+        System.out.println(new LongestPalindromicSubstring().longestPalindrome(test));
 
         test = "ccc";
-        System.out.println(new LongestPalindrome().longestPalindrome(test));
+        System.out.println(new LongestPalindromicSubstring().longestPalindrome(test));
     }
 }

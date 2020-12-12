@@ -2,10 +2,46 @@ package com.moses.leet.n0060;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class SpiralMatrix {
     public List<Integer> spiralOrder(int[][] matrix) {
+        if(matrix.length==0 || matrix[0].length==0){
+            return Collections.emptyList();
+        }
+        List<Integer> list = new ArrayList<>();
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+        boolean[][] visited = new boolean[rows][cols];
+        int[][] directions = new int[][]{{0,1},{1,0},{0,-1},{-1,0}};
+        int di = 0;
+        int x=0, y=0;
+        boolean hit = false;
+        list.add(matrix[x][y]);
+        visited[x][y] = true;
+        while(true){
+            int nextX = x + directions[di][0];
+            int nextY = y + directions[di][1];
+            if(nextX <0 || nextX>=rows || nextY<0 || nextY>=cols || visited[nextX][nextY]){
+                if(!hit){
+                    hit = true;
+                    di = (di+1)%4;
+                    continue;
+                }else{
+                    break;
+                }
+            }
+            hit = false;
+            x = nextX;
+            y = nextY;
+            visited[x][y] = true;
+            list.add(matrix[x][y]);
+        }
+        return list;
+    }
+
+    public List<Integer> spiralOrder1(int[][] matrix) {
         List<Integer> res = new ArrayList<>();
         if(matrix.length == 0){
             return res;

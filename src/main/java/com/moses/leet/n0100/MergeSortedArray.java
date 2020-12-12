@@ -7,6 +7,22 @@ import java.util.Arrays;
  */
 public class MergeSortedArray {
     public void merge(int[] nums1, int m, int[] nums2, int n) {
+        int pos = m+n-1;
+        int pos1 = m-1;
+        int pos2 = n-1;
+        while(pos >= 0 && pos1 >= 0 && pos2 >= 0){
+            if(nums1[pos1] >= nums2[pos2]){
+                nums1[pos--] = nums1[pos1--];
+            }else{
+                nums1[pos--] = nums2[pos2--];
+            }
+        }
+        while(pos2 >= 0){
+            nums1[pos--] = nums2[pos2--];
+        }
+    }
+
+    public void mergeOld(int[] nums1, int m, int[] nums2, int n) {
         int[] tmp = new int[nums1.length];
         int n1Pos = 0; int n2Pos = 0;
         int tPos = 0;

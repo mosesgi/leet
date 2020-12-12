@@ -6,6 +6,34 @@ import java.util.TreeMap;
 
 public class CopyListWithRandomPointer {
     public Node copyRandomList(Node head) {
+        Map<Node, Node> map = new HashMap<>();
+        Node dummy = new Node(0);
+        Node newIter = dummy;
+        while(head != null){
+            if(map.containsKey(head)){
+                newIter.next = map.get(head);
+                newIter = newIter.next;
+            } else {
+                Node node = new Node(head.val);
+                newIter.next = node;
+                newIter = newIter.next;
+                map.put(head, node);
+            }
+            if(head.random != null){
+                if(map.containsKey(head.random)){
+                    newIter.random = map.get(head.random);
+                }else{
+                    Node node = new Node(head.random.val);
+                    newIter.random = node;
+                    map.put(head.random, node);
+                }
+            }
+            head = head.next;
+        }
+        return dummy.next;
+    }
+
+    public Node copyRandomList2(Node head) {
         if(head == null){
             return null;
         }
