@@ -9,7 +9,25 @@ import java.util.List;
  * https://leetcode.com/problems/validate-binary-search-tree/
  */
 public class ValidateBinarySearchTree {
+    Integer prev = null;
     public boolean isValidBST(TreeNode root) {
+        if(root == null){
+            return true;
+        }
+        if(!isValidBST(root.left)){
+            return false;
+        }
+        if(prev != null && root.val <= prev){
+            return false;
+        }
+        prev = root.val;
+        if(!isValidBST(root.right)){
+            return false;
+        }
+        return true;
+    }
+
+    public boolean isValidBST1(TreeNode root) {
         List<Integer> l = new ArrayList<>();
         inorder(root, l);
         for(int i=1; i<l.size(); i++){

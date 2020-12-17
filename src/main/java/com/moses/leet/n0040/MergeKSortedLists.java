@@ -13,6 +13,45 @@ import java.util.PriorityQueue;
  * https://leetcode.com/problems/merge-k-sorted-lists/
  */
 public class MergeKSortedLists {
+    public ListNode mergeKLists(ListNode[] lists) {
+        if(lists == null || lists.length == 0) return null;
+        return sort(lists, 0, lists.length-1);
+    }
+
+    ListNode sort(ListNode[] lists, int start, int end){
+        if(start >= end){
+            return lists[start];
+        }
+        int mid = start + (end-start)/2;
+        ListNode l1 = sort(lists, start, mid);
+        ListNode l2 = sort(lists, mid+1, end);
+        return merge(l1, l2);
+    }
+
+    ListNode merge(ListNode l1, ListNode l2){
+        ListNode dummy = new ListNode(0);
+        ListNode cur = dummy;
+        while(l1 != null && l2 != null){
+            if(l1.val <= l2.val){
+                cur.next = l1;
+                l1 = l1.next;
+            }else{
+                cur.next = l2;
+                l2 = l2.next;
+            }
+            cur = cur.next;
+        }
+        if(l1 != null){
+            cur.next = l1;
+        }
+        if(l2 != null){
+            cur.next = l2;
+        }
+        return dummy.next;
+    }
+
+
+
     public ListNode mergeKListsPq(ListNode[] lists){
         if(lists.length == 0 ){
             return null;
@@ -38,7 +77,7 @@ public class MergeKSortedLists {
     }
 
 
-    public ListNode mergeKLists(ListNode[] lists){
+    public ListNode mergeKLists1(ListNode[] lists){
         ListNode resultHead = new ListNode(0);
         ListNode resultCurr = resultHead;
 

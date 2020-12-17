@@ -4,7 +4,73 @@ package com.moses.leet.n0040;
  * https://leetcode.com/problems/search-in-rotated-sorted-array/
  */
 public class SearchInRotatedSortedAry {
+    //4,5,6,7,0,1,2  - 0
+    //6,7,0,1,2,4,5  - 7
     public int search(int[] nums, int target) {
+        int l=0, r = nums.length-1;
+        while(l <= r){
+            int m = l + (r-l)/2;
+            if(nums[m] == target){
+                return m;
+            }
+            if(l==m){
+                if(nums[l] == target){
+                    return l;
+                }else if(nums[r] == target){
+                    return r;
+                }else{
+                    return -1;
+                }
+            }
+            //left side is sorted
+            if(nums[m] > nums[l]){
+                if(target < nums[m] && target >= nums[l]){
+                    r = m - 1;
+                }else{
+                    l = m + 1;
+                }
+            } else {
+                //right side is sorted
+                if(target > nums[m] && target <= nums[r]){
+                    l = m + 1;
+                } else {
+                    r = m - 1;
+                }
+            }
+        }
+        return -1;
+    }
+
+    public static void main(String[] args) {
+        int[] nums;
+        int target;
+
+        nums = new int[]{3,1};
+        target = 1;
+        System.out.println(new SearchInRotatedSortedAry().search(nums, target));
+
+        nums = new int[]{5,1,3};
+        target = 5;
+        System.out.println(new SearchInRotatedSortedAry().search(nums, target));
+
+        nums = new int[]{4,5,6,7,0,1,2};
+        target = 0;
+        System.out.println(new SearchInRotatedSortedAry().search(nums, target));
+
+        nums = new int[]{4,5,6,7,0,1,2};
+        target = 3;
+        System.out.println(new SearchInRotatedSortedAry().search(nums, target));
+
+        nums = new int[]{2,3,4,5,6,0,1};
+        target = 3;
+        System.out.println(new SearchInRotatedSortedAry().search(nums, target));
+
+        nums = new int[]{6,7,0,2,3,4};
+        target = 3;
+        System.out.println(new SearchInRotatedSortedAry().search(nums, target));
+    }
+
+    public int search1(int[] nums, int target) {
         //4,5,6,7,0,1,2
         //6,7,0,1,2,4,5
         if(nums.length==0){
@@ -39,30 +105,7 @@ public class SearchInRotatedSortedAry {
         return -1;
     }
 
-    public static void main(String[] args) {
-        int[] nums;
-        int target;
 
-        nums = new int[]{5,1,3};
-        target = 5;
-        System.out.println(new SearchInRotatedSortedAry().search(nums, target));
-
-        nums = new int[]{4,5,6,7,0,1,2};
-        target = 0;
-        System.out.println(new SearchInRotatedSortedAry().search(nums, target));
-
-        nums = new int[]{4,5,6,7,0,1,2};
-        target = 3;
-        System.out.println(new SearchInRotatedSortedAry().search(nums, target));
-
-        nums = new int[]{2,3,4,5,6,0,1};
-        target = 3;
-        System.out.println(new SearchInRotatedSortedAry().search(nums, target));
-
-        nums = new int[]{6,7,0,2,3,4};
-        target = 3;
-        System.out.println(new SearchInRotatedSortedAry().search(nums, target));
-    }
 
     public int searchOld(int[] nums, int target){
         int left = 0, right = nums.length-1, mid = (nums.length-1)/2;

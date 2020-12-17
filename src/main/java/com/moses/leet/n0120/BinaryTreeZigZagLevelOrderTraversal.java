@@ -2,16 +2,47 @@ package com.moses.leet.n0120;
 
 import com.moses.leet.pojo.TreeNode;
 import com.moses.leet.utils.PrintUtil;
+import sun.plugin.javascript.navig.Link;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/
  */
 public class BinaryTreeZigZagLevelOrderTraversal {
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> result = new ArrayList<>();
+        if(root == null){
+            return result;
+        }
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+        boolean asc = true;
+        while(!q.isEmpty()){
+            LinkedList<Integer> row = new LinkedList<>();
+            int size = q.size();
+            for(int i=0; i<size; i++){
+                TreeNode curr = q.poll();
+                if(curr.left != null) {
+                    q.offer(curr.left);
+                }
+                if(curr.right != null){
+                    q.offer(curr.right);
+                }
+                if(asc){
+                    row.addLast(curr.val);
+                }else{
+                    row.addFirst(curr.val);
+                }
+            }
+            asc = !asc;
+            result.add(row);
+        }
+        return result;
+    }
+
+
+    public List<List<Integer>> zigzagLevelOrderOld(TreeNode root) {
         List<List<Integer>> list = new ArrayList<>();
         if(root == null){
             return list;
