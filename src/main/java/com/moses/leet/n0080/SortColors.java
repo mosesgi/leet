@@ -12,7 +12,22 @@ public class SortColors {
     //0,1,1,2,0,2,1
     //0,1,1,1,0,2,2
     //0,0,1,1,1,2,2
-    public void sortColors(int[] nums) {
+    public void sortColors(int[] nums){
+        int cur = 0, left = 0, right = nums.length-1;
+        while(cur <= right){
+            if(nums[cur] == 0){
+                nums[cur++] = nums[left];
+                nums[left++] = 0;
+            } else if(nums[cur] == 2){
+                nums[cur] = nums[right];
+                nums[right--] = 2;
+            } else {
+                cur++;
+            }
+        }
+    }
+
+    public void sortColors2(int[] nums) {
         int l=0, r = nums.length-1;
         int cur = 0;
         while(cur <= r){

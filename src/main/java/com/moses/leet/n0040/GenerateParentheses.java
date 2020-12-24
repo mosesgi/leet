@@ -7,7 +7,35 @@ import java.util.List;
  * https://leetcode.com/problems/generate-parentheses/solution/
  */
 public class GenerateParentheses {
+    List<String> result = new ArrayList<>();
     public List<String> generateParenthesis(int n) {
+        backtrack(new StringBuilder(), 0, n);
+        return result;
+    }
+
+    void backtrack(StringBuilder sb, int sum, int n){
+        if(sum < 0 || sum > n){
+            return;
+        }
+        if(sb.length() == 2*n){
+            if(sum == 0){
+                result.add(sb.toString());
+            }
+            return;
+        }
+
+        sb.append('(');
+        backtrack(sb, sum+1, n);
+
+        sb.setCharAt(sb.length()-1, ')');
+        backtrack(sb, sum-1, n);
+
+        sb.setLength(sb.length()-1);
+    }
+
+
+
+    public List<String> generateParenthesis1(int n) {
         List<String> res = new ArrayList<>();
         rec(n, 0, new StringBuilder(), res);
         return res;

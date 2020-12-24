@@ -8,8 +8,46 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class SerializeAndDeserializeBinaryTree {
-
     public class Codec {
+        //1,2,#,#,3,4,#,#,5,#,#
+        // Encodes a tree to a single string.
+        public String serialize(TreeNode root) {
+            StringBuilder sb = new StringBuilder();
+            seriaDfs(root, sb);
+            sb.setLength(sb.length()-1);
+            return sb.toString();
+        }
+
+        void seriaDfs(TreeNode root, StringBuilder sb){
+            if(root == null){
+                sb.append("#,");
+                return;
+            }
+            sb.append(root.val).append(",");
+            seriaDfs(root.left, sb);
+            seriaDfs(root.right, sb);
+        }
+
+        // Decodes your encoded data to tree.
+        public TreeNode deserialize(String data) {
+            LinkedList<String> queue = new LinkedList<>(Arrays.asList(data.split(",")));
+            return des(queue);
+        }
+
+        private TreeNode des(LinkedList<String> queue) {
+            String cur = queue.pollFirst();
+            if("#".equals(cur)){
+                return null;
+            }
+            TreeNode node = new TreeNode(Integer.parseInt(cur));
+            node.left = des(queue);
+            node.right = des(queue);
+            return node;
+        }
+    }
+
+
+    public class Codec1 {
 
         // Encodes a tree to a single string.
         public String serialize(TreeNode root) {
