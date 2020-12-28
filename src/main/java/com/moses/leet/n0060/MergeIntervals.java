@@ -7,7 +7,7 @@ import java.util.*;
  */
 public class MergeIntervals {
     public int[][] merge(int[][] intervals) {
-        Arrays.sort(intervals, (o1, o2) -> o1[0]==o2[0]?o2[1]-o1[1]:o1[0]-o2[0]);
+        Arrays.sort(intervals, (o1, o2) -> o1[0]==o2[0]?o1[1]-o2[1]:o1[0]-o2[0]);
         List<int[]> list = new ArrayList<>();
         if(intervals.length == 0){
             return new int[0][0];

@@ -6,7 +6,30 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class IntersectionOfTwoLinkedLists {
+    //from a to b, from b to a
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        ListNode iterA = headA;
+        ListNode iterB = headB;
+        while(true){
+            //if both null, they have no itersection.
+            if(iterA == iterB){
+                return iterA;
+            }
+            if(iterA == null){
+                iterA = headB;
+            } else {
+                iterA = iterA.next;
+            }
+            if(iterB == null){
+                iterB = headA;
+            } else {
+                iterB = iterB.next;
+            }
+        }
+    }
+
+    //count numbers and sync the step
+    public ListNode getIntersectionNode1(ListNode headA, ListNode headB) {
         if(headA == null || headB == null){
             return null;
         }

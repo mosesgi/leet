@@ -15,7 +15,10 @@ public class GroupAnagrams {
             }
             StringBuilder sb = new StringBuilder();
             for(int i=0; i<cnt.length; i++){
-                sb.append(cnt[i]);
+                if(cnt[i] == 0) {
+                    continue;
+                }
+                sb.append((char)('a' + i)).append(cnt[i]);
             }
             String k = sb.toString();
             result.putIfAbsent(k, new ArrayList<>());
