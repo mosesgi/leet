@@ -12,6 +12,40 @@ import java.util.Set;
 public class MinWindowSubstring {
     public String minWindow(String s, String t) {
         int[] tCnt = new int[128];
+        for(int i=0; i<t.length(); i++){
+            tCnt[t.charAt(i) - 'A']++;
+        }
+
+        String rst = s;
+        int left = 0;
+        int min = s.length();
+        boolean found = false;
+        int[] sCnt = new int[128];
+        for(int i=0; i<s.length(); i++){
+            sCnt[s.charAt(i) - 'A']++;
+            while(fulfill(sCnt, tCnt)){
+                found = true;
+                if(i-left + 1 < min){
+                    min = i-left+1;
+                    rst = s.substring(left, i+1);
+                }
+                sCnt[s.charAt(left++) - 'A']--;
+            }
+        }
+        return found?rst:"";
+    }
+
+    boolean fulfill(int[] sCnt, int[] tCnt){
+        for(int i=0; i<sCnt.length; i++){
+            if(sCnt[i] < tCnt[i]){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public String minWindow1(String s, String t) {
+        int[] tCnt = new int[128];
         Set<Character> set = new HashSet<>();
         for(char c : t.toCharArray()){
             tCnt[c-' ']++;

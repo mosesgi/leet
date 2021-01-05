@@ -4,6 +4,32 @@ import java.util.Arrays;
 
 public class ReverseWordsInStringIII {
     public String reverseWords(String s) {
+        int start = 0;
+        char[] chars = s.toCharArray();
+        for(int i = 0; i<chars.length; i++){
+            if(chars[i] == ' '){
+                swap(chars, start, i-1);
+                start = i+1;
+            }
+            if(i == chars.length-1){
+                swap(chars, start, i);
+            }
+        }
+        return new String(chars);
+    }
+
+    void swap(char[] chars, int start, int end){
+        while(start < end){
+            char tmp = chars[start];
+            chars[start] = chars[end];
+            chars[end] = tmp;
+            start++;
+            end--;
+        }
+    }
+
+
+    public String reverseWords1(String s) {
         String[] strs = s.split(" ");
         StringBuilder sb = new StringBuilder();
         for(int i=0; i<strs.length; i++){

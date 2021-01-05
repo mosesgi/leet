@@ -2,7 +2,42 @@ package com.moses.leet.n0060;
 
 
 public class MultiplyStrings {
-    public String multiply(String num1, String num2){
+    public String multiply(String num1, String num2) {
+        int[] rst = new int[num1.length()+num2.length()];
+        for(int i=num1.length()-1; i>=0; i--){
+            for(int j=num2.length()-1; j>=0; j--){
+                int pos = i+j+1;
+                int a = num1.charAt(i) - '0';
+                int b = num2.charAt(j) - '0';
+                rst[pos] += a*b;
+
+
+            }
+        }
+
+        int carry = 0;
+        for(int k=rst.length-1; k>=0; k--){
+            rst[k] += carry;
+            carry = rst[k]/10;
+            rst[k] = rst[k]%10;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        boolean found = false;
+        for(int i=0; i<rst.length; i++){
+            if(found){
+                sb.append(rst[i]);
+            }else{
+                if(rst[i] != 0){
+                    found = true;
+                    sb.append(rst[i]);
+                }
+            }
+        }
+        return found?sb.toString():"0";
+    }
+
+    public String multiply1(String num1, String num2){
         int[] rst = new int[num1.length() + num2.length()];
 
         for(int i=num1.length()-1; i>=0; i--){

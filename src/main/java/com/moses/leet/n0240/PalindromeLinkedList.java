@@ -4,7 +4,43 @@ import com.moses.leet.pojo.ListNode;
 import com.moses.leet.utils.ListNodeUtil;
 
 public class PalindromeLinkedList {
+    //1,2,3,4,5
+    //1,2,3,4
+    //1
+    //1,2
     public boolean isPalindrome(ListNode head) {
+        if(head== null || head.next == null){
+            return true;
+        }
+        ListNode slow = head;
+        ListNode fast = head;
+        while(fast.next != null && fast.next.next != null){
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        ListNode cur = slow.next;
+        slow.next = null;
+        slow = cur;
+        ListNode prev = null;
+        while(slow != null){
+            ListNode next = slow.next;
+            slow.next = prev;
+            prev = slow;
+            slow = next;
+        }
+
+        ListNode right = prev, left = head;
+        while(right != null){
+            if(right.val != left.val){
+                return false;
+            }
+            right = right.next;
+            left = left.next;
+        }
+        return true;
+    }
+
+    public boolean isPalindrome1(ListNode head) {
         if(head == null || head.next == null){
             return true;
         }

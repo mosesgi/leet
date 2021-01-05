@@ -4,6 +4,35 @@ import java.util.Arrays;
 
 public class NextPermutation{
     public void nextPermutation(int[] nums) {
+        //3,4,1,5,6,9,8,8,3 -> 3,4,1,5,8,3,6,8,9
+        //1,3,2,2 -> 2,1,2,3
+        int left = 0, right = nums.length-1;
+
+        for(int i=nums.length-2; i>=0; i--){
+            if(nums[i] < nums[i+1]){
+                left = i;
+                int firstBig = nums.length-1;
+                while(nums[firstBig] <= nums[left]){
+                    firstBig--;
+                }
+                int tmp = nums[left];
+                nums[left] = nums[firstBig];
+                nums[firstBig] = tmp;
+                left++;
+                break;
+            }
+        }
+
+        while(left < right){
+            int tmp = nums[left];
+            nums[left] = nums[right];
+            nums[right] = tmp;
+            left++;
+            right--;
+        }
+    }
+
+    public void nextPermutation1(int[] nums) {
         int l=-1, r = nums.length-1;
         for(int i=nums.length-1; i>0; i--){
             if(nums[i-1] < nums[i]){        //find first decreasing from end
