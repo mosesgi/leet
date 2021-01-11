@@ -7,6 +7,40 @@ import java.util.Stack;
 public class RemoveKDigits {
 
     public String removeKdigits(String num, int k) {
+        //2129489713, 4
+        //7503817, 4
+        //12345678, 3
+
+        Deque<Character> q = new LinkedList<>();
+        for(int i=0; i<num.length(); i++){
+            char c = num.charAt(i);
+            while(!q.isEmpty() && k>0 && q.peekLast() > c){
+                q.pollLast();
+                k--;
+            }
+            q.offer(c);
+        }
+
+        int remain = q.size() - k;
+        StringBuilder sb = new StringBuilder();
+        boolean firstValid = false;
+        while(!q.isEmpty() && remain>0){
+            char curr = q.pollFirst();
+            if(firstValid){
+                sb.append(curr);
+            } else {
+                if(curr != '0'){
+                    firstValid = true;
+                    sb.append(curr);
+                }
+            }
+            remain--;
+        }
+        return sb.length()==0?"0":sb.toString();
+    }
+
+
+    public String removeKdigits1(String num, int k) {
         if(num.length() == k){
             return "0";
         }
@@ -45,6 +79,10 @@ public class RemoveKDigits {
         String num;
         int k;
 
+        num = "1432219";
+        k = 3;
+        System.out.println(new RemoveKDigits().removeKdigits(num, k));
+
         num = "0";
         k = 0;
         System.out.println(new RemoveKDigits().removeKdigits(num, k));
@@ -62,10 +100,6 @@ public class RemoveKDigits {
         System.out.println(new RemoveKDigits().removeKdigits(num, k));
 
         num = "1132056";
-        k = 3;
-        System.out.println(new RemoveKDigits().removeKdigits(num, k));
-
-        num = "1432219";
         k = 3;
         System.out.println(new RemoveKDigits().removeKdigits(num, k));
 

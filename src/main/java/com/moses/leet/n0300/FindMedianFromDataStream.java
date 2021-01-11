@@ -11,47 +11,46 @@ public class FindMedianFromDataStream {
 
         /** initialize your data structure here. */
         public MedianFinder() {
-            left = new PriorityQueue<>(new Comparator<Integer>() {
-                @Override
-                public int compare(Integer o1, Integer o2) {
-                    return o2-o1;
-                }
-            });
+            left = new PriorityQueue<>((o1, o2) -> o2-o1);
             right = new PriorityQueue<>();
         }
 
+        //2,3; 8,9;  10
+        //-1, -2, -3, -4, -5 ;  -3, -2; -1
         public void addNum(int num) {
             count++;
-            if(left.isEmpty() && right.isEmpty()){
-                right.add(num);
-            } else if(left.isEmpty() && !right.isEmpty()){
-                right.add(num);
-                left.offer(right.poll());
-            } else if(num<=left.peek()){
-                left.add(num);
-            } else {
-                right.add(num);
+            if(left.isEmpty()){
+                left.offer(num);
+                return;
             }
-            if(count%2==0){
-                if(left.size() > right.size()){
-                    right.add(left.poll());
-                }else if(left.size() < right.size()){
-                    left.add(right.poll());
+            if(right.isEmpty()){
+                left.offer(num);
+                right.offer(left.poll());
+                return;
+            }
+
+            if(num > right.peek()){
+                right.offer(num);
+                if(count%2==1){
+                    left.offer(right.poll());
                 }
             } else {
-                if(left.size() < right.size()-1){
-                    left.add(right.poll());
-                } else if(left.size() > right.size()-1){
-                    right.add(left.poll());
+                left.offer(num);
+                if(count%2 == 0){
+                    right.offer(left.poll());
                 }
             }
         }
 
         public double findMedian() {
-            if(count%2==0){
-                return (left.peek()+right.peek()) * 0.5d;
-            } else {
-                return right.peek();
+            if(count==0){
+                return 0d;
+            }else if(count==1){
+                return left.peek();
+            }else if(count%2==0){
+                return (left.peek() + right.peek())/2d;
+            }else{
+                return left.peek();
             }
         }
     }

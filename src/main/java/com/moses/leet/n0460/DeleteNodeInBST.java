@@ -4,8 +4,33 @@ import com.moses.leet.n0300.SerializeAndDeserializeBinaryTree;
 import com.moses.leet.pojo.TreeNode;
 
 public class DeleteNodeInBST {
+    public TreeNode deleteNode(TreeNode root, int key) {
+        if(root == null){
+            return null;
+        }
+        if(root.val == key){
+            TreeNode left = root.left;
+            if(root.right != null){
+                root = root.right;
+                TreeNode mostLeft = root;
+                while(mostLeft.left != null){
+                    mostLeft = mostLeft.left;
+                }
+                mostLeft.left = left;
+                return root;
+            } else {
+                return left;
+            }
+        } else if(root.val < key){
+            root.right = deleteNode(root.right, key);
+        } else {
+            root.left = deleteNode(root.left, key);
+        }
+        return root;
+    }
+
     //recursive
-    public TreeNode deleteNode(TreeNode root, int key){
+    public TreeNode deleteNode1(TreeNode root, int key){
         if(root == null){
             return root;
         }
