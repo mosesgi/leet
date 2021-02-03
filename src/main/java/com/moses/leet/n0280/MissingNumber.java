@@ -24,6 +24,39 @@ public class MissingNumber {
         return nums[nums.length-1]+1;
     }
 
+    public int missingNumber2(int[] nums) {
+        int n = nums.length;
+        int total = n * (n + 1) / 2;
+        int sum = 0;
+        for(int num : nums) {
+            sum += num;
+        }
+        return total - sum;
+    }
+
+    public int missingNumber1(int[] nums){
+        boolean zeroChanged = false;
+        for(int i=0; i<nums.length; i++){
+            int abs = Math.abs(nums[i]);
+            if(abs < nums.length){
+                if(nums[abs] == 0){
+                    zeroChanged = true;
+                }
+                nums[abs] = -nums[abs];
+            }
+        }
+
+        for(int i=0; i<nums.length; i++){
+            if(nums[i] > 0) {
+                return i;
+            }
+            if(nums[i] == 0 && !zeroChanged) {
+                return i;
+            }
+        }
+        return nums.length;
+    }
+
 
     public int missingNumberOld(int[] nums){
         int[] ary = new int[nums.length+1];

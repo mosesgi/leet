@@ -42,6 +42,34 @@ public class DecodeWays {
     }
 
 
+    public int numDecodings1(String s) {
+        Integer[] mem = new Integer[s.length()];
+        return backtrack(s, 0, mem);
+    }
+
+    int backtrack(String s, int start, Integer[] mem){
+        if(s.length() == start){
+            return 1;
+        }
+        if(mem[start] != null){
+            return mem[start];
+        }
+        if(s.charAt(start) == '0'){
+            mem[start] = 0;
+            return 0;
+        }
+        int sum = 0;
+        for(int i=start; i<start+2 && i<s.length(); i++){
+            String str = s.substring(start, i+1);
+            if(Integer.parseInt(str) <= 26){
+                sum += backtrack(s, i+1, mem);
+            }
+        }
+        mem[start] = sum;
+        return sum;
+    }
+
+
     //my solution: divide and conquer +++ backtrack. similar efficiency with DP :) hahahahahahahaha!!!
     int count = 0;
     public int numDecodingsMine(String s) {

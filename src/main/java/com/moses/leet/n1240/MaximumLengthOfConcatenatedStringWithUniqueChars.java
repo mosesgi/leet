@@ -1,9 +1,68 @@
 package com.moses.leet.n1240;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MaximumLengthOfConcatenatedStringWithUniqueChars {
+    int result = 0;
     public int maxLength(List<String> arr) {
+        arr = filter(arr);
+        backtrack(arr, 0, "", new int[26]);
+        return result;
+    }
+
+    void backtrack(List<String> arr, int start, String str, int[] stat){
+        if(start == arr.size()){
+            return;
+        }
+        for(int i=start; i<arr.size(); i++){
+            if(!fulfill(stat, arr.get(i))){
+                continue;
+            }
+            String tmp = str + arr.get(i);
+            result = Math.max(result, tmp.length());
+            backtrack(arr, i+1, tmp, stat);
+            for(char c : arr.get(i).toCharArray()){
+                stat[c-'a']--;
+            }
+        }
+    }
+
+    boolean fulfill(int[] stat, String str){
+        int[] statNew = new int[26];
+        for(int i=0; i<stat.length; i++){
+            statNew[i] = stat[i];
+        }
+
+        for(char c : str.toCharArray()){
+            if(++statNew[c-'a'] > 1){
+                return false;
+            }
+        }
+        for(int i=0; i<stat.length; i++){
+            stat[i] = statNew[i];
+        }
+        return true;
+    }
+
+    List<String> filter(List<String> arr){
+        List<String> list = new ArrayList<>();
+        outer: for(String str : arr){
+            int[] cnt = new int[26];
+            for(char c : str.toCharArray()){
+                cnt[c-'a']++;
+                if(cnt[c-'a'] > 1){
+                    continue outer;
+                }
+            }
+            list.add(str);
+            result = Math.max(result, str.length());
+        }
+        return list;
+    }
+
+
+    public int maxLengthOld(List<String> arr) {
         boolean[] exist = new boolean[26];
         return dfs("", 0, arr, exist);
     }

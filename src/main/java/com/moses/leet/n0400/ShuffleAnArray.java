@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 public class ShuffleAnArray {
-    class Solution {
+    static class Solution {
         int[] nums;
         Random r;
         public Solution(int[] nums) {
@@ -39,5 +39,9 @@ public class ShuffleAnArray {
         }
     }
 
+    public static void main(String[] args) {
+        Solution s = new ShuffleAnArray.Solution(new int[]{1,2,3,4});
+        s.shuffle();
+    }
 
 }

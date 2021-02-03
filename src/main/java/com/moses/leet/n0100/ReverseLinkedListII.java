@@ -40,6 +40,64 @@ public class ReverseLinkedListII {
         return dummy.next;
     }
 
+    //1,2,3,4,5
+    //1,2,3,4,5;  1,3,2,4,5; 1,4,3,2,5; 1,5,4,3,2
+    public ListNode reverseBetween1(ListNode head, int m, int n) {
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode prev = dummy;
+        for(int i=1; i<m; i++){
+            prev = prev.next;
+        }
+
+        ListNode first = prev.next;
+        ListNode second = first.next;
+        ListNode third = second==null?null:second.next;
+        for(int i=0; i<n-m; i++){
+            second.next = prev.next;
+            prev.next = second;
+            first.next = third;
+
+            second = third;
+            third = second==null?null:second.next;
+        }
+        return dummy.next;
+    }
+
+    //NOT one pass....
+    public ListNode reverseBetween2(ListNode head, int m, int n) {
+        if(m==n || head == null){
+            return head;
+        }
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode slowPrev = dummy, fast = dummy;
+        for(int i=0; i<n; i++){
+            fast = fast.next;
+            if(i < m-1){
+                slowPrev = slowPrev.next;
+            }
+        }
+
+        ListNode fastNext = fast.next;
+        fast.next = null;
+
+        ListNode slow = slowPrev.next;
+        ListNode cur = slow;
+        ListNode prev = null;
+        while(cur != null){
+            ListNode next = cur.next;
+            cur.next = prev;
+            prev = cur;
+            cur = next;
+        }
+
+        slowPrev.next = fast;
+        slow.next = fastNext;
+
+        return dummy.next;
+    }
+
     public static void main(String[] args) {
         ListNode head = ListNodeUtil.fromIntegers(1,2,3,4,5);
         PrintUtil.traverseNodes(new ReverseLinkedListII().reverseBetween(head, 2, 4));

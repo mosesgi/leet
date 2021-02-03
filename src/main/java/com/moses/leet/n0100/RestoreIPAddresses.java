@@ -10,6 +10,51 @@ import java.util.List;
 public class RestoreIPAddresses {
 
     public List<String> restoreIpAddresses(String s) {
+        List<String> result = new ArrayList<>();
+        backtrack(s, 0, new ArrayList<>(), result);
+        return result;
+    }
+
+    void backtrack(String s, int pos, List<String> list, List<String> result){
+        if(pos == s.length()){
+            if(list.size() == 4){
+                result.add(join(list));
+            }
+            return;
+        }
+
+        if(list.size() > 4){
+            return;
+        }
+        for(int i=pos; i<pos+3 && i<s.length(); i++){
+            if(s.charAt(pos) == '0' && i>pos){
+                continue;
+            }
+            String str = s.substring(pos, i+1);
+            int tmp = Integer.parseInt(str);
+            if(tmp <= 255){
+                list.add(str);
+                backtrack(s, i+1, list, result);
+                list.remove(list.size()-1);
+            }
+        }
+    }
+
+    String join(List<String> list){
+        StringBuilder sb = new StringBuilder(0);
+        for(int i=0; i<list.size(); i++){
+            String str = list.get(i);
+            if(i==0){
+                sb.append(str);
+            }else{
+                sb.append(".").append(str);
+            }
+        }
+        return sb.toString();
+    }
+
+
+    public List<String> restoreIpAddresses1(String s) {
         List<String> res = new ArrayList<>();
         back(s, 0, 0, "", res);
         return res;

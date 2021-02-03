@@ -6,6 +6,34 @@ import com.moses.leet.utils.PrintUtil;
 
 public class OddEvenLinkedList {
     public ListNode oddEvenList(ListNode head) {
+        int idx = 0;
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode oddDummy = new ListNode(0);
+        ListNode evenDummy = new ListNode(0);
+
+        ListNode cur = dummy;
+        ListNode odd = oddDummy;
+        ListNode even = evenDummy;
+        while(cur.next != null){
+            ListNode next = cur.next;
+            cur.next = null;
+            cur = next;
+            idx++;
+            if(idx%2==0){
+                even.next = cur;
+                even = even.next;
+            } else {
+                odd.next = cur;
+                odd = odd.next;
+            }
+        }
+        odd.next = evenDummy.next;
+        return oddDummy.next;
+    }
+
+
+    public ListNode oddEvenList1(ListNode head) {
         if(head == null){
             return head;
         }

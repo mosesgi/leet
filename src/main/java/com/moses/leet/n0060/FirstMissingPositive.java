@@ -8,8 +8,32 @@ import java.util.Arrays;
  * O(n) time and uses constant extra space.
  */
 public class FirstMissingPositive {
-
     public int firstMissingPositive(int[] nums) {
+        for(int i=0; i<nums.length; i++){
+            if(nums[i] <= 0 || nums[i] > nums.length){
+                nums[i] = nums.length+1;
+            }
+        }
+        for(int i=0; i<nums.length; i++){
+            if(nums[i] > 0){
+                int j = nums[i];
+                while(j > 0 && j <= nums.length){
+                    int tmp = nums[j-1];
+                    nums[j - 1] = 500;
+                    j= tmp;
+                }
+            }
+        }
+
+        for(int i=0; i<nums.length; i++){
+            if(nums[i] != 500){
+                return i+1;
+            }
+        }
+        return nums.length+1;
+    }
+
+    public int firstMissingPositive1(int[] nums) {
         int[] rst = new int[nums.length];
         for(int i: nums){
             if(i<=nums.length && i>0){
@@ -27,6 +51,12 @@ public class FirstMissingPositive {
 
     public static void main(String[] args) {
         int[] nums = new int[]{1,2,0};
+        System.out.println(new FirstMissingPositive().firstMissingPositive(nums));
+
+        nums = new int[]{-5};
+        System.out.println(new FirstMissingPositive().firstMissingPositive(nums));
+
+        nums = new int[]{2,1};
         System.out.println(new FirstMissingPositive().firstMissingPositive(nums));
 
         nums = new int[]{1};

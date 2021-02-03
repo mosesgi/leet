@@ -9,43 +9,23 @@ public class LargestNumber {
         for(int i=0; i<nubs.length; i++){
             nubs[i] = nums[i];
         }
-        Arrays.sort(nubs, new Comparator<Integer>() {
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                if(o1.equals(o2)){
-                    return 0;
-                }
-                String s1 = String.valueOf(o1);
-                String s2 = String.valueOf(o2);
-
-                String s1big = s1 + s2;
-                String s2big = s2 + s1;
-                for(int i=0; i<s1big.length(); i++){
-                    if(s1big.charAt(i) < s2big.charAt(i)){
-                        return -1;
-                    } else if(s1big.charAt(i) > s2big.charAt(i)){
-                        return 1;
-                    }
-                }
-
-//                int size = s1.length() < s2.length() ? s2.length():s1.length();
-//                for(int i=0; i<size; i++){
-//                    int pos1 = i<s1.length()?i:0;
-//                    int pos2 = i<s2.length()?i:0;
-//                    if(s1.charAt(pos1) < s2.charAt(pos2)){
-//                        return -1;
-//                    }else if(s1.charAt(pos1) > s2.charAt(pos2)){
-//                        return 1;
-//                    }else if(s1.charAt(pos1) == s2.charAt(pos2) && i!=0){
-//                        if(pos1==0 && pos2 == s2.length()-1){
-//                            return 1;
-//                        } else if(pos2 == 0 && pos1 == s1.length()-1){
-//                            return -1;
-//                        }
-//                    }
-//                }
+        Arrays.sort(nubs, (o1, o2) -> {
+            if(o1.equals(o2)){
                 return 0;
             }
+            String s1 = String.valueOf(o1);
+            String s2 = String.valueOf(o2);
+
+            String s1big = s1 + s2;
+            String s2big = s2 + s1;
+            for(int i=0; i<s1big.length(); i++){
+                if(s1big.charAt(i) < s2big.charAt(i)){
+                    return -1;
+                } else if(s1big.charAt(i) > s2big.charAt(i)){
+                    return 1;
+                }
+            }
+            return 0;
         });
 
         StringBuilder sb = new StringBuilder();

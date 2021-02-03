@@ -11,7 +11,47 @@ import java.util.Stack;
  * https://leetcode.com/problems/reorder-list/
  */
 public class ReorderList {
+
     public void reorderList(ListNode head) {
+        if(head == null || head.next == null){
+            return;
+        }
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while(fast.next != null && fast.next.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        ListNode slowNext = slow.next;
+        slow.next = null;
+        slow = slowNext;
+
+        ListNode prev = null;
+        while(slow.next != null){
+            ListNode next = slow.next;
+            slow.next = prev;
+            prev = slow;
+            slow = next;
+        }
+        slow.next = prev;
+
+        ListNode cur = head;
+        while(cur != null){
+            ListNode next = cur.next;
+            cur.next = slow;
+
+            if(slow != null){
+                ListNode slowNext1 = slow.next;
+                slow.next = next;
+                slow = slowNext1;
+            }
+            cur = next;
+        }
+    }
+
+    public void reorderList1(ListNode head) {
         if(head == null || head.next == null){
             return;
         }
