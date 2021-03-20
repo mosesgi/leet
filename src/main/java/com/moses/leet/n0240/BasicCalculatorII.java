@@ -4,6 +4,51 @@ import java.util.*;
 
 public class BasicCalculatorII {
     public int calculate(String s) {
+        Deque<Integer> nums = new LinkedList<>();
+        Deque<Character> ops = new LinkedList<>();
+
+        int num = 0;
+        for(int i=0; i<s.length(); i++){
+            char c = s.charAt(i);
+            if(Character.isDigit(c)){
+                int tmp = c-'0';
+                num = num*10 + tmp;
+            }
+            if(i == s.length()-1 || !Character.isDigit(c) && c != ' ') {
+                if (!ops.isEmpty()) {
+                    char prev = ops.peekLast();
+                    if( prev == '*' || prev == '/') {
+                        ops.pollLast();
+                        int prevNum = nums.pollLast();
+                        int tmpRst = prev=='*'?prevNum*num : prevNum/num;
+                        nums.offerLast(tmpRst);
+                    } else {
+                        nums.offerLast(num);
+                    }
+                } else {
+                    nums.offerLast(num);
+                }
+                if(!Character.isDigit(c) && c!= ' ') {
+                    ops.offerLast(c);
+                }
+                num = 0;
+            }
+        }
+
+        while(nums.size() >=2 ){
+            int left = nums.pollFirst();
+            int right = nums.pollFirst();
+            char op = ops.pollFirst();
+            if(op == '+'){
+                nums.offerFirst(left+right);
+            }else{
+                nums.offerFirst(left-right);
+            }
+        }
+        return nums.poll();
+    }
+
+    public int calculate1(String s) {
         Stack<Integer> stack = new Stack<>();
         int num = 0;
         char op = '+';

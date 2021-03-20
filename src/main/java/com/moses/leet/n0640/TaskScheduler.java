@@ -4,7 +4,68 @@ import java.util.*;
 
 public class TaskScheduler {
 
-    public int leastInterval(char[] tasks, int n){
+    public int leastInterval(char[] tasks, int n) {
+        if(n==0){
+            return tasks.length;
+        }
+        Map<Character, Task> map = new HashMap<>();
+        for(char c : tasks){
+            map.computeIfAbsent(c, x -> new Task(x, 0)).increNum();
+        }
+        PriorityQueue<Task> q = new PriorityQueue<>((o1, o2) -> o2.num - o1.num);
+        q.addAll(map.values());
+        int totalTime = 0;
+        StringBuilder sb = new StringBuilder();
+        while(!q.isEmpty()){
+            PriorityQueue<Task> tmpQ = new PriorityQueue<>((o1, o2) -> o2.num - o1.num);
+            int oneTime = 0;
+            int size = q.size();
+            for(int i=0; i<Math.min(size, n+1); i++){
+                if(!q.isEmpty()){
+                    Task t = q.poll();
+                    t.decNum();
+                    if(t.num != 0){
+                        tmpQ.offer(t);
+                    }
+                    sb.append(t.name);
+                }
+                oneTime++;
+            }
+            tmpQ.addAll(q);
+            if(tmpQ.isEmpty()){
+                totalTime += oneTime;
+            } else {
+                totalTime += n+1;
+                for(int j=0; j<n+1-oneTime; j++){
+                    sb.append(" ");
+                }
+            }
+            q = tmpQ;
+        }
+        System.out.println(sb.toString());
+        return totalTime;
+    }
+
+    class Task{
+        Character name;
+        int num;
+
+        public Task(Character name, int num){
+            this.name = name;
+            this.num = num;
+        }
+
+        public void increNum(){
+            this.num++;
+        }
+        public void decNum(){
+            this.num--;
+        }
+    }
+
+
+
+    public int leastInterval1(char[] tasks, int n){
         int[] cnt = new int[26];
         for(char c : tasks){
             cnt[c-'A']++;
@@ -116,6 +177,10 @@ public class TaskScheduler {
     public static void main(String[] args) {
         char[] tasks;
         int n;
+        tasks = new char[]{'A','A','A','B','B','B', 'C','C','C', 'D', 'D', 'E'};
+        n = 2;
+        System.out.println(new TaskScheduler().leastInterval(tasks, n));
+        
         tasks = new char[]{'A','A','A','A','B','B','B','B','C','C','C','C','D','D','D','D','E','F'};
         //abcdeabcdfabcdiabcd
         n=4;

@@ -4,7 +4,121 @@ import com.moses.leet.utils.PrintUtil;
 
 import java.util.*;
 
-public class PacificAtlanticZWaterFlow {
+public class PacificAtlanticWaterFlow {
+
+    int[][] directions = new int[][]{{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+    public List<List<Integer>> pacificAtlantic(int[][] matrix) {
+        List<List<Integer>> result = new ArrayList<>();
+        if(matrix.length == 0){
+            return result;
+        }
+        Queue<int[]> pFlood = new LinkedList<>();
+        Queue<int[]> aFlood = new LinkedList<>();
+        for(int i=0; i<matrix.length; i++){
+            pFlood.offer(new int[]{i, 0});
+            aFlood.offer(new int[]{i, matrix[0].length-1});
+        }
+        for(int j=0; j<matrix[0].length; j++){
+            pFlood.offer(new int[]{0, j});
+            aFlood.offer(new int[]{matrix.length-1, j});
+        }
+        boolean[][] pCan = new boolean[matrix.length][matrix[0].length];
+        boolean[][] aCan = new boolean[matrix.length][matrix[0].length];
+        while(!pFlood.isEmpty()){
+            int[] cur = pFlood.poll();
+            if(pCan[cur[0]][cur[1]]){
+                continue;
+            }
+            pCan[cur[0]][cur[1]] = true;
+            for(int[] dir : directions){
+                int x = cur[0] + dir[0];
+                int y = cur[1] + dir[1];
+                if(x < 0 || x>=matrix.length || y<0 || y>=matrix[0].length || matrix[x][y] < matrix[cur[0]][cur[1]]){
+                    continue;
+                }
+                pFlood.offer(new int[]{x,y});
+            }
+        }
+
+        while(!aFlood.isEmpty()){
+            int[] cur = aFlood.poll();
+            if(aCan[cur[0]][cur[1]]){
+                continue;
+            }
+            aCan[cur[0]][cur[1]] = true;
+            for(int[] dir : directions){
+                int x = cur[0] + dir[0];
+                int y = cur[1] + dir[1];
+                if(x < 0 || x>=matrix.length || y<0 || y>=matrix[0].length || matrix[x][y] < matrix[cur[0]][cur[1]]){
+                    continue;
+                }
+                aFlood.offer(new int[]{x,y});
+            }
+        }
+
+        for(int i=0; i<matrix.length; i++){
+            for(int j=0; j<matrix[0].length; j++){
+                if(aCan[i][j] && pCan[i][j]){
+                    result.add(Arrays.asList(i, j));
+                }
+            }
+        }
+        return result;
+    }
+
+    //very slow
+    public List<List<Integer>> pacificAtlantic2(int[][] matrix) {
+        List<List<Integer>> result = new ArrayList<>();
+        if(matrix.length==0 || matrix[0].length==0){
+            return result;
+        }
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+        boolean[][] atlanticPoints = new boolean[rows][cols];
+        boolean[][] pacificPoints = new boolean[rows][cols];
+        for(int i=0; i<rows; i++){
+            for(int j=0; j<cols; j++){
+                deep(matrix, i, j, atlanticPoints, pacificPoints, new boolean[rows][cols]);
+            }
+        }
+
+        for(int i=0; i<rows; i++){
+            for(int j=0; j<cols; j++){
+                if(Boolean.TRUE.equals(atlanticPoints[i][j]) && Boolean.TRUE.equals(pacificPoints[i][j])){
+                    result.add(Arrays.asList(i, j));
+                }
+            }
+        }
+        return result;
+    }
+
+    void deep(int[][] matrix, int x, int y, boolean[][] atlanticPoints, boolean[][] pacificPoints, boolean[][] visited){
+        if(visited[x][y]){
+            return;
+        }
+        visited[x][y] = true;
+        for(int[] dir : directions){
+            int newX = x + dir[0];
+            int newY = y + dir[1];
+            if(newX < 0 || newY < 0){
+                pacificPoints[x][y] = true;
+            }else if(newX >=matrix.length || newY >=matrix[0].length){
+                atlanticPoints[x][y] = true;
+            }else if(matrix[newX][newY] > matrix[x][y]){
+                continue;
+            } else {
+                deep(matrix, newX, newY, atlanticPoints, pacificPoints, visited);
+                if (Boolean.TRUE.equals(atlanticPoints[newX][newY])) {
+                    atlanticPoints[x][y] = true;
+                }
+                if (Boolean.TRUE.equals(pacificPoints[newX][newY])) {
+                    pacificPoints[x][y] = true;
+                }
+            }
+        }
+    }
+
+
 
 //    class Point{
 //        int x;
@@ -26,7 +140,7 @@ public class PacificAtlanticZWaterFlow {
 //        }
 //    }
 
-    public List<List<Integer>> pacificAtlantic(int[][] matrix) {
+    public List<List<Integer>> pacificAtlantic1(int[][] matrix) {
         List<List<Integer>> list = new ArrayList<>();
         int rows = matrix.length;
         if(rows == 0){
@@ -141,12 +255,19 @@ public class PacificAtlanticZWaterFlow {
     public static void main(String[] args) {
         int[][] matrix;
         List<List<Integer>> list;
+        matrix = new int[][]{
+                {10,10,10},
+                {10,1,10},
+                {10,10,10}
+        };
+        list = new PacificAtlanticWaterFlow().pacificAtlantic(matrix);
+        PrintUtil.printNestedList(list);
 
         matrix = new int[][]{
                 {1,2},
                 {4,3}
         };
-        list = new PacificAtlanticZWaterFlow().pacificAtlantic(matrix);
+        list = new PacificAtlanticWaterFlow().pacificAtlantic(matrix);
         PrintUtil.printNestedList(list);
 
         matrix = new int[][]{
@@ -156,7 +277,7 @@ public class PacificAtlanticZWaterFlow {
                 {6,7,1,4,5},
                 {5,1,1,2,4}
         };
-        list = new PacificAtlanticZWaterFlow().pacificAtlantic(matrix);
+        list = new PacificAtlanticWaterFlow().pacificAtlantic(matrix);
         PrintUtil.printNestedList(list);
     }
 

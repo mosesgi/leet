@@ -4,6 +4,30 @@ import java.util.*;
 
 public class ExclusiveTimeOfFunctions {
     public int[] exclusiveTime(int n, List<String> logs) {
+        int[] result =new int[n];
+        Stack<Integer> stack = new Stack<>();   //store thread number
+        int prev = 0;
+
+        for(String s : logs) {
+            String[] strs = s.split(":");
+            int thread = Integer.parseInt(strs[0]);
+            int time = Integer.parseInt(strs[2]);
+            if("start".equals(strs[1])) {
+                if(!stack.isEmpty()){
+                    result[stack.peek()] += time - prev;
+                }
+                prev = time;
+                stack.push(thread);
+            } else {
+                result[stack.pop()] += time - prev + 1;
+                prev = time + 1;
+            }
+        }
+        return result;
+    }
+
+
+    public int[] exclusiveTime1(int n, List<String> logs) {
         int[] dur = new int[n];
         Stack<Process> stack = new Stack<>();
         Set<Integer> set = new HashSet<>();

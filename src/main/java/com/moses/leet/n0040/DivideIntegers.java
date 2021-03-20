@@ -2,6 +2,42 @@ package com.moses.leet.n0040;
 
 public class DivideIntegers{
     public int divide(int dividend, int divisor) {
+        if(dividend == Integer.MIN_VALUE && divisor == -1){
+            return Integer.MAX_VALUE;
+        }
+        boolean isNeg = false;
+        if(dividend < 0 && divisor > 0 || dividend > 0 && divisor < 0){
+            isNeg = true;
+        }
+        if(dividend > 0){
+            dividend = -dividend;
+        }
+        if(divisor > 0){
+            divisor = -divisor;
+        }
+
+        if(dividend > divisor){
+            return 0;
+        }
+
+        int originDivisor = divisor;
+        int result = 0;
+        while(dividend <= divisor){
+            int tmpResult = 1;
+            while(dividend - divisor < divisor){
+                divisor += divisor;
+                tmpResult += tmpResult;
+            }
+            dividend -= divisor;
+            divisor = originDivisor;
+            result += tmpResult;
+        }
+        return isNeg?-result:result;
+    }
+
+
+
+    public int divide2(int dividend, int divisor) {
         if(dividend==0) return 0;
         if(divisor == 1) return dividend;
         if(divisor == -1){

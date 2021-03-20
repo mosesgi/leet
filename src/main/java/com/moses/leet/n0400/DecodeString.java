@@ -4,6 +4,36 @@ import java.util.Stack;
 
 public class DecodeString {
     public String decodeString(String s) {
+        Stack<StringBuilder> strs = new Stack<>();
+        Stack<Integer> nums = new Stack<>();
+        strs.push(new StringBuilder());
+
+        int num = 0;
+        for(int i=0; i<s.length(); i++){
+            char c = s.charAt(i);
+            if(Character.isDigit(c)){
+                num = num*10 + (c-'0');
+            } else if (c == '[') {
+                nums.push(num);
+                num = 0;
+                strs.push(new StringBuilder());
+            } else if ( c== ']') {
+                StringBuilder prev = strs.pop();
+                String single = prev.toString();
+                int count = nums.pop() - 1;
+                for(int j=0; j<count; j++){
+                    prev.append(single);
+                }
+                strs.peek().append(prev.toString());
+            } else {
+                strs.peek().append(c);
+            }
+        }
+        return strs.pop().toString();
+    }
+
+
+    public String decodeString1(String s) {
         Stack<String> strStack = new Stack<>();
         strStack.push("");
         Stack<Integer> numStack = new Stack<>();

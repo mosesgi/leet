@@ -14,6 +14,30 @@ import java.util.List;
 public class ZigZagConversion {
 
     public String convert(String s, int numRows) {
+        int len = s.length();
+        int pos = 0;
+
+        StringBuilder[] sbs = new StringBuilder[numRows];
+        for(int i=0; i<numRows; i++){
+            sbs[i] = new StringBuilder();
+        }
+        while(pos < len){
+            for(int i=0; i<numRows && pos < len; i++){
+                sbs[i].append(s.charAt(pos++));
+            }
+
+            for(int i=numRows-2; i>0 && pos < len; i--){
+                sbs[i].append(s.charAt(pos++));
+            }
+        }
+        StringBuilder result = new StringBuilder();
+        for(int i=0; i<numRows; i++){
+            result.append(sbs[i].toString());
+        }
+        return result.toString();
+    }
+
+    public String convert1(String s, int numRows) {
         if(numRows ==1){
             return s;
         }

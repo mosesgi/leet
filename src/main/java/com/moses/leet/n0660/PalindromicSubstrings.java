@@ -3,6 +3,25 @@ package com.moses.leet.n0660;
 public class PalindromicSubstrings {
 
     public int countSubstrings(String s) {
+        int cnt = 0;
+        for(int i=0; i<s.length(); i++){
+            cnt += palindrome(s, i, i);
+            cnt += palindrome(s, i, i+1);
+        }
+        return cnt;
+    }
+
+    int palindrome(String s , int l, int r){
+        int sum = 0;
+        while(l>=0 && r<s.length() && s.charAt(l--) == s.charAt(r++)){
+            sum++;
+        }
+        return sum;
+    }
+
+
+
+    public int countSubstrings1(String s) {
         int cnt = s.length();
         for(int i=0; i<s.length(); i++){
             cnt += expand(s, i, 0);

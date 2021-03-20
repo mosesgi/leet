@@ -6,8 +6,19 @@ import java.util.Comparator;
 import java.util.TreeSet;
 
 public class CoinChange2 {
+    public int change(int amount, int[] coins) {
+        int[] dp = new int[amount+1];
+        dp[0] = 1;
+        for(int j : coins){
+            for(int i=j; i<=amount; i++){
+                dp[i] += dp[i-j];
+            }
+        }
+        return dp[amount];
+    }
 
-    public int change(int amount, int[] coins){
+
+    public int change2(int amount, int[] coins){
         //    0,1,2,3,4,5
         //1 - 1,1,1,1,1,1
         //2 - 1,1,2,2,3,3

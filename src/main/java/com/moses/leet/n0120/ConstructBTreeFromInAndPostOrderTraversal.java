@@ -11,7 +11,33 @@ import java.util.Map;
  */
 public class ConstructBTreeFromInAndPostOrderTraversal {
 
+    Map<Integer, Integer> inMap = new HashMap<>();
+
     public TreeNode buildTree(int[] inorder, int[] postorder) {
+        for(int i=0; i<inorder.length; i++){
+            inMap.put(inorder[i], i);
+        }
+        return build(postorder, 0, inorder.length-1, 0, postorder.length-1);
+    }
+
+    public TreeNode build(int[] postorder, int inStart, int inEnd, int postStart, int postEnd) {
+        if(postStart > postEnd){
+            return null;
+        }
+        if(postStart == postEnd){
+            return new TreeNode(postorder[postEnd]);
+        }
+        TreeNode node = new TreeNode(postorder[postEnd]);
+        int inPos = inMap.get(postorder[postEnd]);
+        int left = inPos - inStart;
+        int right = inEnd - inPos;
+
+        node.left = build(postorder, inStart, inPos-1, postStart, postStart+left-1);
+        node.right = build(postorder, inPos+1, inEnd, postStart+left, postStart+left+right-1);
+        return node;
+    }
+
+    public TreeNode buildTree1(int[] inorder, int[] postorder) {
         Map<Integer, Integer> inMap = new HashMap<>();
         for(int i=0; i<inorder.length; i++){
             inMap.put(inorder[i], i);

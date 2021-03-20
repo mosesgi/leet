@@ -8,7 +8,26 @@ import java.util.Arrays;
  * O(n) time and uses constant extra space.
  */
 public class FirstMissingPositive {
+
     public int firstMissingPositive(int[] nums) {
+        for(int i=0; i<nums.length; i++){
+            int pos = nums[i];
+            while(pos-1 >=0 && pos-1 <nums.length && nums[pos-1] != pos){
+                int nextPos = nums[pos-1];
+                nums[pos-1] = pos;
+                pos = nextPos;
+            }
+        }
+
+        for(int i=0; i<nums.length; i++){
+            if(nums[i] != i+1){
+                return i+1;
+            }
+        }
+        return nums.length+1;
+    }
+
+    public int firstMissingPositiveWRONG2(int[] nums) {
         for(int i=0; i<nums.length; i++){
             if(nums[i] <= 0 || nums[i] > nums.length){
                 nums[i] = nums.length+1;

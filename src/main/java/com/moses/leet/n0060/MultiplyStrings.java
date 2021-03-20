@@ -10,8 +10,6 @@ public class MultiplyStrings {
                 int a = num1.charAt(i) - '0';
                 int b = num2.charAt(j) - '0';
                 rst[pos] += a*b;
-
-
             }
         }
 

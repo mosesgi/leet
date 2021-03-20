@@ -18,7 +18,7 @@ public class RandomPickWithWeight {
 
         public int pickIndex() {
             int max = weight[weight.length-1];
-            int ran = r.nextInt(max+1);
+            int ran = r.nextInt(max) + 1;
             int idx = Arrays.binarySearch(weight, ran);
             if(idx < 0){
                 idx = -idx-1;

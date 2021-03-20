@@ -8,6 +8,9 @@ public class ImplementStackUsingQueue {
     class MyStack {
         Queue<Integer> q1 = new LinkedList<>();
         Queue<Integer> q2 = new LinkedList<>();
+
+        Queue<Integer> fullQ, emptyQ;
+
         /** Initialize your data structure here. */
         public MyStack() {
 
@@ -15,56 +18,46 @@ public class ImplementStackUsingQueue {
 
         /** Push element x onto stack. */
         public void push(int x) {
-            if(q1.isEmpty() && q2.isEmpty()){
-                q1.offer(x);
-            } else if(!q1.isEmpty()){
-                q1.offer(x);
-            } else {
-                q2.offer(x);
-            }
+            init();
+            fullQ.offer(x);
         }
 
         /** Removes the element on top of the stack and returns that element. */
         public int pop() {
-            Queue<Integer> fullQueue, emptyQueue;
-            if(q1.isEmpty()){
-                fullQueue = q2;
-                emptyQueue = q1;
-            } else {
-                fullQueue = q1;
-                emptyQueue = q2;
+            init();
+            while(fullQ.size() > 1){
+                emptyQ.offer(fullQ.poll());
             }
-            int size = fullQueue.size();
-
-            for(int i=0; i<size-1; i++){
-                emptyQueue.offer(fullQueue.poll());
-            }
-            return fullQueue.poll();
+            return fullQ.poll();
         }
 
         /** Get the top element. */
         public int top() {
-            Queue<Integer> fullQueue, emptyQueue;
-            if(q1.isEmpty()){
-                fullQueue = q2;
-                emptyQueue = q1;
-            } else {
-                fullQueue = q1;
-                emptyQueue = q2;
+            init();
+            while(fullQ.size() > 1){
+                emptyQ.offer(fullQ.poll());
             }
-            int size = fullQueue.size();
-
-            int tmp = 0;
-            for(int i=0; i<size; i++){
-                tmp = fullQueue.poll();
-                emptyQueue.offer(tmp);
-            }
-            return tmp;
+            int result = fullQ.peek();
+            emptyQ.offer(fullQ.poll());
+            return result;
         }
 
         /** Returns whether the stack is empty. */
         public boolean empty() {
             return q1.isEmpty() && q2.isEmpty();
+        }
+
+        private void init(){
+            if(q1.isEmpty() && q2.isEmpty()){
+                fullQ = q1;
+                emptyQ = q2;
+            }else if(q1.isEmpty()) {
+                fullQ = q2;
+                emptyQ = q1;
+            }else if(q2.isEmpty()) {
+                fullQ = q1;
+                emptyQ = q2;
+            }
         }
     }
 

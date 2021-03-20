@@ -3,7 +3,31 @@ package com.moses.leet.n0040;
 import java.util.Stack;
 
 public class LongestValidParentheses {
+
     public int longestValidParentheses(String s) {
+        int result = 0;
+        int start = -1;
+        Stack<Integer> stack = new Stack<>();
+        stack.push(start);
+        char[] chars = s.toCharArray();
+        for(int i=0; i<chars.length; i++){
+            if(chars[i] == '(') {
+                stack.push(i);
+            } else {
+                if(!stack.isEmpty() && stack.peek() >= 0 && chars[stack.peek()] == '(') {
+                    stack.pop();
+                    result = Math.max(result, i-stack.peek());
+                } else {
+                    stack.push(i);
+                }
+            }
+        }
+        return result;
+    }
+
+
+
+    public int longestValidParentheses1(String s) {
         int max = 0;
         for(int i=0; i<s.length(); i++){
             int tmp = 0;

@@ -3,8 +3,32 @@ package com.moses.leet.n0520;
 import java.util.Arrays;
 
 public class LongestPalindromicSubsequence {
-    //DP
+    //MY OWN!!!!!!
     public int longestPalindromeSubseq(String s) {
+        int[][] dp = new int[s.length()][s.length()];
+        int len = 1;
+        for(int i=0; i<s.length(); i++){
+            dp[i][i] = 1;
+        }
+        for(int j=2; j<=s.length(); j++){       //window length
+            for(int i=0; i+j<=s.length(); i++){     //left
+                int right = i+j-1;
+                int inner = j==2?0:dp[i+1][right-1];
+                if(s.charAt(i) == s.charAt(right)){
+                    dp[i][right] = Math.max(dp[i][right], inner + 2);
+                }else{
+                    dp[i][right] = Math.max(dp[i+1][right], dp[i][right-1]);
+                }
+                len = Math.max(len, dp[i][right]);
+            }
+        }
+        return len;
+
+    }
+
+
+    //DP
+    public int longestPalindromeSubseq1(String s) {
         int[][] dp = new int[s.length()][s.length()];
         for(int i=0; i<s.length(); i++){
             dp[i][i] = 1;

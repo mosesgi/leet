@@ -3,7 +3,9 @@ package com.moses.leet.n0280;
 import java.util.*;
 
 /**
- * There is a new alien language which uses the latin alphabet. However, the order among letters are unknown to you. You receive a list of non-empty words from the dictionary, where words are sorted lexicographically by the rules of this new language. Derive the order of letters in this language.
+ * There is a new alien language which uses the latin alphabet. However, the order among letters are unknown to you.
+ * You receive a list of non-empty words from the dictionary, where words are sorted lexicographically by the rules of
+ * this new language. Derive the order of letters in this language.
  *
  * Example 1:
  *
@@ -45,6 +47,8 @@ import java.util.*;
  * There may be multiple valid order of letters, return any one of them is fine.
  *
  */
+
+//w<e, e<r, t<f, r<t
 public class AlienDictionary {
     public String alienOrder(String[] words) {
         if(words.length==0){

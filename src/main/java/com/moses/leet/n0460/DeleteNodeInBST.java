@@ -126,7 +126,7 @@ public class DeleteNodeInBST {
         SerializeAndDeserializeBinaryTree.Codec c = new SerializeAndDeserializeBinaryTree().new Codec();
         DeleteNodeInBST del = new DeleteNodeInBST();
         TreeNode root = null;
-        root = c.deserialize("[2,1,3,null,null,null,null]");
+        root = c.deserialize("2,1,#,#,3,#,#");
         root = del.deleteNode(root, 2);
         System.out.println(c.serialize(root));
 

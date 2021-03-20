@@ -2,6 +2,36 @@ package com.moses.leet.n0440;
 
 public class FlattenMultilevelDoublyLinkedList {
     public Node flatten(Node head) {
+        Node cur = head;
+        rec(cur);
+        return head;
+    }
+
+    Node rec(Node cur){
+        Node last = null;
+        while(cur != null){
+            Node next = cur.next;
+            last = cur;
+            if(cur.child != null){
+                Node child = cur.child;
+                Node childLast = rec(child);
+                cur.child = null;
+                cur.next = child;
+                child.prev = cur;
+                childLast.next = next;
+                if(next != null){
+                    next.prev = childLast;
+                }
+                last = childLast;
+            }
+
+            cur = next;
+        }
+        return last;
+    }
+
+
+    public Node flatten1(Node head) {
         if(head == null){
             return head;
         }

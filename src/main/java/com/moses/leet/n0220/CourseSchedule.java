@@ -4,6 +4,38 @@ import java.util.*;
 
 public class CourseSchedule {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
+        Map<Integer, Set<Integer>> map = new HashMap<>();
+        int[] inDeg = new int[numCourses];
+        for(int[] pre : prerequisites){
+            map.computeIfAbsent(pre[1], x -> new HashSet<>()).add(pre[0]);
+            inDeg[pre[0]]++;
+        }
+
+        Queue<Integer> q = new LinkedList<>();
+        for(int i=0; i<inDeg.length; i++){
+            if(inDeg[i] == 0){
+                q.offer(i);
+            }
+        }
+        while(!q.isEmpty()){
+            int cur = q.poll();
+            for(int target : map.getOrDefault(cur, new HashSet<>())){
+                inDeg[target]--;
+                if(inDeg[target] == 0){
+                    q.offer(target);
+                }
+            }
+        }
+
+        for(int i : inDeg){
+            if(i!= 0){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean canFinish1(int numCourses, int[][] prerequisites) {
         Map<Integer, Set<Integer>> inMap = new HashMap<>();
         Map<Integer, Set<Integer>> outMap = new HashMap<>();
         for(int[] p : prerequisites){
@@ -52,25 +84,9 @@ public class CourseSchedule {
 
     public boolean canFinishOld(int numCourses, int[][] prerequisites) {
         Map<Integer, List<Integer>> map = new TreeMap<>();
-        Integer min = null;
         for(int[] ints : prerequisites){
-            if(min == null || ints[1] < min){
-                min = ints[1];
-            }
-            if(map.containsKey(ints[1])){
-                List<Integer> list = map.get(ints[1]);
-                if(list == null){
-                    list = new ArrayList<>();
-                }
-                list.add(ints[0]);
-                map.put(ints[1], list);
-            } else {
-                List<Integer> list = new ArrayList<>();
-                list.add(ints[0]);
-                map.put(ints[1], list);
-            }
+            map.computeIfAbsent(ints[1], x -> new ArrayList<>()).add(ints[0]);
         }
-
         // 0- not visited, 1 - visiting, 2 - finished visiting
         int[] visited = new int[numCourses];        //已遍历过的课程(2)无需再次遍历
         for(int i=0; i<numCourses; i++) {

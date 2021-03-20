@@ -9,6 +9,33 @@ import java.util.*;
 public class CombinationSumII {
 
     public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        Arrays.sort(candidates);
+        List<List<Integer>> list = new ArrayList<>();
+        backtrack(candidates, 0, target, new ArrayList<>(), list);
+        return list;
+    }
+
+    void backtrack(int[] candidates, int start, int target, List<Integer> l, List<List<Integer>> list){
+        if(target == 0){
+            list.add(new ArrayList<>(l));
+            return;
+        }
+        if(target < 0){
+            return;
+        }
+
+        for(int i=start; i<candidates.length; i++){
+            if(i > start && candidates[i] == candidates[i-1]){
+                continue;
+            }
+            l.add(candidates[i]);
+            backtrack(candidates, i+1, target - candidates[i], l, list);
+            l.remove(l.size()-1);
+        }
+    }
+
+
+    public List<List<Integer>> combinationSum2_1(int[] candidates, int target) {
         List<List<Integer>> res = new ArrayList<>();
         Arrays.sort(candidates);
         rec(candidates, 0, new ArrayList<>(), target, res);

@@ -5,36 +5,31 @@ import java.util.Arrays;
 public class ThreeSumClosest {
 
     public int threeSumClosest(int[] nums, int target) {
-        StringBuilder sb =new StringBuilder();
+        // -4,-1,1,2
+
         Arrays.sort(nums);
-        int diff = Integer.MAX_VALUE;
-        int res = 0;
+        int minDiff = Integer.MAX_VALUE;
+        int result = 0;
         for(int i=0; i<nums.length-2; i++){
             int left = i+1;
             int right = nums.length-1;
-            int tmp = target-nums[i];
 
             while(left < right){
-                if(nums[left] + nums[right] == tmp){
+                int tmp = nums[i] + nums[left] + nums[right];
+                if(tmp == target){
                     return target;
-                }else if(nums[left] + nums[right] < tmp ){
-                    int d = Math.abs(nums[left]+nums[right] - tmp);
-                    if(d < diff){
-                        diff = d;
-                        res = nums[i] + nums[left] + nums[right];
-                    }
+                } else if (tmp<target) {
                     left++;
-                }else{
-                    int d = Math.abs(nums[left]+nums[right] - tmp);
-                    if(d < diff){
-                        diff = d;
-                        res = nums[i] + nums[left] + nums[right];
-                    }
+                } else {
                     right--;
+                }
+                if(Math.abs(target - tmp) < minDiff){
+                    minDiff = Math.abs(target-tmp);
+                    result = tmp;
                 }
             }
         }
-        return res;
+        return result;
     }
 
 

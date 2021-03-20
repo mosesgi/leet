@@ -10,27 +10,23 @@ import java.util.Set;
 public class LongestConsecutiveSequence {
     //O(n) but actually it's slower.
     public int longestConsecutive(int[] nums){
-        if(nums.length <=1){
-            return nums.length;
-        }
         Set<Integer> set = new HashSet<>();
-        for(int i : nums){
+        for(int i: nums){
             set.add(i);
         }
-        int longest = 1;
-        int tmp = 1;
+
+        int longest = 0;
         for(int i : nums){
-            int j = i;
-            if(!set.contains(j-1)) {        //rule out the unnecessary ones, the ones in middle
-                while (set.contains(j + 1)) {
-                    tmp++;
-                    j++;
-                }
-                if (tmp > longest) {
-                    longest = tmp;
-                }
-                tmp = 1;
+            int tmp = 1;
+            if(set.contains(i-1)){
+                continue;
             }
+            int j = i;
+            while(set.contains(j+1)){
+                tmp++;
+                j++;
+            }
+            longest = Math.max(tmp, longest);
         }
         return longest;
     }

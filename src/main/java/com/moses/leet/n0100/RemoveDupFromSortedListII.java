@@ -9,6 +9,36 @@ import com.moses.leet.utils.PrintUtil;
  */
 public class RemoveDupFromSortedListII {
     public ListNode deleteDuplicates(ListNode head) {
+        if(head == null){
+            return null;
+        }
+        ListNode dummy = new ListNode(0);
+        ListNode cur = dummy;
+        ListNode slow = head;
+        ListNode fast = head.next;
+        boolean preDup = false;
+        while(fast != null){
+            if(slow.val == fast.val){
+                preDup = true;
+            }else{
+                if(!preDup){
+                    cur.next = slow;
+                    cur = cur.next;
+                }
+                preDup = false;
+            }
+            slow = slow.next;
+            fast = fast.next;
+        }
+        if(!preDup){
+            cur.next = slow;
+        }else{
+            cur.next = null;
+        }
+        return dummy.next;
+    }
+
+    public ListNode deleteDuplicates2(ListNode head) {
         ListNode dummy = new ListNode(0);
         dummy.next = head;
         ListNode slow = dummy, fast = dummy;

@@ -1,11 +1,59 @@
 package com.moses.leet.n0880;
 
 import com.moses.leet.pojo.TreeNode;
+import sun.reflect.generics.tree.Tree;
 
 import java.util.*;
 
 public class AllNodesDistanceKInBinaryTree {
     public List<Integer> distanceK(TreeNode root, TreeNode target, int K) {
+        Map<TreeNode, List<TreeNode>> map = new HashMap<>();
+        if(root == null || K < 0){
+            return new ArrayList<>();
+        }
+        List<Integer> result = new ArrayList<>();
+        buildTree(root, null, map);
+
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(target);
+        Set<TreeNode> visited = new HashSet<>();
+        while(!q.isEmpty()){
+            int size = q.size();
+            for(int i=0; i<size; i++) {
+                TreeNode node = q.poll();
+                if (visited.contains(node)) {
+                    continue;
+                }
+                visited.add(node);
+                if (K == 0){
+                    result.add(node.val);
+                    continue;
+                }
+                for(TreeNode relatedNode : map.getOrDefault(node, new ArrayList<>())) {
+                    q.offer(relatedNode);
+                }
+            }
+            K--;
+        }
+        return result;
+    }
+
+    private void buildTree(TreeNode root, TreeNode parent, Map<TreeNode, List<TreeNode>> map) {
+        if(root == null){
+            return;
+        }
+        if(parent != null){
+            map.computeIfAbsent(root, x -> new ArrayList<>()).add(parent);
+            map.computeIfAbsent(parent, x -> new ArrayList<>()).add(root);
+        }
+        buildTree(root.left, root, map);
+        buildTree(root.right, root, map);
+
+    }
+
+
+
+    public List<Integer> distanceK_1(TreeNode root, TreeNode target, int K) {
         Map<TreeNode, TreeNode> parentMap = new HashMap<>();
 
         dfs(root, parentMap);
