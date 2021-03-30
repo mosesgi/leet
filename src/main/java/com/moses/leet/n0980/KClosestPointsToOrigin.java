@@ -14,7 +14,7 @@ public class KClosestPointsToOrigin {
         int[][] rst = new int[p.size()][2];
         int idx = 0;
         while(!p.isEmpty()){
-            rst[idx] = p.poll();
+            rst[idx++] = p.poll();
         }
         return rst;
     }

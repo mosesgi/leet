@@ -2,10 +2,53 @@ package com.moses.leet.n0060;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class InsertInterval {
+
     public int[][] insert(int[][] intervals, int[] newInterval) {
+        List<int[]> result = new ArrayList<>();
+        if(intervals.length==0){
+            result.add(newInterval);
+            return result.toArray(new int[0][0]);
+        }
+        int i=0;
+        while(i<intervals.length && intervals[i][1] < newInterval[0]){
+            result.add(intervals[i++]);
+        }
+        while(i<intervals.length && newInterval[0] <= intervals[i][1] && newInterval[1] >= intervals[i][0]) {
+            newInterval[0] = Math.min(intervals[i][0], newInterval[0]);
+            newInterval[1] = Math.max(intervals[i][1], newInterval[1]);
+            i++;
+        }
+        result.add(newInterval);
+        while(i < intervals.length){
+            result.add(intervals[i++]);
+        }
+        return result.toArray(new int[0][0]);
+    }
+
+    public int[][] insert2(int[][] intervals, int[] newInterval) {
+        List<int[]> list = new ArrayList<>(Arrays.asList(intervals));
+        list.add(newInterval);
+        list.sort((o1, o2) -> o1[0] != o2[0] ? o1[0] - o2[0] : o1[1] - o2[1]);
+        List<int[]> result = new ArrayList<>();
+        result.add(list.get(0));
+        for(int i=1; i<list.size(); i++){
+            int[] prev = result.get(result.size()-1);
+            int[] cur = list.get(i);
+            if(prev[1] < cur[0]) {
+                result.add(cur);
+            }else{
+                prev[1] = Math.max(prev[1], cur[1]);
+            }
+        }
+        return result.toArray(new int[0][0]);
+    }
+
+
+    public int[][] insert1(int[][] intervals, int[] newInterval) {
         List<int[]> result = new ArrayList<>();
         if(intervals.length==0){
             result.add(newInterval);

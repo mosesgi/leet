@@ -3,7 +3,48 @@ package com.moses.leet.n0940;
 import java.util.*;
 
 public class KnightDialer {
-    public int knightDialer(int N) {
+    int mod = 1000000007;
+    List<Integer>[] pads = new List[10];
+
+    public int knightDialer(int n) {
+        pads[0] = Arrays.asList(4,6);
+        pads[1] = Arrays.asList(8,6);
+        pads[2] = Arrays.asList(7,9);
+        pads[3] = Arrays.asList(4,8);
+        pads[4] = Arrays.asList(3,9,0);
+        pads[5] = new ArrayList<>();
+        pads[6] = Arrays.asList(1,7,0);
+        pads[7] = Arrays.asList(2,6);
+        pads[8] = Arrays.asList(1,3);
+        pads[9] = Arrays.asList(2,4);
+        Integer[][] mem = new Integer[10][n];
+
+        int result = 0;
+        for(int i=0; i<10; i++){
+            result += dfs(i, n-1, mem);
+            result %= mod;
+        }
+        return result;
+    }
+
+    int dfs(int num, int remainTimes, Integer[][] mem){
+        if(remainTimes == 0){
+            return 1;
+        }
+        if(mem[num][remainTimes] != null){
+            return mem[num][remainTimes];
+        }
+        int result = 0;
+        for(int next : pads[num]){
+            result += dfs(next, remainTimes-1, mem);
+            result %= mod;
+        }
+        mem[num][remainTimes] = result;
+        return result;
+    }
+
+
+    public int knightDialer1(int N) {
         int mod = 1000000007;
         Map<Integer, List<Integer>> map = new HashMap<>();
         for(int i=0; i<10; i++){

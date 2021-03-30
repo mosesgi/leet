@@ -6,6 +6,44 @@ import java.util.Map;
 
 public class PartitionEqualSubsetSum {
     public boolean canPartition(int[] nums) {
+        int target = 0;
+        for(int i : nums){
+            target+=i;
+        }
+        if(target%2 != 0){
+            return false;
+        }
+        target/=2;
+        Boolean[][] mem = new Boolean[nums.length][target+1];
+        return dfs(nums, 0, target, mem);
+    }
+
+    boolean dfs(int[] nums, int start, int target, Boolean[][] mem){
+        if(target == 0){
+            return true;
+        }
+        if(target < 0 || start >=nums.length){
+            return false;
+        }
+        if(mem[start][target] != null){
+            return mem[start][target];
+        }
+
+        for(int i=start; i<nums.length; i++){
+            if(dfs(nums, i+1, target-nums[i], mem)){
+                mem[start][target] = true;
+                return true;
+            }
+            if(dfs(nums, i+1, target, mem)){
+                mem[start][target] = true;
+                return true;
+            }
+        }
+        mem[start][target] = false;
+        return false;
+    }
+
+    public boolean canPartition2(int[] nums) {
         if(nums.length<=1){
             return false;
         }

@@ -2,6 +2,22 @@ package com.moses.leet.n0400;
 
 public class IsSubsequence {
     public boolean isSubsequence(String s, String t) {
+        if(s.length() == 0){
+            return true;
+        }
+        int sPos = 0;
+        for(int i=0; i<t.length(); i++){
+            if(s.charAt(sPos) == t.charAt(i)){
+                sPos++;
+            }
+            if(sPos == s.length()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isSubsequence1(String s, String t) {
         int pos = 0;
         for(int i=0; i<s.length(); i++){
             char c = s.charAt(i);

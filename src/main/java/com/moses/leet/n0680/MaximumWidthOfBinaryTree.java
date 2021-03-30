@@ -5,31 +5,24 @@ import com.moses.leet.pojo.TreeNode;
 import java.util.*;
 
 public class MaximumWidthOfBinaryTree {
-    Map<Integer, List<Integer>> map = new HashMap<>();
+    int max = 1;
     public int widthOfBinaryTree(TreeNode root) {
-        dfs(root, 1, 1);
-        int maxLen = 0;
-        for(int key : map.keySet()){
-            List<Integer> l = map.get(key);
-            maxLen = Math.max(maxLen, l.get(l.size()-1) - l.get(0) + 1);
-        }
-        return maxLen;
+        Map<Integer, Integer> firstMap = new HashMap<>();
+        dfs(root, 1, 1, firstMap);
+        return max;
     }
 
-    private void dfs(TreeNode root, int level, int pos) {
-        if(map.containsKey(level)){
-            map.get(level).add(pos);
+    void dfs(TreeNode root, int level, int pos, Map<Integer, Integer> map){
+        if(root == null){
+            return;
+        }
+        if(!map.containsKey(level)){
+            map.put(level, pos);
         }else{
-            List<Integer> l = new ArrayList<>();
-            l.add(pos);
-            map.put(level, l);
+            max = Math.max(max, pos - map.get(level)+1);
         }
-        if(root.left != null){
-            dfs(root.left, level+1, pos*2-1);
-        }
-        if(root.right != null){
-            dfs(root.right, level+1, pos*2);
-        }
+        dfs(root.left, level+1, pos*2-1, map);
+        dfs(root.right, level+1, pos*2, map);
     }
 
 

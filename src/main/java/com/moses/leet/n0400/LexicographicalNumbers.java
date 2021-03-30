@@ -12,8 +12,30 @@ public class LexicographicalNumbers {
     // 3,30,300,...
     // 4,40,400,4000,.......4600,...4637,464,465,466,..47,471,472,..,48,481,...49,491...499
     // 5,50,500,501,...51,511...599
-
     public List<Integer> lexicalOrder(int n) {
+        List<Integer> list = new ArrayList<>();
+        for(int i=1; i<=9; i++){
+            dfs(i, n, list);
+        }
+        return list;
+    }
+
+    void dfs(int prevInt, int n, List<Integer> list){
+        if(prevInt > n){
+            return;
+        }
+        list.add(prevInt);
+        int leading = prevInt * 10;
+        if(leading > n || leading/10 != prevInt){
+            return;
+        }
+        for(int i=0; i<10; i++){
+            dfs(leading + i, n, list);
+        }
+    }
+
+
+    public List<Integer> lexicalOrder1(int n) {
         List<Integer> list = new ArrayList<>(n);
         recursive(1, n, list);
         return list;

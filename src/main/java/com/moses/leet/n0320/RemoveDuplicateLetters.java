@@ -1,11 +1,37 @@
 package com.moses.leet.n0320;
 
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.*;
 
 public class RemoveDuplicateLetters {
     public String removeDuplicateLetters(String s) {
+        int[] cnt = new int[26];
+        for(char c : s.toCharArray()){
+            cnt[c-'a']++;
+        }
+        Deque<Character> q = new LinkedList<>();
+        int[] used = new int[26];
+        for(char c : s.toCharArray()){
+            if(used[c-'a'] == 0){
+                while(!q.isEmpty() && q.peekLast() > c && cnt[q.peekLast()-'a'] > 1){
+                    char del = q.pollLast();
+                    cnt[del-'a']--;
+                    used[del-'a']--;
+                }
+                q.offerLast(c);
+                used[c-'a']++;
+            }else{
+                cnt[c-'a']--;
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        while(!q.isEmpty()){
+            char c = q.pollFirst();
+            sb.append(c);
+        }
+        return sb.toString();
+    }
+
+    public String removeDuplicateLetters1(String s) {
         if(s.length() == 0){
             return s;
         }

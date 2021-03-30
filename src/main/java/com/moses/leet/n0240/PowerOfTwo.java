@@ -16,6 +16,23 @@ public class PowerOfTwo {
         return false;
     }
 
+    public boolean isPowerOfTwoRecursive(int n) {
+        if(n<=0){
+            return false;
+        }
+        if(n==1){
+            return true;
+        }
+        long x = 2;
+        while(x < n/x){
+            x*=x;
+        }
+        if(n%x != 0){
+            return false;
+        }
+        return isPowerOfTwo((int)(n/x));
+    }
+
     //Integer.bitCount(n)==1;
     public boolean isPowerOfTwoStr(int n) {
         if(n < 0){

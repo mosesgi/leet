@@ -2,8 +2,25 @@ package com.moses.leet.n0660;
 
 import com.moses.leet.pojo.TreeNode;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class TwoSumIV_BST {
+    Set<Integer> set = new HashSet<>();
     public boolean findTarget(TreeNode root, int k) {
+        if(root == null){
+            return false;
+        }
+        if(set.contains(k-root.val)){
+            return true;
+        }
+        set.add(root.val);
+        return findTarget(root.left, k) || findTarget(root.right, k);
+    }
+
+
+
+    public boolean findTarget1(TreeNode root, int k) {
         return findEach(root, k, root);
     }
 

@@ -8,7 +8,39 @@ import com.moses.leet.utils.PrintUtil;
  * https://leetcode.com/problems/insertion-sort-list/
  */
 public class InsertionSortList {
+
     public ListNode insertionSortList(ListNode head) {
+        ListNode dummy = new ListNode(Integer.MIN_VALUE);
+        dummy.next = head;
+        ListNode cur = head;
+        ListNode prev = dummy;
+        while(cur != null){
+            ListNode next = cur.next;
+            prev.next = null;
+            cur.next = null;
+
+            ListNode inner = dummy;
+            boolean inserted = false;
+            while(!inserted){
+                if(inner.next == null){
+                    inner.next = cur;
+                    prev = cur;
+                    inserted = true;
+                } else if (inner.val <= cur.val && inner.next.val > cur.val){
+                    ListNode innerNext = inner.next;
+                    inner.next = cur;
+                    cur.next = innerNext;
+                    inserted = true;
+                }
+                inner = inner.next;
+            }
+            prev.next = next;
+            cur = next;
+        }
+        return dummy.next;
+    }
+
+    public ListNode insertionSortList1(ListNode head) {
         if(head == null || head.next == null){
             return head;
         }

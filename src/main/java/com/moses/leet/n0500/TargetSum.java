@@ -6,6 +6,28 @@ import java.util.Map;
 public class TargetSum {
 
     public int findTargetSumWays(int[] nums, int S) {
+        Integer[][] mem = new Integer[nums.length][2003];
+        return dfs(nums, 0, 0, S, mem);
+    }
+
+    int dfs(int[] nums, int pos, int sum, int S, Integer[][] mem){
+        if(pos == nums.length){
+            if(S==sum){
+                return 1;
+            }
+            return 0;
+        }
+        int sPlus = sum + 1000;
+        if(mem[pos][sPlus] != null){
+            return mem[pos][sPlus];
+        }
+        int a = dfs(nums, pos+1, sum + nums[pos], S, mem);
+        int b = dfs(nums, pos+1, sum - nums[pos], S, mem);
+        mem[pos][sPlus] = a + b;
+        return mem[pos][sPlus];
+    }
+
+    public int findTargetSumWays1(int[] nums, int S) {
         Map<String, Integer> dp = new HashMap<>();
         return dfs(nums, S, 0, dp);
     }

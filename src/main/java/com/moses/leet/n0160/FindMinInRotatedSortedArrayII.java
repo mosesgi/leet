@@ -4,7 +4,25 @@ package com.moses.leet.n0160;
  * https://leetcode.com/problems/find-minimum-in-rotated-sorted-array-ii/
  */
 public class FindMinInRotatedSortedArrayII {
-    public int findMin(int[] nums) {
+    //from solution
+    public int findMin(int[] num) {
+        int lo = 0;
+        int hi = num.length - 1;
+        while(lo < hi) {
+            int mid = lo + (hi - lo) / 2;
+            if (num[mid] > num[hi]) {
+                lo = mid + 1;
+            } else if (num[mid] < num[hi]) {
+                hi = mid;
+            } else { // when num[mid] and num[hi] are same
+                hi--;
+            }
+        }
+        return num[lo];
+    }
+
+
+    public int findMi1n(int[] nums) {
         //2,2,2,0,1
         //2,3,3,3,0,1
         //2,3,0,0,0,1

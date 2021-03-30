@@ -6,33 +6,37 @@ import java.util.List;
 
 public class FindKClosestElements {
     public List<Integer> findClosestElements(int[] arr, int k, int x) {
-        int center = Arrays.binarySearch(arr, x);
-
-        if(center<0){
-            center = -center-1;
-            if(center-1>=0 && x-arr[center-1]<=arr[center]-x){
-                center--;
+        int pivot = Arrays.binarySearch(arr, x);
+        int l, r;
+        if(pivot < 0){
+            r = -pivot-1;
+            if(r == arr.length){
+                r = arr.length-1;
+            }else if(r-1>=0 && x-arr[r-1] <= arr[r] - x){
+                r--;
             }
-        }else{
-            while(center-1>=0 && arr[center-1] == arr[center]){
-                center--;
+            l = r;
+        } else{
+            r = pivot;
+            while(r-1 >=0 && arr[r-1] == arr[r]){
+                r--;
             }
+            l = r;
         }
-
-        int l = center, r = center;
-        while(r-l+1 < k){
-            if(l-1>=0 && r+1 < arr.length){
-                if(Math.abs(x-arr[l-1]) <= Math.abs(x-arr[r+1])){
+        while(r-l<k-1){
+            if(l-1>=0 && r+1<arr.length){
+                if(x - arr[l-1] <= arr[r+1] - x){
                     l--;
                 }else{
                     r++;
                 }
-            }else if(l-1<0){
+            }else if(l==0){
                 r++;
-            }else if(r+1>=arr.length){
+            }else{
                 l--;
             }
         }
+
         List<Integer> list = new ArrayList<>();
         for(int i=l; i<=r; i++){
             list.add(arr[i]);
